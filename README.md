@@ -1,2 +1,2 @@
 # Server
-The code for my program which runs on my server
+The code for my utilities which run on my server

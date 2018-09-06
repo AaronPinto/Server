@@ -1,0 +1,11 @@
+*.class
+*.json
+*.jks
+*.properties
+target
+
+# Package Files
+*.jar
+*.war
+*.ear
+*.zip

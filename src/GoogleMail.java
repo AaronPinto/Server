@@ -11,9 +11,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
- * @author doraemon
- */
 public class GoogleMail {
 	static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
 		MimeMessage email = new MimeMessage(Session.getDefaultInstance(new Properties(), null));
@@ -32,7 +29,7 @@ public class GoogleMail {
 	 * @throws IOException        IOException
 	 * @throws MessagingException MessagingException
 	 */
-	private static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
+	static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 		emailContent.writeTo(buffer);
 		String encodedEmail = Base64.encodeBase64URLSafeString(buffer.toByteArray());
@@ -53,8 +50,6 @@ public class GoogleMail {
 	static Message sendMessage(Gmail service, String userId, MimeMessage emailContent) throws MessagingException, IOException {
 		Message message = createMessageWithEmail(emailContent);
 		message = service.users().messages().send(userId, message).execute();
-		System.out.println("Message id: " + message.getId());
-		System.out.println(message.toPrettyString());
 		return message;
 	}
 }

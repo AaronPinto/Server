@@ -74,7 +74,10 @@ public class Server {
 
 			RSSFeedReader.start();
 
-//			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File("C:\\Users\\aaron\\workspace\\Server\\src\\Your Library - Songs.html"))));
+			CLI.start();
+
+//			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
+//					new File("C:\\Users\\aaron\\workspace\\Server\\src\\Your Library - Songs.html"))));
 //			String line;
 //			int counter = 0;
 //			while((line = in.readLine()) != null) {
@@ -106,7 +109,8 @@ public class Server {
 			String requestAddress = "http://" + t.getRequestHeaders().getFirst("Host");
 			System.out.println("got a request from " + t.getRemoteAddress() + " context " + t.getHttpContext().getPath() + " " + requestAddress);
 			byte[] response = readFile(path + t.getHttpContext().getPath());
-//			if((!t.getHttpContext().getPath().equals(prevSongPath) || !t.getRemoteAddress().toString().equals(prevRemoteAddress)) && !t.getHttpContext().getPath().endsWith(".json")) {
+//			if((!t.getHttpContext().getPath().equals(prevSongPath) || !t.getRemoteAddress().toString().equals(prevRemoteAddress))
+//					&& !t.getHttpContext().getPath().endsWith(".json")) {
 //				String s = "<html>\n" +
 //						"<body>\n" +
 //						"<audio controls autoplay>\n" +

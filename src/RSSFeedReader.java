@@ -1,4 +1,5 @@
 import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.auth.oauth2.StoredCredential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
 import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
 import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
@@ -7,6 +8,7 @@ import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
@@ -26,7 +28,7 @@ public class RSSFeedReader {
 				PrintWriter pw = new PrintWriter(new FileWriter("prevTitles.txt", true));
 				List<String> list = Files.readAllLines(Paths.get("prevTitles.txt"), Charsets.UTF_8);
 				final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-				final Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT))
+				final Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, "aaronp110"))
 						.setApplicationName(APPLICATION_NAME).build();
 
 				while(true) {
@@ -66,9 +68,9 @@ public class RSSFeedReader {
 		}).start();
 	}
 
-	private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
-	private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-	private static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials.
+	static final String APPLICATION_NAME = "Gmail API Java Quickstart";
+	static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+	static final String CREDENTIALS_FOLDER = "credentials";//Directory to store user credentials.
 
 	/**
 	 * Global instance of the scopes required by this file.
@@ -83,15 +85,15 @@ public class RSSFeedReader {
 	 * @return An authorized Credential object.
 	 * @throws IOException If there is no client_secret.
 	 */
-	private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
-		// Load client secrets.
+	static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, String user) throws IOException {
+		//Load client secrets.
 		InputStream in = RSSFeedReader.class.getResourceAsStream(CLIENT_SECRET_DIR);
 		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
 
-		// Build flow and trigger user authorization request.
-		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
-				HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, GmailScopes.all()).setDataStoreFactory(new FileDataStoreFactory(new java.io.File(CREDENTIALS_FOLDER)))
-				.setAccessType("offline").build();
+		//Build flow and trigger user authorization request.
+		DataStore<StoredCredential> dataStore = new FileDataStoreFactory(new java.io.File(CREDENTIALS_FOLDER)).getDataStore(user);
+		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, GmailScopes.all())
+				.setCredentialDataStore(dataStore).setAccessType("offline").build();
 		return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
 	}
 }

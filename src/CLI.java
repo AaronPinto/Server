@@ -12,10 +12,7 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -55,14 +52,17 @@ public class CLI {
 										Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader
 												.getCredentials(HTTP_TRANSPORT, name)).setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
 										BatchRequest batch = gmail.batch();
+										ArrayList<Boolean> respMessages = new ArrayList<>(100);
+										ArrayList<Message> allMessages = new ArrayList<>(100);
 										JsonBatchCallback<Message> callback = new JsonBatchCallback<>() {
 											@Override
 											public void onSuccess(Message message, HttpHeaders responseHeaders) {
+												respMessages.add(true);
 											}
 
 											@Override
 											public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) {
-												System.out.println(e.getMessage());
+												respMessages.add(false);
 											}
 										};
 
@@ -71,13 +71,40 @@ public class CLI {
 
 										while(!toEmail.equals("stop"))//(System.currentTimeMillis() - start) / 1000.0 <= 10.0
 											try {
-												gmail.users().messages().send("me", GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail,
-														"blah@gmail.com", Long.toHexString(Double.doubleToLongBits(Math.random() / Math.random())),
-														String.valueOf(local)))).queue(batch, callback);
+												allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "blah@gmail.com",
+														Long.toHexString(Double.doubleToLongBits(Math.random() / Math.random())), String.valueOf(local))));
 												local = j.getAndIncrement();
 
-												if(batch.size() >= 20)
-													batch.execute();
+												if(allMessages.size() >= 95) {
+													while(allMessages.size() > 0) {
+														for(Message m : allMessages)
+															gmail.users().messages().send("me", m).queue(batch, callback);
+
+														batch.execute();//Blocks until all requests callback
+
+														//Remove successful messages
+														Iterator<Message> iter = allMessages.iterator();
+														int index = 0;
+														while(iter.hasNext()) {
+															iter.next();
+															if(respMessages.get(index)) iter.remove();
+															index++;
+														}
+														respMessages.clear();
+
+														if(allMessages.size() == 0)
+															break;
+
+														System.out.println(allMessages.size());
+
+														try {
+															System.out.println("backoff " + Math.min(delay, 20000.0));
+															Thread.sleep((long) (Math.min(delay, 20000.0) + Math.random() * 500));
+															delay *= 2.0;
+														} catch(InterruptedException ignored) {
+														}
+													}
+												}
 
 												delay = 500.0;
 												System.out.println(j.get());

@@ -2,7 +2,7 @@
 *.json
 *.jks
 *.properties
-target
+target/
 
 # Package Files
 *.jar

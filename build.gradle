@@ -1,0 +1,59 @@
+group 'dank'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+    }
+}
+
+apply plugin: 'java'
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src']
+        }
+        resources {
+            srcDirs = ['src']
+        }
+    }
+    test {
+        java {
+            srcDirs = ['test']
+        }
+        resources {
+            srcDirs = ['test']
+        }
+    }
+}
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://dl.bintray.com/ijabz/maven"
+    }
+}
+
+dependencies {
+    implementation 'com.sun.activation:javax.activation:1.2.0'
+    implementation group: 'org.apache.ftpserver', name: 'ftpserver', version: '1.1.1'
+    implementation group: 'org.json', name: 'json', version: '20180813'
+    implementation 'com.google.api-client:google-api-client:1.25.0'
+    implementation 'com.google.apis:google-api-services-gmail:v1-rev96-1.25.0'
+    implementation group: 'com.google.api-client', name: 'google-api-client-java6', version: '1.26.0'
+    implementation group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.26.0'
+    implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
+    implementation files('D:\\jaudiotagger-2.2.6-SNAPSHOT.jar')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'Server'
+    }
+}

@@ -1,6 +1,4 @@
-import com.sun.net.httpserver.HttpExchange;
-import com.sun.net.httpserver.HttpHandler;
-import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.*;
 import org.apache.ftpserver.FtpServerFactory;
 import org.apache.ftpserver.listener.ListenerFactory;
 import org.apache.ftpserver.ssl.SslConfigurationFactory;
@@ -9,16 +7,21 @@ import org.jaudiotagger.audio.AudioFileIO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
+import javax.net.ssl.KeyManagerFactory;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.TrustManagerFactory;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Server {
@@ -29,7 +32,7 @@ public class Server {
 
 	public static void main(String[] args) {
 		try {
-			HttpServer httpServer = HttpServer.create(new InetSocketAddress(80), 0);
+			HttpsServer httpsServer = HttpsServer.create(new InetSocketAddress(443), 0);
 
 			JSONObject obj = new JSONObject();
 			JSONArray music = new JSONArray();
@@ -50,26 +53,53 @@ public class Server {
 				out.println(obj);
 			}
 
-			fileNames.forEach(fileName -> httpServer.createContext("/" + fileName, new MyHandler()));
+			fileNames.forEach(fileName -> httpsServer.createContext("/" + fileName, new MyHandler()));
 
-			httpServer.setExecutor(null);
-			httpServer.start();
+			SSLContext sslContext = SSLContext.getInstance("TLS");
+			KeyStore ks = KeyStore.getInstance("PKCS12");
+			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+			char[] password = "password".toCharArray();
+
+			ks.load(Server.class.getResourceAsStream("httpsserver.p12"), password);
+			kmf.init(ks, password);
+			tmf.init(ks);
+
+			sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+			httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
+				public void configure(HttpsParameters params) {
+					try {
+						SSLContext c = SSLContext.getDefault();
+						SSLEngine engine = c.createSSLEngine();
+
+						params.setNeedClientAuth(false);
+						params.setCipherSuites(engine.getEnabledCipherSuites());
+						params.setProtocols(engine.getEnabledProtocols());
+						params.setSSLParameters(c.getDefaultSSLParameters());
+					} catch(Exception e) {
+						System.out.println("Failed to create HTTPS port");
+					}
+				}
+			});
+
+			httpsServer.setExecutor(new ThreadPoolExecutor(4, 8, 30L, TimeUnit.SECONDS, new SynchronousQueue<>()));
+			httpsServer.start();
 
 			FtpServerFactory serverFactory = new FtpServerFactory();
 			ListenerFactory factory = new ListenerFactory();
-
 			SslConfigurationFactory ssl = new SslConfigurationFactory();
+			PropertiesUserManagerFactory userManagerFactory = new PropertiesUserManagerFactory();
+
 			ssl.setKeystoreFile(new File("ftpserver.jks"));
-			ssl.setKeystorePassword("password");
+			ssl.setKeystorePassword(new String(password));
+
 			factory.setSslConfiguration(ssl.createSslConfiguration());
 			factory.setImplicitSsl(false);
 
-			serverFactory.addListener("default", factory.createListener());
-
-			PropertiesUserManagerFactory userManagerFactory = new PropertiesUserManagerFactory();
 			userManagerFactory.setFile(new File("users.properties"));
-			serverFactory.setUserManager(userManagerFactory.createUserManager());
 
+			serverFactory.addListener("default", factory.createListener());
+			serverFactory.setUserManager(userManagerFactory.createUserManager());
 			serverFactory.createServer().start();
 
 			RSSFeedReader.start();
@@ -106,9 +136,10 @@ public class Server {
 
 		@Override
 		public void handle(HttpExchange t) throws IOException {
-			String requestAddress = "http://" + t.getRequestHeaders().getFirst("Host");
-			System.out.println("got a request from " + t.getRemoteAddress() + " context " + t.getHttpContext().getPath() + " " + requestAddress);
-			byte[] response = readFile(path + t.getHttpContext().getPath());
+			HttpsExchange ts = (HttpsExchange) t;
+			String requestAddress = "https://" + ts.getRequestHeaders().getFirst("Host");
+			System.out.println("got a request from " + ts.getRemoteAddress() + " context " + ts.getHttpContext().getPath() + " " + requestAddress);
+			byte[] response = readFile(path + ts.getHttpContext().getPath());
 //			if((!t.getHttpContext().getPath().equals(prevSongPath) || !t.getRemoteAddress().toString().equals(prevRemoteAddress))
 //					&& !t.getHttpContext().getPath().endsWith(".json")) {
 //				String s = "<html>\n" +
@@ -122,8 +153,9 @@ public class Server {
 //				prevSongPath = t.getHttpContext().getPath();
 //				prevRemoteAddress = t.getRemoteAddress().toString();
 //			} else response = readFile(path + t.getHttpContext().getPath());
-			t.sendResponseHeaders(200, response.length);
-			OutputStream os = t.getResponseBody();
+			ts.getResponseHeaders().add("Access-Control-Allow-Origin", "*");
+			ts.sendResponseHeaders(200, response.length);
+			OutputStream os = ts.getResponseBody();
 			os.write(response);
 			os.close();
 		}

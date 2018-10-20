@@ -87,8 +87,7 @@ public class RSSFeedReader {
 	 */
 	static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT, String user) throws IOException {
 		//Load client secrets.
-		InputStream in = RSSFeedReader.class.getResourceAsStream(CLIENT_SECRET_DIR);
-		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(RSSFeedReader.class.getResourceAsStream(CLIENT_SECRET_DIR)));
 
 		//Build flow and trigger user authorization request.
 		DataStore<StoredCredential> dataStore = new FileDataStoreFactory(new java.io.File(CREDENTIALS_FOLDER)).getDataStore(user);

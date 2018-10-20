@@ -1,8 +1,12 @@
 *.class
 *.json
 *.jks
+*.p12
 *.properties
 target/
+.gradle/
+build/
+out/
 
 # Package Files
 *.jar

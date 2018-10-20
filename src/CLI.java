@@ -54,7 +54,7 @@ public class CLI {
 										BatchRequest batch = gmail.batch();
 										ArrayList<Boolean> respMessages = new ArrayList<>(100);
 										ArrayList<Message> allMessages = new ArrayList<>(100);
-										JsonBatchCallback<Message> callback = new JsonBatchCallback<>() {
+										JsonBatchCallback<Message> callback = new JsonBatchCallback<Message>() {
 											@Override
 											public void onSuccess(Message message, HttpHeaders responseHeaders) {
 												respMessages.add(true);
@@ -66,7 +66,7 @@ public class CLI {
 											}
 										};
 
-										double delay = 500.0;
+										double delay = 500.0;//reqPerSec = 2.5
 										int local = j.getAndIncrement();
 
 										while(!toEmail.equals("stop"))//(System.currentTimeMillis() - start) / 1000.0 <= 10.0
@@ -75,7 +75,7 @@ public class CLI {
 														Long.toHexString(Double.doubleToLongBits(Math.random() / Math.random())), String.valueOf(local))));
 												local = j.getAndIncrement();
 
-												if(allMessages.size() >= 95) {
+												if(allMessages.size() >= 97) {
 													while(allMessages.size() > 0) {
 														for(Message m : allMessages)
 															gmail.users().messages().send("me", m).queue(batch, callback);

@@ -3,10 +3,13 @@
 *.jks
 *.p12
 *.properties
-target/
+
 .gradle/
 build/
+node_modules/
 out/
+src/A&W/
+target/
 
 # Package Files
 *.jar

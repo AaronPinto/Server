@@ -28,7 +28,7 @@ public class RSSFeedReader {
 				PrintWriter pw = new PrintWriter(new FileWriter("prevTitles.txt", true));
 				List<String> list = Files.readAllLines(Paths.get("prevTitles.txt"), Charsets.UTF_8);
 				final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-				final Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, "aaronp110"))
+				final Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, "spamtest358"))
 						.setApplicationName(APPLICATION_NAME).build();
 
 				while(true) {

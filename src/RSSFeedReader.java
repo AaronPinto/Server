@@ -10,6 +10,7 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.store.DataStore;
 import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.common.base.Charsets;
@@ -19,7 +20,7 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 
 public class RSSFeedReader {
 	static void start() {
@@ -91,7 +92,9 @@ public class RSSFeedReader {
 
 		//Build flow and trigger user authorization request.
 		DataStore<StoredCredential> dataStore = new FileDataStoreFactory(new java.io.File(CREDENTIALS_FOLDER)).getDataStore(user);
-		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, GmailScopes.all())
+		ArrayList<String> scopes = new ArrayList<>(GmailScopes.all());
+		scopes.addAll(DriveScopes.all());
+		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, scopes)
 				.setCredentialDataStore(dataStore).setAccessType("offline").build();
 		return new AuthorizationCodeInstalledApp(flow, new LocalServerReceiver()).authorize("user");
 	}

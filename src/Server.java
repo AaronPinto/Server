@@ -1,30 +1,15 @@
-import com.sun.net.httpserver.*;
-import org.apache.ftpserver.FtpServerFactory;
-import org.apache.ftpserver.listener.ListenerFactory;
-import org.apache.ftpserver.ssl.SslConfigurationFactory;
-import org.apache.ftpserver.usermanager.PropertiesUserManagerFactory;
-import org.jaudiotagger.audio.AudioFileIO;
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpsExchange;
 
-import javax.net.ssl.KeyManagerFactory;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.SSLEngine;
-import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.concurrent.SynchronousQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class Server {
@@ -35,82 +20,81 @@ public class Server {
 
 	public static void main(String[] args) {
 		try {
-			HttpsServer httpsServer = HttpsServer.create(new InetSocketAddress(443), 0);
-
-			JSONObject obj = new JSONObject();
-			JSONArray music = new JSONArray();
-
-			for(File file : files) {
-				if(file.getName().endsWith(".mp3") || file.getName().endsWith(".wav") || file.getName().endsWith(".ogg")) {
-					JSONObject song = new JSONObject();
-					song.put("title", file.getName().substring(0, file.getName().length() - 4));
-					song.put("source", file.getName());
-					song.put("duration", AudioFileIO.read(file).getAudioHeader().getPreciseTrackLength());
-
-					music.put(song);
-				}
-			}
-
-			obj.put("music", music);
-			try(PrintWriter out = new PrintWriter(path + "/music.json")) {
-				out.println(obj);
-			}
-
-			fileNames.forEach(fileName -> httpsServer.createContext("/" + fileName, new MyHandler()));
-
-			SSLContext sslContext = SSLContext.getInstance("TLS");
-			KeyStore ks = KeyStore.getInstance("PKCS12");
-			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
-			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
-			char[] password = "password".toCharArray();
-
-			ks.load(Server.class.getResourceAsStream("httpsserver.p12"), password);
-			kmf.init(ks, password);
-			tmf.init(ks);
-
-			sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
-			httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
-				public void configure(HttpsParameters params) {
-					try {
-						SSLContext c = SSLContext.getDefault();
-						SSLEngine engine = c.createSSLEngine();
-
-						params.setNeedClientAuth(false);
-						params.setCipherSuites(engine.getEnabledCipherSuites());
-						params.setProtocols(engine.getEnabledProtocols());
-						params.setSSLParameters(c.getDefaultSSLParameters());
-					} catch(Exception e) {
-						System.out.println("Failed to create HTTPS port");
-					}
-				}
-			});
-
-			httpsServer.setExecutor(new ThreadPoolExecutor(4, 8, 30L, TimeUnit.SECONDS, new SynchronousQueue<>()));
-			httpsServer.start();
-
-			FtpServerFactory serverFactory = new FtpServerFactory();
-			ListenerFactory factory = new ListenerFactory();
-			SslConfigurationFactory ssl = new SslConfigurationFactory();
-			PropertiesUserManagerFactory userManagerFactory = new PropertiesUserManagerFactory();
-
-			ssl.setKeystoreFile(new File("ftpserver.jks"));
-			ssl.setKeystorePassword(new String(password));
-
-			factory.setSslConfiguration(ssl.createSslConfiguration());
-			factory.setImplicitSsl(false);
-
-			userManagerFactory.setFile(new File("users.properties"));
-
-			serverFactory.addListener("default", factory.createListener());
-			serverFactory.setUserManager(userManagerFactory.createUserManager());
-			serverFactory.createServer().start();
+//			HttpsServer httpsServer = HttpsServer.create(new InetSocketAddress(443), 0);
+//
+//			JSONObject obj = new JSONObject();
+//			JSONArray music = new JSONArray();
+//
+//			for(File file : files)
+//				if(file.getName().endsWith(".mp3") || file.getName().endsWith(".wav") || file.getName().endsWith(".ogg")) {
+//					JSONObject song = new JSONObject();
+//					song.put("title", file.getName().substring(0, file.getName().length() - 4));
+//					song.put("source", file.getName());
+//					song.put("duration", AudioFileIO.read(file).getAudioHeader().getPreciseTrackLength());
+//
+//					music.put(song);
+//				}
+//
+//			obj.put("music", music);
+//			try(PrintWriter out = new PrintWriter(path + "/music.json")) {
+//				out.println(obj);
+//			}
+//
+//			fileNames.forEach(fileName -> httpsServer.createContext("/" + fileName, new MyHandler()));
+//
+//			SSLContext sslContext = SSLContext.getInstance("TLS");
+//			KeyStore ks = KeyStore.getInstance("PKCS12");
+//			KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");
+//			TrustManagerFactory tmf = TrustManagerFactory.getInstance("SunX509");
+//			char[] password = "password".toCharArray();
+//
+//			ks.load(Server.class.getResourceAsStream("httpsserver.p12"), password);
+//			kmf.init(ks, password);
+//			tmf.init(ks);
+//
+//			sslContext.init(kmf.getKeyManagers(), tmf.getTrustManagers(), null);
+//			httpsServer.setHttpsConfigurator(new HttpsConfigurator(sslContext) {
+//				public void configure(HttpsParameters params) {
+//					try {
+//						SSLContext c = SSLContext.getDefault();
+//						SSLEngine engine = c.createSSLEngine();
+//
+//						params.setNeedClientAuth(false);
+//						params.setCipherSuites(engine.getEnabledCipherSuites());
+//						params.setProtocols(engine.getEnabledProtocols());
+//						params.setSSLParameters(c.getDefaultSSLParameters());
+//					} catch(Exception e) {
+//						System.out.println("Failed to create HTTPS port");
+//					}
+//				}
+//			});
+//
+//			httpsServer.setExecutor(new ThreadPoolExecutor(4, 8, 30L, TimeUnit.SECONDS, new SynchronousQueue<>()));
+//			httpsServer.start();
+//
+//			FtpServerFactory serverFactory = new FtpServerFactory();
+//			ListenerFactory factory = new ListenerFactory();
+//			SslConfigurationFactory ssl = new SslConfigurationFactory();
+//			PropertiesUserManagerFactory userManagerFactory = new PropertiesUserManagerFactory();
+//
+//			ssl.setKeystoreFile(new File("ftpserver.jks"));
+//			ssl.setKeystorePassword(new String(password));
+//
+//			factory.setSslConfiguration(ssl.createSslConfiguration());
+//			factory.setImplicitSsl(false);
+//
+//			userManagerFactory.setFile(new File("users.properties"));
+//
+//			serverFactory.addListener("default", factory.createListener());
+//			serverFactory.setUserManager(userManagerFactory.createUserManager());
+//			serverFactory.createServer().start();
 
 			RSSFeedReader.start();
 
 			CLI.start();
 
 //			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(
-//					new File("C:\\Users\\aaron\\workspace\\Server\\src\\Your Library - Songs.html"))));
+//					new File("C:/Users/aaron/workspace/Server/src/Your Library - Songs.html"))));
 //			String line;
 //			int counter = 0;
 //			while((line = in.readLine()) != null) {

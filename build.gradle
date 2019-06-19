@@ -2,63 +2,60 @@ group 'dank'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-    }
+	repositories {
+		jcenter()
+	}
+	dependencies {
+	}
 }
 
 apply plugin: 'java'
 
 sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-        resources {
-            srcDirs = ['src']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['test']
-        }
-        resources {
-            srcDirs = ['test']
-        }
-    }
+	main {
+		java {
+			srcDirs = ['src']
+		}
+		resources {
+			srcDirs = ['src']
+		}
+	}
+	test {
+		java {
+			srcDirs = ['test']
+		}
+		resources {
+			srcDirs = ['test']
+		}
+	}
 }
 
 sourceCompatibility = JavaVersion.VERSION_11
 targetCompatibility = JavaVersion.VERSION_11
 
 repositories {
-    mavenCentral()
-    maven {
-        url "https://dl.bintray.com/ijabz/maven"
-    }
+	mavenCentral()
 }
 
 dependencies {
-    compile 'com.sun.activation:javax.activation:1.2.0'
-    compile group: 'org.apache.ftpserver', name: 'ftpserver', version: '1.1.1'
-    compile group: 'org.json', name: 'json', version: '20180813'
-    compile 'com.google.api-client:google-api-client:1.25.0'
-    compile 'com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0'
-    compile 'com.google.apis:google-api-services-drive:v3-rev20181101-1.27.0'
-    compile group: 'com.google.api-client', name: 'google-api-client-java6', version: '1.26.0'
-    compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.26.0'
-    compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
-    compile files('D:\\jaudiotagger-2.2.6-SNAPSHOT.jar')
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+	compile 'com.sun.activation:javax.activation:1.2.0'
+	compile group: 'org.apache.ftpserver', name: 'ftpserver', version: '1.1.1'
+	compile group: 'org.json', name: 'json', version: '20180813'
+	compile 'com.google.api-client:google-api-client:1.25.0'
+	compile 'com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0'
+	compile 'com.google.apis:google-api-services-drive:v3-rev20181101-1.27.0'
+	compile group: 'com.google.api-client', name: 'google-api-client-java6', version: '1.26.0'
+	compile group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.26.0'
+	compile group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
+	compile files('D:\\jaudiotagger-2.2.6-SNAPSHOT.jar')
+	testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 jar {
-    manifest {
-        attributes 'Main-Class': 'Server'
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-    }
+	manifest {
+		attributes 'Main-Class': 'Server'
+	}
+	from {
+		configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+	}
 }

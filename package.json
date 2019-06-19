@@ -1,0 +1,25 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "The code for my utilities which run on my server",
+  "main": "app.js",
+  "directories": {
+	"test": "test"
+  },
+  "scripts": {
+	"test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+	"type": "git",
+	"url": "git+https://github.com/AaronPinto/Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+	"url": "https://github.com/AaronPinto/Server/issues"
+  },
+  "homepage": "https://github.com/AaronPinto/Server#readme",
+  "dependencies": {
+	"mime": "^2.3.1"
+  }
+}

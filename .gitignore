@@ -1,14 +1,16 @@
 *.class
-*.json
+src/*.json
 *.jks
 *.p12
 *.properties
+*.iml
 
 .gradle/
 build/
 node_modules/
 out/
 src/A&W/
+src/Loncapa/
 target/
 
 # Package Files

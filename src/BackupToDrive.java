@@ -28,40 +28,6 @@ public class BackupToDrive {
 
         var filesPerRoot = visitPaths(pathsToVisit("excludePaths.txt", new String[]{System.getProperty("user.home"), "D:/"}));
 
-        // // Truncate all failed strings to 5 directories excluding last slash, unless its anything to do with AppData
-        // // in which case truncate to /AppData
-        // for (int i = 0; i < failed.size(); i++) {
-        // 	String s = failed.get(i);
-        // 	if (s.contains("AppData")) {
-        // 		failed.set(i, s.substring(0, s.indexOf("AppData") + "AppData".length()));
-        // 		continue;
-        // 	}
-        //
-        // 	int count = 0;
-        // 	for (int j = 0; j < s.length(); j++) {
-        // 		if (s.charAt(j) == '\\') { count++; }
-        // 		if (count == 5) {
-        // 			failed.set(i, s.substring(0, j));
-        // 			break;
-        // 		}
-        // 	}
-        // }
-        //
-        // // Remove duplicates, sets can only contain distinct elements
-        // Set<String> hs = new LinkedHashSet<>(failed);
-        // failed = new ArrayList<>(hs);
-        // System.out.println(failed);
-        //
-        // // Remove files in updated failed directories from all files
-        // for (Iterator<Path> it = all.keySet().iterator(); it.hasNext(); ) {
-        // 	String path = it.next().toString();
-        // 	for (String s : failed)
-        // 		if (path.contains(s)) {
-        // 			it.remove();
-        // 			break;
-        // 		}
-        // }
-
         // Compress files and add to zip archive
         Files.deleteIfExists(Paths.get(storeZipLocation));
         try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
@@ -93,8 +59,8 @@ public class BackupToDrive {
         // Upload to Google Drive
         NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         String user = Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles())[1].getName();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader
-        	.getCredentials(HTTP_TRANSPORT, user)).setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader.getCredentials(HTTP_TRANSPORT, user))
+            .setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
         System.out.println(service.getBaseUrl() + " " + service.getRootUrl() + " " + service.getServicePath());
 
         var fileMetadata = new com.google.api.services.drive.model.File().setName(name);

@@ -8,8 +8,9 @@ public class FileTree {
     FileTree(File f) {
         this.value = f;
 
-        if (f.isDirectory() && f.listFiles() != null) {
-            for (File fi : f.listFiles())
+        File[] files;
+        if (f.isDirectory() && (files = f.listFiles()) != null) {
+            for (File fi : files)
                 this.children.add(new FileTree(fi));
         }
     }

@@ -26,7 +26,8 @@ public class BackupToDrive {
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         double start = System.nanoTime();
 
-        var filesPerRoot = visitPaths(pathsToVisit("excludePaths.txt", new String[]{System.getProperty("user.home"), "D:/"}));
+        var filesPerRoot = visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
+            "includePaths.txt"));
 
         // Compress files and add to zip archive
         Files.deleteIfExists(Paths.get(storeZipLocation));
@@ -61,7 +62,6 @@ public class BackupToDrive {
         String user = Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles())[1].getName();
         Drive service = new Drive.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader.getCredentials(HTTP_TRANSPORT, user))
             .setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
-        System.out.println(service.getBaseUrl() + " " + service.getRootUrl() + " " + service.getServicePath());
 
         var fileMetadata = new com.google.api.services.drive.model.File().setName(name);
         File filePath = new File(storeZipLocation);
@@ -74,32 +74,57 @@ public class BackupToDrive {
         System.out.println("File ID: " + file.getId());
     }
 
-    private static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String excludePathsLocation, String[] roots) throws IOException {
-        final String[] exclude = Files.readAllLines(Paths.get(excludePathsLocation), Charsets.UTF_8).toArray(new String[0]);
-        final PrintWriter pw = new PrintWriter(new FileWriter(excludePathsLocation, true));
+    private static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String[] roots, String... locations) throws IOException {
         final Scanner s = new Scanner(System.in);
         final LinkedHashMap<String, ArrayList<Path>> pathsPerRoot = new LinkedHashMap<>(roots.length);
 
         System.out.println("Input y or n to include the file/directory or not");
-        for (var root : roots) {
-            final ArrayList<Path> paths = new ArrayList<>();
+        if (locations.length == 2) {
+            final String[] exclude = Files.readAllLines(Paths.get(locations[0]), Charsets.UTF_8).toArray(new String[0]);
+            final String[] include = Files.readAllLines(Paths.get(locations[1]), Charsets.UTF_8).toArray(new String[0]);
+            final PrintWriter pwexclude = new PrintWriter(new FileWriter(locations[0], true));
+            final PrintWriter pwinclude = new PrintWriter(new FileWriter(locations[1], true));
 
-            for (File file : Objects.requireNonNull(new File(root).listFiles())) {
-                System.out.println(file);
+            for (var root : roots) {
+                final ArrayList<Path> paths = new ArrayList<>();
 
-                if (Arrays.stream(exclude).noneMatch(name -> name.equals(file.toString()))) {
-                    if (s.nextLine().equals("y")) {
-                        paths.add(Paths.get(file.toURI()));
-                    } else {
-                        pw.println(file.toString());
+                for (File file : Objects.requireNonNull(new File(root).listFiles())) {
+                    System.out.println(file);
+
+                    if (Arrays.stream(exclude).noneMatch(name -> name.equals(file.toString()))) {
+                        if (Arrays.stream(include).anyMatch(name -> name.equals(file.toString()))) {
+                            paths.add(Paths.get(file.toURI()));
+                        } else if (s.nextLine().equals("y")) {
+                            paths.add(Paths.get(file.toURI()));
+                            pwinclude.println(file.toString());
+                        } else {
+                            pwexclude.println(file.toString());
+                        }
                     }
                 }
+
+                pathsPerRoot.put(root, paths);
             }
 
-            pathsPerRoot.put(root, paths);
+            pwexclude.flush();
+            pwexclude.close();
+            pwinclude.flush();
+            pwinclude.close();
+        } else {
+            for (var root : roots) {
+                final ArrayList<Path> paths = new ArrayList<>();
+
+                for (File file : Objects.requireNonNull(new File(root).listFiles())) {
+                    System.out.println(file);
+
+                    if (s.nextLine().equals("y")) {
+                        paths.add(Paths.get(file.toURI()));
+                    }
+                }
+
+                pathsPerRoot.put(root, paths);
+            }
         }
-        pw.flush();
-        pw.close();
 
         return pathsPerRoot;
     }

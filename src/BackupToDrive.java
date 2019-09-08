@@ -26,33 +26,8 @@ public class BackupToDrive {
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         double start = System.nanoTime();
 
-        var filesPerRoot = visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
-            "includePaths.txt"));
-
-        // Compress files and add to zip archive
-        Files.deleteIfExists(Paths.get(storeZipLocation));
-        try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
-            zs.setLevel(Deflater.BEST_COMPRESSION);
-            ArrayList<String> prevDirs = new ArrayList<>(50);
-
-            for (var rootFiles : filesPerRoot.entrySet()) {
-                Path p = Paths.get(rootFiles.getKey());
-                var all = rootFiles.getValue();
-
-                for (Path path : all.keySet())
-                    if (all.get(path) && checkPrevDirs(path, prevDirs)) {
-                        ZipEntry zipEntry = new ZipEntry(p.relativize(path).toString());
-
-                        try {
-                            zs.putNextEntry(zipEntry);
-                            Files.copy(path, zs);
-                            zs.closeEntry();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-            }
-        }
+        compressAndArchive(visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
+            "includePaths.txt")));
 
         System.out.println((System.nanoTime() - start) / 60000000000.0 + " min");
         System.out.println("Starting upload to Google Drive");
@@ -125,6 +100,7 @@ public class BackupToDrive {
                 pathsPerRoot.put(root, paths);
             }
         }
+        System.out.println("Got all paths");
 
         return pathsPerRoot;
     }
@@ -144,9 +120,37 @@ public class BackupToDrive {
 
             filesPerRoot.put(rootPaths.getKey(), all);
         }
+
         System.out.println("These paths failed: " + failed);
 
         return filesPerRoot;
+    }
+
+    private static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot) throws IOException {
+        Files.deleteIfExists(Paths.get(storeZipLocation));
+        try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
+            zs.setLevel(Deflater.BEST_COMPRESSION);
+            ArrayList<String> prevDirs = new ArrayList<>(50);
+
+            for (var rootFiles : filesPerRoot.entrySet()) {
+                Path p = Paths.get(rootFiles.getKey());
+                var all = rootFiles.getValue();
+
+                for (Path path : all.keySet()) {
+                    if (all.get(path) && checkPrevDirs(path, prevDirs)) {
+                        ZipEntry zipEntry = new ZipEntry(p.relativize(path).toString());
+
+                        try {
+                            zs.putNextEntry(zipEntry);
+                            Files.copy(path, zs);
+                            zs.closeEntry();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        }
     }
 
     private static Object[] getFiles(Path path) throws IOException {
@@ -180,8 +184,7 @@ public class BackupToDrive {
     private static boolean checkPrevDirs(Path p, ArrayList<String> prevDirs) {
         String s = p.toString();
 
-        for (String f : prevDirs)
-            if (s.contains(f)) { return true; }
+        for (String f : prevDirs) { if (s.contains(f)) { return true; } }
 
         //Truncate path to 4 directories excluding last slash
         int count = 0;
@@ -193,10 +196,12 @@ public class BackupToDrive {
                 break;
             }
         }
+
         return true;
     }
 
-    static class ProgressListener implements MediaHttpUploaderProgressListener {
+    private static class ProgressListener implements MediaHttpUploaderProgressListener {
+        @Override
         public void progressChanged(MediaHttpUploader uploader) throws IOException {
             switch (uploader.getUploadState()) {
                 case INITIATION_STARTED:

@@ -20,8 +20,8 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class BackupToDrive {
-    private static final String name = "aaron-" + LocalDate.now().toString();
-    private static final String storeZipLocation = "D:/" + name + ".zip";
+    private static final String name = "aaron-" + LocalDate.now().toString() + ".zip";
+    private static final String storeZipLocation = "D:/" + name;
 
     public static void main(String[] args) throws IOException, GeneralSecurityException {
         double start = System.nanoTime();

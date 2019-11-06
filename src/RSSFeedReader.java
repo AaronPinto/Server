@@ -13,7 +13,6 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.GmailScopes;
-import com.google.api.services.gmail.model.Message;
 import com.google.common.base.Charsets;
 
 import java.io.*;
@@ -45,10 +44,6 @@ class RSSFeedReader {
                 final Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentials(HTTP_TRANSPORT, user))
                     .setApplicationName(APPLICATION_NAME).build();
                 List<String> prevLinks = Files.readAllLines(Paths.get(linksPath), Charsets.UTF_8);
-                ArrayList<Message> allMessages = new ArrayList<>(10);
-                String toEmail = "";
-                int local = 2;
-                allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "ignore@gmail.com", Long.toHexString(Double.doubleToLongBits(Math.random() / Math.random())), String.valueOf(local))));
 
                 while (true) {
                     try {

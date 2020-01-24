@@ -12,6 +12,7 @@ import com.google.common.base.Charsets;
 import javax.mail.MessagingException;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.GeneralSecurityException;
@@ -19,6 +20,9 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
+/**
+ * This class contains a command line interface that I created which contains some different commands that leverage the Gmail API
+ */
 class CLI {
     private static String[] cmd;
     private static String toEmail;
@@ -45,7 +49,7 @@ class CLI {
                             AtomicInteger j = new AtomicInteger(0);
 
                             try {
-                                for (String name : getUsernames())
+                                for (String name : getUsernames()) {
                                     new Thread(() -> {
                                         try {
                                             NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -67,8 +71,8 @@ class CLI {
                                                     if (e.getCode() == 429) {
                                                         System.out.println(e.getMessage());
                                                     }
-                                                    if (e.getMessage().contains("User-rate limit exceeded.  Retry after")) {
-                                                        System.exit(1);
+                                                    if (e.getMessage().contains("User-rate limit exceeded. Retry after")) {
+                                                        Thread.currentThread().interrupt();
                                                     }
                                                 }
                                             };
@@ -78,6 +82,7 @@ class CLI {
 
                                             while (!toEmail.equals("stop"))
                                                 try {
+                                                    // Generate a random subject so Gmail doesn't group emails in the inbox
                                                     allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail
                                                         .createEmail(toEmail, "ignore@gmail.com", Long
                                                             .toHexString(Double.doubleToLongBits(Math.random() / Math.random())), String
@@ -86,8 +91,9 @@ class CLI {
 
                                                     if (allMessages.size() >= 10) {
                                                         while (allMessages.size() > 0) {
-                                                            for (Message m : allMessages)
+                                                            for (Message m : allMessages) {
                                                                 gmail.users().messages().send("me", m).queue(batch, callback);
+                                                            }
 
                                                             numReqSent += batch.size();
 
@@ -132,6 +138,7 @@ class CLI {
                                             e.printStackTrace();
                                         }
                                     }).start();
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -152,7 +159,7 @@ class CLI {
                             AtomicInteger j = new AtomicInteger(0);
 
                             try {
-                                for (String name : getUsernames())
+                                for (String name : getUsernames()) {
                                     new Thread(() -> {
                                         try {
                                             NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
@@ -182,10 +189,48 @@ class CLI {
                                             e.printStackTrace();
                                         }
                                     }).start();
+                                }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
+                        break;
+                    }
+                    case "calcnum": {
+                        // TODO: Add ability to pass in numbers and operation
+                        if (cmd.length != 2) {
+                            System.out
+                                .println("Invalid number of arguments! There should be only one, specifying the email address to send " +
+                                    "the result to.\n\t calcnum example@gmail.com");
+                            break;
+                        }
+
+                        toEmail = cmd[1];
+
+                        new Thread(() -> {
+                            try {
+                                NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+                                String user = Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles())[2].getName();
+                                Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader
+                                    .getCredentials(HTTP_TRANSPORT, user)).setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
+                                double startTime = System.nanoTime();
+
+                                // Calculate 2 ^ (2 ^ 31)
+                                BigInteger b = new BigInteger("1"), c = new BigInteger("2");
+                                c = c.pow(16);
+
+                                // Have to do repeated left shifts because 2 ^ 64 is outside the range of an int and BigInteger's only
+                                // take ints as a parameter into pow()
+                                for (BigInteger i = new BigInteger("0"); !i.equals(c); i = i.add(BigInteger.ONE)) {
+                                    b = b.shiftLeft(32768);
+                                }
+
+                                String body = c.toString() + "\n" + (System.nanoTime() - startTime) / 1000000000.0;
+                                GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(toEmail, toEmail, "Huge calc is done", body));
+                            } catch (IOException | GeneralSecurityException | MessagingException e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
                         break;
                     }
                 }

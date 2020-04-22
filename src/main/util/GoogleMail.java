@@ -1,3 +1,5 @@
+package main.util;
+
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
@@ -11,8 +13,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-class GoogleMail {
-    static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
+public class GoogleMail {
+    private GoogleMail() {
+        // Prevent class from being initialized
+    }
+
+    public static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {
         MimeMessage email = new MimeMessage(Session.getDefaultInstance(new Properties(), null));
         email.setFrom(new InternetAddress(from));
         email.addRecipient(RecipientType.TO, new InternetAddress(to));
@@ -31,7 +37,7 @@ class GoogleMail {
      * @throws IOException        IOException
      * @throws MessagingException MessagingException
      */
-    static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
+    public static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
         String encodedEmail = Base64.encodeBase64URLSafeString(buffer.toByteArray());
@@ -50,7 +56,7 @@ class GoogleMail {
      * @throws MessagingException MessagingException
      * @throws IOException        IOException
      */
-    static Message sendMessage(Gmail service, String userId, MimeMessage emailContent) throws MessagingException, IOException {
+    public static Message sendMessage(Gmail service, String userId, MimeMessage emailContent) throws MessagingException, IOException {
         Message message = createMessageWithEmail(emailContent);
         message = service.users().messages().send(userId, message).execute();
         return message;

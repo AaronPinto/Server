@@ -2,7 +2,7 @@
     "name": "server",
     "version": "1.0.0",
     "description": "The code for my utilities which run on my server",
-    "main": "app.js",
+    "main": "webserver.js",
     "directories": {
         "test": "test"
     },

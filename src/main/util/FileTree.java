@@ -1,25 +1,30 @@
+package main.util;
+
 import java.io.File;
 import java.util.ArrayList;
 
 public class FileTree {
-    private File value;
-    private ArrayList<FileTree> children = new ArrayList<>();
+    private final File value;
+    private final ArrayList<FileTree> children = new ArrayList<>();
 
     FileTree(File f) {
         this.value = f;
-
         File[] files;
+
         if (f.isDirectory() && (files = f.listFiles()) != null) {
-            for (File fi : files)
+            for (File fi : files) {
                 this.children.add(new FileTree(fi));
+            }
         }
     }
 
     public ArrayList<File> all() {
         ArrayList<File> all = new ArrayList<>();
         all.add(this.value);
-        for (FileTree ft : this.children)
+
+        for (FileTree ft : this.children) {
             all.addAll(ft.all());
+        }
 
         return all;
     }
@@ -31,8 +36,11 @@ public class FileTree {
 
     private void print(String prefix, boolean isTail) {
         System.out.println(prefix + (isTail ? "└── " : "├── ") + this.value.getName());
-        for (int i = 0; i < this.children.size() - 1; i++)
+
+        for (int i = 0; i < this.children.size() - 1; i++) {
             this.children.get(i).print(prefix + (isTail ? "    " : "│   "), false);
+        }
+
         if (this.children.size() > 0) {
             this.children.get(this.children.size() - 1).print(prefix + (isTail ? "    " : "│   "), true);
         }

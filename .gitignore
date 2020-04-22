@@ -1,5 +1,5 @@
 *.class
-src/*.json
+src/main/*.json
 *.jks
 *.p12
 *.properties

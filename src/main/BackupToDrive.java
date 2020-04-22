@@ -1,3 +1,5 @@
+package main;
+
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
@@ -27,16 +29,16 @@ public class BackupToDrive {
         double start = System.nanoTime();
 
         compressAndArchive(visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
-            "includePaths.txt")));
+                "includePaths.txt")));
 
         System.out.println((System.nanoTime() - start) / 60000000000.0 + " min");
         System.out.println("Starting upload to Google Drive");
 
         // Upload to Google Drive
         NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        String user = Objects.requireNonNull(new File(RSSFeedReader.CREDENTIALS_FOLDER).listFiles())[1].getName();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, RSSFeedReader.JSON_FACTORY, RSSFeedReader.getCredentials(HTTP_TRANSPORT, user))
-            .setApplicationName(RSSFeedReader.APPLICATION_NAME).build();
+        String user = Objects.requireNonNull(new File(Server.CREDENTIALS_FOLDER).listFiles())[1].getName();
+        Drive service = new Drive.Builder(HTTP_TRANSPORT, Server.JSON_FACTORY, Server.getCredentials(HTTP_TRANSPORT, user))
+                .setApplicationName(Server.APPLICATION_NAME).build();
 
         var fileMetadata = new com.google.api.services.drive.model.File().setName(name);
         File filePath = new File(storeZipLocation);
@@ -50,18 +52,18 @@ public class BackupToDrive {
     }
 
     private static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String[] roots, String... locations) throws IOException {
-        final Scanner s = new Scanner(System.in);
-        final LinkedHashMap<String, ArrayList<Path>> pathsPerRoot = new LinkedHashMap<>(roots.length);
+        Scanner s = new Scanner(System.in);
+        LinkedHashMap<String, ArrayList<Path>> pathsPerRoot = new LinkedHashMap<>(roots.length);
 
         System.out.println("Input y or n to include the file/directory or not");
         if (locations.length == 2) {
-            final String[] exclude = Files.readAllLines(Paths.get(locations[0]), Charsets.UTF_8).toArray(new String[0]);
-            final String[] include = Files.readAllLines(Paths.get(locations[1]), Charsets.UTF_8).toArray(new String[0]);
-            final PrintWriter pwexclude = new PrintWriter(new FileWriter(locations[0], true));
-            final PrintWriter pwinclude = new PrintWriter(new FileWriter(locations[1], true));
+            String[] exclude = Files.readAllLines(Paths.get(locations[0]), Charsets.UTF_8).toArray(new String[0]);
+            String[] include = Files.readAllLines(Paths.get(locations[1]), Charsets.UTF_8).toArray(new String[0]);
+            PrintWriter pwexclude = new PrintWriter(new FileWriter(locations[0], true));
+            PrintWriter pwinclude = new PrintWriter(new FileWriter(locations[1], true));
 
             for (var root : roots) {
-                final ArrayList<Path> paths = new ArrayList<>();
+                ArrayList<Path> paths = new ArrayList<>();
 
                 for (File file : Objects.requireNonNull(new File(root).listFiles())) {
                     System.out.println(file);
@@ -87,7 +89,7 @@ public class BackupToDrive {
             pwinclude.close();
         } else {
             for (var root : roots) {
-                final ArrayList<Path> paths = new ArrayList<>();
+                ArrayList<Path> paths = new ArrayList<>();
 
                 for (File file : Objects.requireNonNull(new File(root).listFiles())) {
                     System.out.println(file);
@@ -100,17 +102,17 @@ public class BackupToDrive {
                 pathsPerRoot.put(root, paths);
             }
         }
-        System.out.println("Got all paths");
 
+        System.out.println("Got all paths");
         return pathsPerRoot;
     }
 
     private static LinkedHashMap<String, LinkedHashMap<Path, Boolean>> visitPaths(LinkedHashMap<String, ArrayList<Path>> pathsPerRoot) throws IOException {
-        final LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot = new LinkedHashMap<>(pathsPerRoot.size());
-        final ArrayList<String> failed = new ArrayList<>();
+        LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot = new LinkedHashMap<>(pathsPerRoot.size());
+        ArrayList<String> failed = new ArrayList<>();
 
         for (var rootPaths : pathsPerRoot.entrySet()) {
-            final LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>(100000);
+            LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>(100000);
 
             for (Path path : rootPaths.getValue()) {
                 Object[] temp = getFiles(path);
@@ -122,12 +124,12 @@ public class BackupToDrive {
         }
 
         System.out.println("These paths failed: " + failed);
-
         return filesPerRoot;
     }
 
     private static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot) throws IOException {
         Files.deleteIfExists(Paths.get(storeZipLocation));
+
         try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
             zs.setLevel(Deflater.BEST_COMPRESSION);
             ArrayList<String> prevDirs = new ArrayList<>(50);
@@ -172,7 +174,9 @@ public class BackupToDrive {
 
             @Override
             public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
-                if (exc != null) { System.out.println("had trouble traversing: " + dir + " (" + exc + ")"); }
+                if (exc != null) {
+                    System.out.println("had trouble traversing: " + dir + " (" + exc + ")");
+                }
                 return FileVisitResult.CONTINUE;
             }
         });
@@ -184,12 +188,19 @@ public class BackupToDrive {
     private static boolean checkPrevDirs(Path p, ArrayList<String> prevDirs) {
         String s = p.toString();
 
-        for (String f : prevDirs) { if (s.contains(f)) { return true; } }
+        for (String f : prevDirs) {
+            if (s.contains(f)) {
+                return true;
+            }
+        }
 
         //Truncate path to 4 directories excluding last slash
         int count = 0;
+
         for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '\\') { count++; }
+            if (s.charAt(i) == '\\') {
+                count++;
+            }
             if (count == 4) {
                 prevDirs.add(0, s = s.substring(0, i));
                 System.out.println(s);

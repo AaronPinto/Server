@@ -32,8 +32,12 @@ public class Spam {
         toEmail = email;
 
         if (toEmail.equals("stop")) {
-            batchRunning = false;
-            stopMailThreads();
+            if (batchRunning) {
+                batchRunning = false;
+                stopMailThreads();
+            } else {
+                System.out.println("Batch spam is not running.");
+            }
             return;
         }
         if (batchRunning) {
@@ -145,8 +149,12 @@ public class Spam {
         toEmail = email;
 
         if (toEmail.equals("stop")) {
-            slowRunning = false;
-            stopMailThreads();
+            if (slowRunning) {
+                slowRunning = false;
+                stopMailThreads();
+            } else {
+                System.out.println("Slow spam is not running.");
+            }
             return;
         }
         if (slowRunning) {

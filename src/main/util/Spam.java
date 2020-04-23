@@ -25,7 +25,7 @@ public class Spam {
     private static final ArrayList<Thread> mailThreads = new ArrayList<>();
 
     private Spam() {
-        // Prevent class from being initialized
+        // Prevent class from being instantiated
     }
 
     public static void batchSpam(String email) throws IOException, SecurityException, NullPointerException {

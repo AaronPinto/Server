@@ -31,9 +31,9 @@ public class Server {
     public static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials
 
     /**
-     * Global instance of the scopes required by this file. If modifying these scopes, delete your previously saved credentials/ folder.
+     * Global instance of the scopes required by this file. If modifying these scopes, delete your previously saved credentials folder.
      */
-    private static final String CLIENT_SECRET_DIR = "main/client_secret.json";
+    private static final String CLIENT_SECRET_DIR = "/client_secret.json";
 
     public static void main(String[] args) {
         try {

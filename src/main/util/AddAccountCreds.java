@@ -9,9 +9,17 @@ import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 public class AddAccountCreds {
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
+    private AddAccountCreds() {
+        // Prevent class from being instantiated
+    }
+
+    public static void addCreds(String username) throws GeneralSecurityException, IOException {
         NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-        new Gmail.Builder(HTTP_TRANSPORT, Server.JSON_FACTORY, Server.getCredentials(HTTP_TRANSPORT, "insert username here"))
+        new Gmail.Builder(HTTP_TRANSPORT, Server.JSON_FACTORY, Server.getCredentials(HTTP_TRANSPORT, username))
                 .setApplicationName(Server.APPLICATION_NAME).build();
+    }
+
+    public static void main(String[] args) throws GeneralSecurityException, IOException {
+        addCreds("insert username here");
     }
 }

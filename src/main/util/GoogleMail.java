@@ -15,7 +15,7 @@ import java.util.Properties;
 
 public class GoogleMail {
     private GoogleMail() {
-        // Prevent class from being initialized
+        // Prevent class from being instantiated
     }
 
     public static MimeMessage createEmail(String to, String from, String subject, String bodyText) throws MessagingException {

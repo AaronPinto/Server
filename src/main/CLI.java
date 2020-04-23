@@ -1,7 +1,10 @@
 package main;
 
+import main.util.AddAccountCreds;
 import main.util.Spam;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -47,6 +50,22 @@ public class CLI {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                        break;
+                    }
+                    case "adduser": {
+                        if (cmd.length != 2) {
+                            System.out
+                                    .println("Invalid number of arguments! There should be only one, specifying the username of the " +
+                                            "email address to add.\n\t adduser example");
+                            break;
+                        }
+
+                        try {
+                            AddAccountCreds.addCreds(cmd[1]);
+                        } catch (GeneralSecurityException | IOException e) {
+                            e.printStackTrace();
+                        }
+
                         break;
                     }
                 }

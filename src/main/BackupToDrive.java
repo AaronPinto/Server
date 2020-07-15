@@ -1,10 +1,8 @@
 package main;
 
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
 import com.google.api.client.http.FileContent;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.drive.Drive;
 import com.google.common.base.Charsets;
 
@@ -14,7 +12,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.security.GeneralSecurityException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.zip.Deflater;
@@ -25,7 +22,7 @@ public class BackupToDrive {
     private static final String name = "aaron-" + LocalDate.now().toString() + ".zip";
     private static final String storeZipLocation = "D:/" + name;
 
-    public static void main(String[] args) throws IOException, GeneralSecurityException {
+    public static void main(String[] args) throws IOException {
         double start = System.nanoTime();
 
         compressAndArchive(visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
@@ -35,9 +32,8 @@ public class BackupToDrive {
         System.out.println("Starting upload to Google Drive");
 
         // Upload to Google Drive
-        NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
         String user = Objects.requireNonNull(new File(Server.CREDENTIALS_FOLDER).listFiles())[1].getName();
-        Drive service = new Drive.Builder(HTTP_TRANSPORT, Server.JSON_FACTORY, Server.getCredentials(HTTP_TRANSPORT, user))
+        Drive service = new Drive.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(user))
                 .setApplicationName(Server.APPLICATION_NAME).build();
 
         var fileMetadata = new com.google.api.services.drive.model.File().setName(name);
@@ -147,6 +143,7 @@ public class BackupToDrive {
                             Files.copy(path, zs);
                             zs.closeEntry();
                         } catch (IOException e) {
+                            System.out.println(path);
                             e.printStackTrace();
                         }
                     }
@@ -194,7 +191,7 @@ public class BackupToDrive {
             }
         }
 
-        //Truncate path to 4 directories excluding last slash
+        // Truncate path to 4 directories excluding last slash
         int count = 0;
 
         for (int i = 0; i < s.length(); i++) {

@@ -2,18 +2,15 @@ package main.util;
 
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.googleapis.json.GoogleJsonError;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpHeaders;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 import main.Server;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
@@ -48,6 +45,8 @@ public class Spam {
         slowRunning = false;
         batchRunning = true;
         AtomicInteger j = new AtomicInteger(0);
+
+        System.out.println("Running batchspam...");
 
         for (String name : Server.getUsernames()) {
             Thread t = new Thread(() -> {
@@ -166,6 +165,8 @@ public class Spam {
         slowRunning = true;
         AtomicInteger j = new AtomicInteger(0);
 
+        System.out.println("Running slowspam...");
+
         for (String name : Server.getUsernames()) {
             Thread t = new Thread(() -> {
                 Gmail gmail = initGmail(name);
@@ -214,14 +215,12 @@ public class Spam {
     }
 
     private static Gmail initGmail(String name) {
-        NetHttpTransport HTTP_TRANSPORT;
         Gmail gmail;
 
         try {
-            HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
-            gmail = new Gmail.Builder(HTTP_TRANSPORT, Server.JSON_FACTORY, Server.getCredentials(HTTP_TRANSPORT, name))
+            gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(name))
                     .setApplicationName(Server.APPLICATION_NAME).build();
-        } catch (GeneralSecurityException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
             return null;
         }

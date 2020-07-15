@@ -1,10 +1,8 @@
 package main;
 
-import main.util.AddAccountCreds;
 import main.util.Spam;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -61,12 +59,17 @@ public class CLI {
                         }
 
                         try {
-                            AddAccountCreds.addCreds(cmd[1]);
-                        } catch (GeneralSecurityException | IOException e) {
+                            Server.authorize(cmd[1]);
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                         break;
+                    }
+                    case "help": {
+                        System.out.println("batchspam example@gmail.com\n\t batchspam stop");
+                        System.out.println("slowspam example@gmail.com\n\t slowspam stop");
+                        System.out.println("adduser example");
                     }
                 }
             }

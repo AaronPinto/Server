@@ -39,16 +39,16 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.sun.activation:javax.activation:1.2.0'
-    implementation group: 'org.apache.ftpserver', name: 'ftpserver', version: '1.1.1'
-    implementation group: 'org.json', name: 'json', version: '20180813'
-    implementation 'com.google.api-client:google-api-client:1.25.0'
-    implementation 'com.google.apis:google-api-services-gmail:v1-rev20180904-1.27.0'
-    implementation 'com.google.apis:google-api-services-drive:v3-rev20181101-1.27.0'
-    implementation group: 'com.google.api-client', name: 'google-api-client-java6', version: '1.26.0'
-    implementation group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.26.0'
+    implementation group: 'com.google.apis', name: 'google-api-services-gmail', version: 'v1-rev20200601-1.30.10'
+    implementation group: 'com.google.apis', name: 'google-api-services-drive', version: 'v3-rev20200618-1.30.10'
+    implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.30.10'
+    implementation group: 'com.google.api-client', name: 'google-api-client-java6', version: '1.30.10'
+    implementation group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.31.0'
+    implementation group: 'com.sun.activation', name: 'javax.activation', version: '1.2.0'
     implementation group: 'com.sun.mail', name: 'javax.mail', version: '1.6.2'
-    testImplementation 'junit:junit:4.12'
+    implementation group: 'org.apache.ftpserver', name: 'ftpserver', version: '1.1.1'
+    implementation group: 'org.json', name: 'json', version: '20200518'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
 
 jar {

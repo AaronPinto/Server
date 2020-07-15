@@ -1,7 +1,5 @@
 package main;
 
-import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.services.gmail.Gmail;
 import com.google.common.base.Charsets;
 import main.util.GoogleMail;
@@ -28,9 +26,8 @@ public class RSSFeedReader {
                 final String linksPath = "prevLinks.txt";
                 final PrintWriter pw = new PrintWriter(new FileWriter(linksPath, true));
                 final String recipient = Files.readAllLines(Paths.get("ignore_emails.txt"), Charsets.UTF_8).get(0) + "@gmail.com";
-                final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
                 final String user = Objects.requireNonNull(new File(Server.CREDENTIALS_FOLDER).listFiles())[2].getName();
-                final Gmail gmail = new Gmail.Builder(HTTP_TRANSPORT, Server.JSON_FACTORY, Server.getCredentials(HTTP_TRANSPORT, user))
+                final Gmail gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(user))
                         .setApplicationName(Server.APPLICATION_NAME).build();
                 List<String> prevLinks = Files.readAllLines(Paths.get(linksPath), Charsets.UTF_8);
 
@@ -71,23 +68,22 @@ public class RSSFeedReader {
                                     .noneMatch(s -> s.equals(link))) {
                                 System.out.println(title + " " + LocalDateTime.now());
 
+                                GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, recipient, title, link));
+
                                 pw.println(link);
                                 pw.flush();
 
                                 prevLinks = Files.readAllLines(Paths.get(linksPath), Charsets.UTF_8);
-
-                                GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, recipient, title, link));
                             }
                         }
 
                         in.close();
                         System.out.println(LocalDateTime.now());
-                        Thread.sleep(4 * 60 * 1000);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
-                    Thread.sleep(2 * 60 * 1000);
+                    Thread.sleep(5 * 60 * 1000);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

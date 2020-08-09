@@ -20,7 +20,6 @@
     },
     "homepage": "https://github.com/AaronPinto/Server#readme",
     "dependencies": {
-        "@types/chrome": "^0.0.86",
         "mime": "^2.4.4"
     }
 }

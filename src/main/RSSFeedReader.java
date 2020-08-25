@@ -15,25 +15,23 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class RSSFeedReader {
-    static void start() {
+    static void start(final String recipient, final String sender) {
         new Thread(() -> {
             try {
                 final String linksPath = "prevLinks.txt";
                 final PrintWriter pw = new PrintWriter(new FileWriter(linksPath, true));
-                final String recipient = Files.readAllLines(Paths.get("ignore_emails.txt"), Charsets.UTF_8).get(0) + "@gmail.com";
-                final String user = Objects.requireNonNull(new File(Server.CREDENTIALS_FOLDER).listFiles())[2].getName();
-                final Gmail gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(user))
+                final Gmail gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(sender))
                         .setApplicationName(Server.APPLICATION_NAME).build();
+                final URL url = new URL("https://blogs.windows.com/feed/");
                 List<String> prevLinks = Files.readAllLines(Paths.get(linksPath), Charsets.UTF_8);
 
                 while (true) {
                     try {
-                        var in = new BufferedReader(new InputStreamReader(new URL("https://blogs.windows.com/feed/").openStream()));
+                        var in = new BufferedReader(new InputStreamReader(url.openStream(), Charsets.UTF_8));
                         StringBuilder sb = new StringBuilder();
                         String line;
 
@@ -68,7 +66,7 @@ public class RSSFeedReader {
                                     .noneMatch(s -> s.equals(link))) {
                                 System.out.println(title + " " + LocalDateTime.now());
 
-                                GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, recipient, title, link));
+                                GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, sender, title, link));
 
                                 pw.println(link);
                                 pw.flush();

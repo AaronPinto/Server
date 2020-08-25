@@ -14,6 +14,8 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.gmail.GmailScopes;
 import com.google.common.base.Charsets;
 
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -38,16 +40,34 @@ public class Server {
     private static final String CLIENT_SECRET_DIR = "/client_secret.json";
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
-    public static void main(String[] args) {
+    static {
         try {
             HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
             DATA_STORE_FACTORY = new FileDataStoreFactory(new File(CREDENTIALS_FOLDER));
-            RSSFeedReader.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.exit(1);
+        }
+    }
+
+    public static void main(String[] args) {
+        try {
+            isValidEmailAddress(args[0]);
+            RSSFeedReader.start(args[0], args[1]);
             CLI.start();
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
         }
+    }
+
+    private Server() {
+        // Prevent class from being instantiated
+    }
+
+    // https://stackoverflow.com/a/5931718/6713362
+    public static void isValidEmailAddress(String email) throws AddressException {
+        new InternetAddress(email).validate();
     }
 
     /**

@@ -29,7 +29,7 @@ public class FileTree {
         return all;
     }
 
-    //https://stackoverflow.com/a/8948691/6713362
+    // https://stackoverflow.com/a/8948691/6713362
     public void print() {
         print("", true);
     }

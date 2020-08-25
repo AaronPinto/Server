@@ -2,6 +2,7 @@ package main;
 
 import main.util.Spam;
 
+import javax.mail.internet.AddressException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -10,10 +11,13 @@ import java.util.Scanner;
  * This class contains a command line interface that I created which contains some different commands that leverage the Gmail API
  */
 public class CLI {
-    private static String[] cmd;
+    private CLI() {
+        // Prevent class from being instantiated
+    }
 
     static void start() {
         new Thread(() -> {
+            String[] cmd;
             Scanner s = new Scanner(System.in);
             while (true) {
                 cmd = s.nextLine().split(" ");
@@ -29,10 +33,18 @@ public class CLI {
                         }
 
                         try {
+                            Server.isValidEmailAddress(cmd[1]);
+                        } catch (AddressException e) {
+                            System.out.println("Invalid email address! Please make sure it's formatted correctly.");
+                            break;
+                        }
+
+                        try {
                             Spam.batchSpam(cmd[1]);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
                         break;
                     }
                     case "slowspam": {
@@ -44,10 +56,18 @@ public class CLI {
                         }
 
                         try {
+                            Server.isValidEmailAddress(cmd[1]);
+                        } catch (AddressException e) {
+                            System.out.println("Invalid email address! Please make sure it's formatted correctly.");
+                            break;
+                        }
+
+                        try {
                             Spam.slowSpam(cmd[1]);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+
                         break;
                     }
                     case "adduser": {
@@ -66,17 +86,14 @@ public class CLI {
 
                         break;
                     }
-                    case "help": {
+                    default: {
                         System.out.println("batchspam example@gmail.com\n\t batchspam stop");
                         System.out.println("slowspam example@gmail.com\n\t slowspam stop");
                         System.out.println("adduser example");
+                        break;
                     }
                 }
             }
         }).start();
-    }
-
-    public static void main(String[] args) {
-        start();
     }
 }

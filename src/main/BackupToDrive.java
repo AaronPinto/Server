@@ -10,10 +10,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileAttribute;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Objects;
+import java.util.Scanner;
 import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -23,6 +28,11 @@ public class BackupToDrive {
     private static final String storeZipLocation = "D:/" + name;
 
     public static void main(String[] args) throws IOException {
+        if (args.length != 1) {
+            System.out.println("There should be an arg specifying the username of the Google Drive account to upload the file to");
+            System.exit(1);
+        }
+
         double start = System.nanoTime();
 
         compressAndArchive(visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
@@ -32,7 +42,7 @@ public class BackupToDrive {
         System.out.println("Starting upload to Google Drive");
 
         // Upload to Google Drive
-        String user = Objects.requireNonNull(new File(Server.CREDENTIALS_FOLDER).listFiles())[1].getName();
+        String user = args[0];
         Drive service = new Drive.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(user))
                 .setApplicationName(Server.APPLICATION_NAME).build();
 
@@ -47,16 +57,25 @@ public class BackupToDrive {
         System.out.println("File ID: " + file.getId());
     }
 
-    private static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String[] roots, String... locations) throws IOException {
+    /**
+     * @param roots root directories to start accessing
+     * @param exc   path to the txt file containing new-line separated paths to exclude
+     * @param inc   path to the txt file containing new-line separated paths to include
+     *
+     * @return a LinkedHashMap with each root as a key and all of its sub-paths as a value
+     *
+     * @throws IOException from {@link Files#readAllLines(Path, Charset)} or {@link FileWriter#FileWriter(String, boolean)}
+     */
+    private static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String[] roots, String exc, String inc) throws IOException {
         Scanner s = new Scanner(System.in);
         LinkedHashMap<String, ArrayList<Path>> pathsPerRoot = new LinkedHashMap<>(roots.length);
 
         System.out.println("Input y or n to include the file/directory or not");
-        if (locations.length == 2) {
-            String[] exclude = Files.readAllLines(Paths.get(locations[0]), Charsets.UTF_8).toArray(new String[0]);
-            String[] include = Files.readAllLines(Paths.get(locations[1]), Charsets.UTF_8).toArray(new String[0]);
-            PrintWriter pwexclude = new PrintWriter(new FileWriter(locations[0], true));
-            PrintWriter pwinclude = new PrintWriter(new FileWriter(locations[1], true));
+        if (exc != null && !exc.isBlank() && inc != null && !inc.isBlank()) {
+            var exclude = Files.readAllLines(Paths.get(exc), Charsets.UTF_8);
+            var include = Files.readAllLines(Paths.get(inc), Charsets.UTF_8);
+            PrintWriter pwexclude = new PrintWriter(new FileWriter(exc, true));
+            PrintWriter pwinclude = new PrintWriter(new FileWriter(inc, true));
 
             for (var root : roots) {
                 ArrayList<Path> paths = new ArrayList<>();
@@ -64,8 +83,8 @@ public class BackupToDrive {
                 for (File file : Objects.requireNonNull(new File(root).listFiles())) {
                     System.out.println(file);
 
-                    if (Arrays.stream(exclude).noneMatch(name -> name.equals(file.toString()))) {
-                        if (Arrays.stream(include).anyMatch(name -> name.equals(file.toString()))) {
+                    if (exclude.stream().noneMatch(name -> name.equals(file.toString()))) {
+                        if (include.stream().anyMatch(name -> name.equals(file.toString()))) {
                             paths.add(Paths.get(file.toURI()));
                         } else if (s.nextLine().equals("y")) {
                             paths.add(Paths.get(file.toURI()));
@@ -103,6 +122,13 @@ public class BackupToDrive {
         return pathsPerRoot;
     }
 
+    /**
+     * @param pathsPerRoot the result from {@link #pathsToVisit(String[], String, String)}}
+     *
+     * @return a LinkedHashMap with each root as a key and all of its valid sub-paths and if they're not a directory as a value
+     *
+     * @throws IOException from {@link #getFiles(Path)}
+     */
     private static LinkedHashMap<String, LinkedHashMap<Path, Boolean>> visitPaths(LinkedHashMap<String, ArrayList<Path>> pathsPerRoot) throws IOException {
         LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot = new LinkedHashMap<>(pathsPerRoot.size());
         ArrayList<String> failed = new ArrayList<>();
@@ -123,6 +149,11 @@ public class BackupToDrive {
         return filesPerRoot;
     }
 
+    /**
+     * @param filesPerRoot the result from {@link #visitPaths(LinkedHashMap)}}
+     *
+     * @throws IOException from {@link Files#deleteIfExists(Path)} or {@link Files#createFile(Path, FileAttribute[])}
+     */
     private static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot) throws IOException {
         Files.deleteIfExists(Paths.get(storeZipLocation));
 
@@ -152,8 +183,15 @@ public class BackupToDrive {
         }
     }
 
+    /**
+     * @param path path to file/directory tree to be walked
+     *
+     * @return an Object[] containing a LinkedHashMap of successful visits in index 0 and an ArrayList of failed visits in index 1
+     *
+     * @throws IOException from {@link Files#walkFileTree(Path, FileVisitor)}
+     */
     private static Object[] getFiles(Path path) throws IOException {
-        LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>(400000);
+        LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>();
         ArrayList<String> failed = new ArrayList<>();
 
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
@@ -178,7 +216,6 @@ public class BackupToDrive {
             }
         });
 
-        // System.out.println(all.size() + " " + failed.size());
         return new Object[]{all, failed};
     }
 

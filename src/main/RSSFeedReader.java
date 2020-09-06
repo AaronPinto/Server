@@ -22,12 +22,12 @@ public class RSSFeedReader {
     static void start(final String recipient, final String sender) {
         new Thread(() -> {
             try {
-                final String linksPath = "prevLinks.txt";
-                final PrintWriter pw = new PrintWriter(new FileWriter(linksPath, true));
+                final String titlesPath = "prevTitles.txt";
+                final PrintWriter pw = new PrintWriter(new FileWriter(titlesPath, true));
                 final Gmail gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(sender))
                         .setApplicationName(Server.APPLICATION_NAME).build();
                 final URL url = new URL("https://blogs.windows.com/feed/");
-                List<String> prevLinks = Files.readAllLines(Paths.get(linksPath), Charsets.UTF_8);
+                List<String> prevTitles = Files.readAllLines(Paths.get(titlesPath), Charsets.UTF_8);
 
                 while (true) {
                     try {
@@ -62,16 +62,16 @@ public class RSSFeedReader {
                             var categories = IntStream.range(0, temp.getLength()).mapToObj(temp::item).map(Node::getTextContent)
                                     .collect(Collectors.toList());
 
-                            if (categories.stream().anyMatch(s -> s.contains("Windows Insider Program")) && prevLinks.stream()
-                                    .noneMatch(s -> s.equals(link))) {
+                            if (categories.stream().anyMatch(s -> s.contains("Windows Insider Program")) && prevTitles.stream()
+                                    .noneMatch(s -> s.equals(title))) {
                                 System.out.println(title + " " + LocalDateTime.now());
 
                                 GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, sender, title, link));
 
-                                pw.println(link);
+                                pw.println(title);
                                 pw.flush();
 
-                                prevLinks = Files.readAllLines(Paths.get(linksPath), Charsets.UTF_8);
+                                prevTitles = Files.readAllLines(Paths.get(titlesPath), Charsets.UTF_8);
                             }
                         }
 

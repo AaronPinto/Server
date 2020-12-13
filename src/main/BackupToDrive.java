@@ -70,7 +70,7 @@ public class BackupToDrive {
         Scanner s = new Scanner(System.in);
         LinkedHashMap<String, ArrayList<Path>> pathsPerRoot = new LinkedHashMap<>(roots.length);
 
-        System.out.println("Input y or n to include the file/directory or not");
+        System.out.println("If prompted, input y or n to include the file/directory or not");
         if (exc != null && !exc.isBlank() && inc != null && !inc.isBlank()) {
             var exclude = Files.readAllLines(Paths.get(exc), Charsets.UTF_8);
             var include = Files.readAllLines(Paths.get(inc), Charsets.UTF_8);
@@ -81,16 +81,18 @@ public class BackupToDrive {
                 ArrayList<Path> paths = new ArrayList<>();
 
                 for (File file : Objects.requireNonNull(new File(root).listFiles())) {
-                    System.out.println(file);
-
                     if (exclude.stream().noneMatch(name -> name.equals(file.toString()))) {
                         if (include.stream().anyMatch(name -> name.equals(file.toString()))) {
                             paths.add(Paths.get(file.toURI()));
-                        } else if (s.nextLine().equals("y")) {
-                            paths.add(Paths.get(file.toURI()));
-                            pwinclude.println(file.toString());
                         } else {
-                            pwexclude.println(file.toString());
+                            System.out.print("\r" + file + " ");
+
+                            if (s.nextLine().equals("y")) {
+                                paths.add(Paths.get(file.toURI()));
+                                pwinclude.println(file.toString());
+                            } else {
+                                pwexclude.println(file.toString());
+                            }
                         }
                     }
                 }
@@ -137,6 +139,7 @@ public class BackupToDrive {
             LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>(100000);
 
             for (Path path : rootPaths.getValue()) {
+                // TODO: Replace this Object[] with a record in Java 14+
                 Object[] temp = getFiles(path);
                 all.putAll((LinkedHashMap<Path, Boolean>) temp[0]);
                 failed.addAll((ArrayList<String>) temp[1]);
@@ -174,8 +177,8 @@ public class BackupToDrive {
                             Files.copy(path, zs);
                             zs.closeEntry();
                         } catch (IOException e) {
-                            System.out.println(path);
-                            e.printStackTrace();
+                            System.err.println(path + " failed!");
+                            // e.printStackTrace();
                         }
                     }
                 }
@@ -256,10 +259,12 @@ public class BackupToDrive {
                     System.out.println("Initiation is complete!");
                     break;
                 case MEDIA_IN_PROGRESS:
-                    System.out.println("Progress: " + uploader.getProgress() * 100.0);
+                    // https://stackoverflow.com/a/7939820/6713362
+                    System.out.printf("Progress: %.5f%%\r", uploader.getProgress() * 100.0);
                     break;
                 case MEDIA_COMPLETE:
                     System.out.println("Upload is complete!");
+                    break;
             }
         }
     }

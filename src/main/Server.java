@@ -55,6 +55,7 @@ public class Server {
             isValidEmailAddress(args[0]);
             RSSFeedReader.start(args[0], args[1]);
             CLI.start();
+            DDNSClient.start(args[2], args[3], args[4]);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

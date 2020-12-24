@@ -18,7 +18,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+/**
+ * This class contains an RSS feed reader I created which sends me an email when there's a new Windows Insider build published
+ */
 public class RSSFeedReader {
+    private RSSFeedReader() {
+        // Prevent class from being instantiated
+    }
+
     static void start(final String recipient, final String sender) {
         new Thread(() -> {
             try {
@@ -64,7 +71,7 @@ public class RSSFeedReader {
 
                             if (categories.stream().anyMatch(s -> s.contains("Windows Insider Program")) && prevTitles.stream()
                                     .noneMatch(s -> s.equals(title))) {
-                                System.out.println(title + " " + LocalDateTime.now());
+                                System.out.println(LocalDateTime.now() + " " + title);
 
                                 GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, sender, title, link));
 

@@ -5,27 +5,8 @@ plugins {
 version '1.0'
 
 wrapper {
-    gradleVersion = '6.3'
+    gradleVersion = '6.8.3'
     distributionType = Wrapper.DistributionType.ALL
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs = ['src']
-        }
-        resources {
-            srcDirs = ['src']
-        }
-    }
-    test {
-        java {
-            srcDirs = ['test']
-        }
-        resources {
-            srcDirs = ['test']
-        }
-    }
 }
 
 java {
@@ -33,7 +14,16 @@ java {
     targetCompatibility = JavaVersion.VERSION_11
 }
 
+test {
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 repositories {
+    mavenCentral()
     jcenter()
 }
 
@@ -46,14 +36,16 @@ dependencies {
     implementation group: 'com.sun.activation', name: 'jakarta.activation', version: '1.2.2'
     implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '1.6.5'
     implementation group: 'org.json', name: 'json', version: '20200518'
-    testImplementation group: 'junit', name: 'junit', version: '4.13'
+
+    testImplementation(platform('org.junit:junit-bom:5.7.1'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
 }
 
 jar {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 
     manifest {
-        attributes 'Main-Class': 'main.Server'
+        attributes 'Main-Class': 'server.Server'
     }
     from {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }

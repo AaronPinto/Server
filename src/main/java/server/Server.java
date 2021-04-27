@@ -1,4 +1,4 @@
-package main;
+package server;
 
 import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Server {
-    public static final String APPLICATION_NAME = "My Server Utilities";
+    public static final String APPLICATION_NAME = "My server.Server Utilities";
     public static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     public static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials
     public static NetHttpTransport HTTP_TRANSPORT;
@@ -83,7 +83,7 @@ public class Server {
     public static Credential authorize(String user) throws IOException {
         // Load client secrets.
         GoogleClientSecrets clientSecrets = GoogleClientSecrets
-                .load(JSON_FACTORY, new InputStreamReader(Server.class.getResourceAsStream(CLIENT_SECRET_DIR)));
+                .load(JSON_FACTORY, new InputStreamReader(Objects.requireNonNull(Server.class.getResourceAsStream(CLIENT_SECRET_DIR))));
 
         // Build flow and trigger user authorization request.
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)

@@ -1,4 +1,4 @@
-package main.util;
+package server.util;
 
 import com.google.api.client.googleapis.batch.BatchRequest;
 import com.google.api.client.googleapis.batch.json.JsonBatchCallback;
@@ -7,7 +7,7 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
-import main.Server;
+import server.Server;
 
 import javax.mail.MessagingException;
 import java.io.IOException;
@@ -46,7 +46,7 @@ public class Spam {
         batchRunning = true;
         AtomicInteger j = new AtomicInteger(0);
 
-        System.out.println("Running batchspam...");
+        System.out.println("Running batch spam...");
 
         for (String name : Server.getUsernames()) {
             Thread t = new Thread(() -> {
@@ -165,7 +165,7 @@ public class Spam {
         slowRunning = true;
         AtomicInteger j = new AtomicInteger(0);
 
-        System.out.println("Running slowspam...");
+        System.out.println("Running slow spam...");
 
         for (String name : Server.getUsernames()) {
             Thread t = new Thread(() -> {

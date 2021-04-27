@@ -1,6 +1,6 @@
-package main;
+package server;
 
-import main.util.Spam;
+import server.util.Spam;
 
 import javax.mail.internet.AddressException;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package main;
+package server;
 
 import com.google.api.client.googleapis.media.MediaHttpUploader;
 import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
@@ -24,19 +24,23 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class BackupToDrive {
-    private static final String name = "aaron-" + LocalDate.now().toString() + ".zip";
+    private static final String name = "aaron-" + LocalDate.now() + ".zip";
     private static final String storeZipLocation = "D:/" + name;
+    private static final String[] roots = new String[]{System.getProperty("user.home"), "D:/"};
+
+    private BackupToDrive() {
+        // Prevent class from being instantiated
+    }
 
     public static void main(String[] args) throws IOException {
         if (args.length != 1) {
-            System.out.println("There should be an arg specifying the username of the Google Drive account to upload the file to");
-            System.exit(1);
+            System.err.println("There should be an arg specifying the username of the Google Drive account to upload the file to");
+            throw new IllegalArgumentException("Not enough arguments!");
         }
 
         double start = System.nanoTime();
 
-        compressAndArchive(visitPaths(pathsToVisit(new String[]{System.getProperty("user.home"), "D:/"}, "excludePaths.txt",
-                "includePaths.txt")));
+        compressAndArchive(visitPaths(pathsToVisit(roots, "excludePaths.txt", "includePaths.txt")));
 
         System.out.println((System.nanoTime() - start) / 60000000000.0 + " min");
         System.out.println("Starting upload to Google Drive");
@@ -66,7 +70,7 @@ public class BackupToDrive {
      *
      * @throws IOException from {@link Files#readAllLines(Path, Charset)} or {@link FileWriter#FileWriter(String, boolean)}
      */
-    private static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String[] roots, String exc, String inc) throws IOException {
+    public static LinkedHashMap<String, ArrayList<Path>> pathsToVisit(String[] roots, String exc, String inc) throws IOException {
         Scanner s = new Scanner(System.in);
         LinkedHashMap<String, ArrayList<Path>> pathsPerRoot = new LinkedHashMap<>(roots.length);
 
@@ -74,8 +78,8 @@ public class BackupToDrive {
         if (exc != null && !exc.isBlank() && inc != null && !inc.isBlank()) {
             var exclude = Files.readAllLines(Paths.get(exc), Charsets.UTF_8);
             var include = Files.readAllLines(Paths.get(inc), Charsets.UTF_8);
-            PrintWriter pwexclude = new PrintWriter(new FileWriter(exc, true));
-            PrintWriter pwinclude = new PrintWriter(new FileWriter(inc, true));
+            PrintWriter pw_exclude = new PrintWriter(new FileWriter(exc, true));
+            PrintWriter pw_include = new PrintWriter(new FileWriter(inc, true));
 
             for (var root : roots) {
                 ArrayList<Path> paths = new ArrayList<>();
@@ -89,9 +93,9 @@ public class BackupToDrive {
 
                             if (s.nextLine().equals("y")) {
                                 paths.add(Paths.get(file.toURI()));
-                                pwinclude.println(file.toString());
+                                pw_include.println(file);
                             } else {
-                                pwexclude.println(file.toString());
+                                pw_exclude.println(file.toString());
                             }
                         }
                     }
@@ -100,10 +104,10 @@ public class BackupToDrive {
                 pathsPerRoot.put(root, paths);
             }
 
-            pwexclude.flush();
-            pwexclude.close();
-            pwinclude.flush();
-            pwinclude.close();
+            pw_exclude.flush();
+            pw_exclude.close();
+            pw_include.flush();
+            pw_include.close();
         } else {
             for (var root : roots) {
                 ArrayList<Path> paths = new ArrayList<>();
@@ -139,10 +143,10 @@ public class BackupToDrive {
             LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>(100000);
 
             for (Path path : rootPaths.getValue()) {
-                // TODO: Replace this Object[] with a record in Java 14+
-                Object[] temp = getFiles(path);
-                all.putAll((LinkedHashMap<Path, Boolean>) temp[0]);
-                failed.addAll((ArrayList<String>) temp[1]);
+                // TODO: Replace this type with a record in Java 14+
+                var temp = getFiles(path);
+                all.putAll(temp.getAll());
+                failed.addAll(temp.getFailed());
             }
 
             filesPerRoot.put(rootPaths.getKey(), all);
@@ -160,22 +164,32 @@ public class BackupToDrive {
     private static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot) throws IOException {
         Files.deleteIfExists(Paths.get(storeZipLocation));
 
-        try (ZipOutputStream zs = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
-            zs.setLevel(Deflater.BEST_COMPRESSION);
-            ArrayList<String> prevDirs = new ArrayList<>(50);
+        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
+            zos.setLevel(Deflater.BEST_COMPRESSION);
+            String prevDir = "";
 
             for (var rootFiles : filesPerRoot.entrySet()) {
-                Path p = Paths.get(rootFiles.getKey());
+                Path root = Paths.get(rootFiles.getKey());
+                int rootLen = root.toString().length();
                 var all = rootFiles.getValue();
 
                 for (Path path : all.keySet()) {
-                    if (all.get(path) && checkPrevDirs(path, prevDirs)) {
-                        ZipEntry zipEntry = new ZipEntry(p.relativize(path).toString());
+                    if (all.get(path)) {
+                        String s = path.toString();
+
+                        if (prevDir.equals("") || !s.contains(prevDir)) {
+                            // Truncate path to 1 level below root excluding last slash
+                            int nextSlash = s.indexOf(File.separatorChar, rootLen + 1);
+                            prevDir = nextSlash > 0 ? s.substring(0, nextSlash) : s;
+                            System.out.println(prevDir);
+                        }
+
+                        ZipEntry zipEntry = new ZipEntry(root.relativize(path).toString());
 
                         try {
-                            zs.putNextEntry(zipEntry);
-                            Files.copy(path, zs);
-                            zs.closeEntry();
+                            zos.putNextEntry(zipEntry);
+                            Files.copy(path, zos);
+                            zos.closeEntry();
                         } catch (IOException e) {
                             System.err.println(path + " failed!");
                             // e.printStackTrace();
@@ -193,20 +207,19 @@ public class BackupToDrive {
      *
      * @throws IOException from {@link Files#walkFileTree(Path, FileVisitor)}
      */
-    private static Object[] getFiles(Path path) throws IOException {
-        LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>();
-        ArrayList<String> failed = new ArrayList<>();
+    private static FileVisitResults getFiles(Path path) throws IOException {
+        var fvr = new FileVisitResults();
 
         Files.walkFileTree(path, new SimpleFileVisitor<>() {
             @Override
             public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-                all.put(file, !Files.isDirectory(file));
+                fvr.all.put(file, !Files.isDirectory(file));
                 return FileVisitResult.CONTINUE;
             }
 
             @Override
             public FileVisitResult visitFileFailed(Path file, IOException exc) {
-                failed.add(file.toString());
+                fvr.failed.add(file.toString());
                 return FileVisitResult.CONTINUE;
             }
 
@@ -219,33 +232,20 @@ public class BackupToDrive {
             }
         });
 
-        return new Object[]{all, failed};
+        return fvr;
     }
 
-    private static boolean checkPrevDirs(Path p, ArrayList<String> prevDirs) {
-        String s = p.toString();
+    private static class FileVisitResults {
+        final LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>();
+        final ArrayList<String> failed = new ArrayList<>();
 
-        for (String f : prevDirs) {
-            if (s.contains(f)) {
-                return true;
-            }
+        public LinkedHashMap<Path, Boolean> getAll() {
+            return all;
         }
 
-        // Truncate path to 4 directories excluding last slash
-        int count = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            if (s.charAt(i) == '\\') {
-                count++;
-            }
-            if (count == 4) {
-                prevDirs.add(0, s = s.substring(0, i));
-                System.out.println(s);
-                break;
-            }
+        public ArrayList<String> getFailed() {
+            return failed;
         }
-
-        return true;
     }
 
     private static class ProgressListener implements MediaHttpUploaderProgressListener {

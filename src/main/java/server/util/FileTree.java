@@ -1,4 +1,4 @@
-package main.util;
+package server.util;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -1,12 +1,12 @@
-package main;
+package server;
 
 import com.google.api.services.gmail.Gmail;
 import com.google.common.base.Charsets;
-import main.util.GoogleMail;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import server.util.GoogleMail;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.*;

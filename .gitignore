@@ -1,5 +1,5 @@
 *.class
-src/*.json
+src/**/*.json
 *.jks
 *.p12
 *.properties
@@ -10,7 +10,6 @@ build/
 node_modules/
 out/
 src/A&W/
-src/Loncapa/
 target/
 
 # Package Files

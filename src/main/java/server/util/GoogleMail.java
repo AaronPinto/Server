@@ -1,4 +1,4 @@
-package main.util;
+package server.util;
 
 import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;

@@ -1,4 +1,4 @@
-package main;
+package server;
 
 import java.io.IOException;
 import java.net.URI;
@@ -9,8 +9,10 @@ import java.time.LocalDateTime;
 import java.util.Base64;
 
 /**
+ * @formatter:off
  * Dynamic DNS Client for my google domain
  * https://support.google.com/domains/answer/6147083
+ * @formatter:on
  */
 public class DDNSClient {
     private DDNSClient() {

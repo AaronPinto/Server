@@ -13,7 +13,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class GoogleMail {
+public final class GoogleMail {
     private GoogleMail() {
         // Prevent class from being instantiated
     }

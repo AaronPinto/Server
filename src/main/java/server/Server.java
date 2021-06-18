@@ -28,7 +28,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Server {
-    public static final String APPLICATION_NAME = "My server.Server Utilities";
+    public static final String APPLICATION_NAME = "My Server Utilities";
     public static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
     public static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials
     public static NetHttpTransport HTTP_TRANSPORT;
@@ -55,7 +55,10 @@ public class Server {
             isValidEmailAddress(args[0]);
             RSSFeedReader.start(args[0], args[1]);
             CLI.start();
-            DDNSClient.start(args[2], args[3], args[4]);
+            if (args.length == 5) {
+                System.out.println("Running DDNS Client...");
+                DDNSClient.start(args[2], args[3], args[4]);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

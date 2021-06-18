@@ -24,7 +24,6 @@ test {
 
 repositories {
     mavenCentral()
-    jcenter()
 }
 
 dependencies {
@@ -36,6 +35,9 @@ dependencies {
     implementation group: 'com.sun.activation', name: 'jakarta.activation', version: '1.2.2'
     implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '1.6.5'
     implementation group: 'org.json', name: 'json', version: '20200518'
+
+    compileOnly 'com.azure:azure-identity:1.2.5'
+    compileOnly 'com.microsoft.graph:microsoft-graph:3.2.0' // Changing to implementation make JAR not runnable for some reason
 
     testImplementation(platform('org.junit:junit-bom:5.7.1'))
     testImplementation('org.junit.jupiter:junit-jupiter')

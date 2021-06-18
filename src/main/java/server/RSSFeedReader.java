@@ -33,30 +33,44 @@ public class RSSFeedReader {
                 final PrintWriter pw = new PrintWriter(new FileWriter(titlesPath, true));
                 final Gmail gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(sender))
                         .setApplicationName(Server.APPLICATION_NAME).build();
-                final URL url = new URL("https://blogs.windows.com/feed/");
+                final URL[] urls = {new URL("https://blogs.windows.com/windows-insider/feed/"), new URL("https://blogs.windows.com/feed/")};
                 List<String> prevTitles = Files.readAllLines(Paths.get(titlesPath), Charsets.UTF_8);
 
                 while (true) {
                     try {
-                        var in = new BufferedReader(new InputStreamReader(url.openStream(), Charsets.UTF_8));
                         StringBuilder sb = new StringBuilder();
                         String line;
 
-                        outer:
-                        while ((line = in.readLine()) != null) {
-                            if (line.contains("<channel>")) {
-                                sb.append(line);
+                        // Read RSS feeds between channel tags and combine
+                        for (int i = 0; i < urls.length; i++) {
+                            var in = new BufferedReader(new InputStreamReader(urls[i].openStream(), Charsets.UTF_8));
 
-                                while ((line = in.readLine()) != null) {
-                                    sb.append(line);
+                            outer:
+                            while ((line = in.readLine()) != null) {
+                                if (line.contains("<channel>")) {
+                                    if (i == 0) {
+                                        sb.append(line);
+                                    }
 
-                                    if (line.contains("</channel>")) {
-                                        break outer;
+                                    while ((line = in.readLine()) != null) {
+                                        if (line.contains("</channel>")) {
+                                            break outer;
+                                        }
+
+                                        sb.append(line);
                                     }
                                 }
                             }
+
+                            // Add </channel> tag on last URL only
+                            if (i == urls.length - 1) {
+                                sb.append(line);
+                            }
+
+                            in.close();
                         }
 
+                        // Parse combined RSS feed
                         var docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                         var nList = docBuilder.parse(new InputSource(new StringReader(sb.toString()))).getElementsByTagName("item");
 
@@ -82,7 +96,6 @@ public class RSSFeedReader {
                             }
                         }
 
-                        in.close();
                         System.out.println(LocalDateTime.now());
                     } catch (Exception e) {
                         e.printStackTrace();

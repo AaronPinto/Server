@@ -2,7 +2,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import server.BackupToDrive;
+import server.BackupToGDrive;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -38,7 +38,7 @@ public class BackupTest {
     @Test
     @DisplayName("Test invalid args length")
     public void invalidArgsLen() {
-        var exception = assertThrows(IllegalArgumentException.class, () -> BackupToDrive.main(new String[0]));
+        var exception = assertThrows(IllegalArgumentException.class, () -> BackupToGDrive.main(new String[0]));
         assertEquals("Not enough arguments!", exception.getMessage());
     }
 

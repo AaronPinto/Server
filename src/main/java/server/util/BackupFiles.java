@@ -1,9 +1,5 @@
-package server;
+package server.util;
 
-import com.google.api.client.googleapis.media.MediaHttpUploader;
-import com.google.api.client.googleapis.media.MediaHttpUploaderProgressListener;
-import com.google.api.client.http.FileContent;
-import com.google.api.services.drive.Drive;
 import com.google.common.base.Charsets;
 
 import java.io.File;
@@ -14,7 +10,6 @@ import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileAttribute;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -23,42 +18,9 @@ import java.util.zip.Deflater;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-public class BackupToDrive {
-    private static final String name = "aaron-" + LocalDate.now() + ".zip";
-    private static final String storeZipLocation = "D:/" + name;
-    private static final String[] roots = new String[]{System.getProperty("user.home"), "D:/"};
-
-    private BackupToDrive() {
+public final class BackupFiles {
+    private BackupFiles() {
         // Prevent class from being instantiated
-    }
-
-    public static void main(String[] args) throws IOException {
-        if (args.length != 1) {
-            System.err.println("There should be an arg specifying the username of the Google Drive account to upload the file to");
-            throw new IllegalArgumentException("Not enough arguments!");
-        }
-
-        double start = System.nanoTime();
-
-        compressAndArchive(visitPaths(pathsToVisit(roots, "excludePaths.txt", "includePaths.txt")));
-
-        System.out.println((System.nanoTime() - start) / 60000000000.0 + " min");
-        System.out.println("Starting upload to Google Drive");
-
-        // Upload to Google Drive
-        String user = args[0];
-        Drive service = new Drive.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(user))
-                .setApplicationName(Server.APPLICATION_NAME).build();
-
-        var fileMetadata = new com.google.api.services.drive.model.File().setName(name);
-        File filePath = new File(storeZipLocation);
-        FileContent mediaContent = new FileContent("", filePath);
-
-        Drive.Files.Create request = service.files().create(fileMetadata, mediaContent).setFields("id");
-        request.getMediaHttpUploader().setProgressListener(new ProgressListener());
-        var file = request.execute();
-        System.out.println((System.nanoTime() - start) / 60000000000.0 + " min");
-        System.out.println("File ID: " + file.getId());
     }
 
     /**
@@ -91,7 +53,7 @@ public class BackupToDrive {
                         } else {
                             System.out.print("\r" + file + " ");
 
-                            if (s.nextLine().equals("y")) {
+                            if (s.nextLine().trim().toLowerCase().startsWith("y")) {
                                 paths.add(Paths.get(file.toURI()));
                                 pw_include.println(file);
                             } else {
@@ -135,7 +97,7 @@ public class BackupToDrive {
      *
      * @throws IOException from {@link #getFiles(Path)}
      */
-    private static LinkedHashMap<String, LinkedHashMap<Path, Boolean>> visitPaths(LinkedHashMap<String, ArrayList<Path>> pathsPerRoot) throws IOException {
+    public static LinkedHashMap<String, LinkedHashMap<Path, Boolean>> visitPaths(LinkedHashMap<String, ArrayList<Path>> pathsPerRoot) throws IOException {
         LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot = new LinkedHashMap<>(pathsPerRoot.size());
         ArrayList<String> failed = new ArrayList<>();
 
@@ -161,10 +123,10 @@ public class BackupToDrive {
      *
      * @throws IOException from {@link Files#deleteIfExists(Path)} or {@link Files#createFile(Path, FileAttribute[])}
      */
-    private static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot) throws IOException {
-        Files.deleteIfExists(Paths.get(storeZipLocation));
+    public static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot, String zipLoc) throws IOException {
+        Files.deleteIfExists(Paths.get(zipLoc));
 
-        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(storeZipLocation))))) {
+        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(zipLoc))))) {
             zos.setLevel(Deflater.BEST_COMPRESSION);
             String prevDir = "";
 
@@ -245,27 +207,6 @@ public class BackupToDrive {
 
         public ArrayList<String> getFailed() {
             return failed;
-        }
-    }
-
-    private static class ProgressListener implements MediaHttpUploaderProgressListener {
-        @Override
-        public void progressChanged(MediaHttpUploader uploader) throws IOException {
-            switch (uploader.getUploadState()) {
-                case INITIATION_STARTED:
-                    System.out.println("Initiation has started!");
-                    break;
-                case INITIATION_COMPLETE:
-                    System.out.println("Initiation is complete!");
-                    break;
-                case MEDIA_IN_PROGRESS:
-                    // https://stackoverflow.com/a/7939820/6713362
-                    System.out.printf("Progress: %.5f%%\r", uploader.getProgress() * 100.0);
-                    break;
-                case MEDIA_COMPLETE:
-                    System.out.println("Upload is complete!");
-                    break;
-            }
         }
     }
 }

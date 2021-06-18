@@ -3,7 +3,7 @@ package server.util;
 import java.io.File;
 import java.util.ArrayList;
 
-public class FileTree {
+public final class FileTree {
     private final File value;
     private final ArrayList<FileTree> children = new ArrayList<>();
 

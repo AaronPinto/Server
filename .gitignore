@@ -9,7 +9,7 @@ src/**/*.json
 build/
 node_modules/
 out/
-src/A&W/
+A&W/
 target/
 
 # Package Files

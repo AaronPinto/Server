@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Aaron's domain for experimenting with various web-development related things.">
     <title>Aaron's Domain</title>
     <style>
         @media (prefers-color-scheme: dark) {
@@ -9,11 +11,46 @@
                 background: black;
                 color: white;
             }
+
+            a:visited {
+                color: rgb(220, 0, 255);
+            }
+        }
+
+        h1 {
+            font: 400 27px/33px Segoe UI, system-ui, -apple-system, sans-serif;
+        }
+
+        p {
+            font: 400 14px/1.5555555556 Segoe UI, system-ui, -apple-system, sans-serif;
+        }
+
+        @media (min-width: 321px) {
+            h1 {
+                font-size: 36px;
+                line-height: 44px;
+            }
+
+            p {
+                font: 400 18px/1.7777777778 Segoe UI, system-ui, -apple-system, sans-serif;
+            }
+        }
+
+        @media (min-width: 865px) {
+            h1 {
+                font-size: 44px;
+                line-height: 52px;
+            }
         }
     </style>
 </head>
 <body>
-    <p>Hi, my name is Aaron and this is my domain.</p>
-    <p>It supports HTTP/2!</p>
+    <main>
+        <h1>Introduction</h1>
+        <p>Hi, my name is Aaron and this is my domain.</p>
+        <p>It supports HTTP/2!</p>
+        <p>I will get a proper HTTPS certificate, but for right now I'm using one I created using <a
+                href="https://nodejs.org/docs/latest-v14.x/api/http2.html#http2_server_side_example">this example from NodeJS</a>.</p>
+    </main>
 </body>
 </html>

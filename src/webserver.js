@@ -1,6 +1,19 @@
 const http = require("http");
+const http2 = require("http2");
+const {readFileSync} = require("fs");
 
-const server = http.createServer((req, res) => {
+http2.createSecureServer({
+    key: readFileSync("localhost-privkey.pem"),
+    cert: readFileSync("localhost-cert.pem")
+}, requestListener).listen(443, () => {
+    console.log(`${getLocalDateTime()} Server running on port 443`);
+});
+
+http.createServer(requestListener).listen(80, () => {
+    console.log(`${getLocalDateTime()} Server running on port 80`);
+});
+
+function requestListener(req, res) {
     const {httpVersion, method, socket, url} = req;
     const {remoteAddress} = socket;
 
@@ -10,15 +23,7 @@ const server = http.createServer((req, res) => {
 
     res.writeHead(301, {"Location": "https://aaronslab.xyz" + url});
     res.end();
-});
-
-server.listen(443, () => {
-    console.log(`${getLocalDateTime()} Server running on port 443`);
-});
-
-server.listen(80, () => {
-    console.log(`${getLocalDateTime()} Server running on port 80`);
-});
+}
 
 // https://stackoverflow.com/a/51643788/6713362
 function getLocalDateTime() {

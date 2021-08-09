@@ -7,6 +7,7 @@ http2.createSecureServer({
     cert: readFileSync("localhost-cert.pem")
 }, requestListener)
         .on("error", err => console.error(err))
+        .on("secureConnection", socket => socket.on("error", (err) => console.error(err)))
         .listen(443, () => console.log(`${getLocalDateTime()} Server running on port 443`));
 
 http.createServer(requestListener)

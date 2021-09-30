@@ -1,8 +1,10 @@
 **Privacy Policy**
 
-Aaron Pinto built the My Server Utlities app as an Open Source app FOR PERSONAL USE. This app is provided by Aaron Pinto at no cost and is intended for use as is.
+Aaron Pinto built the My Server Utlities app as an Open Source app FOR PERSONAL USE. This app is provided by Aaron Pinto at no cost and is
+intended for use as is.
 
-This page is used to inform Google regarding my policies with the collection, use, and disclosure of Personal Information so that I can get my app verified.
+This page is used to inform Google regarding my policies with the collection, use, and disclosure of Personal Information so that I can get
+my app verified.
 
 **Information Collection, Usage and Sharing**
 

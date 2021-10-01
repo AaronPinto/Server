@@ -5,13 +5,10 @@ const {readFileSync} = require("fs");
 http2.createSecureServer({
     key: readFileSync("localhost-privkey.pem"),
     cert: readFileSync("localhost-cert.pem")
-}, requestListener)
-        .on("error", err => console.error(err))
-        .on("secureConnection", socket => socket.on("error", (err) => console.error(err)))
+}, requestListener).on("error", err => console.error(err)).on("secureConnection", socket => socket.on("error", (err) => console.error(err)))
         .listen(443, () => console.log(`${getLocalDateTime()} Server running on port 443`));
 
-http.createServer(requestListener)
-        .on("error", err => console.error(err))
+http.createServer(requestListener).on("error", err => console.error(err))
         .listen(80, () => console.log(`${getLocalDateTime()} Server running on port 80`));
 
 function requestListener(req, res) {
@@ -22,7 +19,7 @@ function requestListener(req, res) {
         console.log(`${getLocalDateTime()} ${res.statusCode} Received ${method} request from ${remoteAddress} using HTTP ${httpVersion} for URL ${url}`);
     });
 
-    res.writeHead(301, {"Location": "https://aaronslab.xyz" + url});
+    res.writeHead(301, {"Location": "https://aaronslab.dev" + url});
     res.end();
 }
 

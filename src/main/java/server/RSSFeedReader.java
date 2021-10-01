@@ -44,8 +44,8 @@ public class RSSFeedReader {
     static void start(final String recipient, final String sender) throws IOException {
         RSSFeedReader.recipient = recipient;
         RSSFeedReader.sender = sender;
-        gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(sender)).setApplicationName(Server.APPLICATION_NAME)
-                .build();
+        gmail = new Gmail.Builder(Server.HTTP_TRANSPORT, Server.JSON_FACTORY, Server.authorize(sender))
+                .setApplicationName(Server.APPLICATION_NAME).build();
 
         // Create Windows Insider Build RSS Feed Reader
         new Thread(() -> {
@@ -82,7 +82,7 @@ public class RSSFeedReader {
         }).start();
     }
 
-    static void parseRSS(final URL[] urls, final String eventsPath, final String category) throws IOException, InterruptedException {
+    static void parseRSS(final URL[] urls, final String eventsPath, final String category) throws InterruptedException, IOException {
         final Gson gson = new Gson();
         List<RSSEventFilter> prevEvents;
         try (Reader reader = new FileReader(eventsPath)) {
@@ -138,8 +138,8 @@ public class RSSFeedReader {
                             .collect(Collectors.toList());
 
                     // Filter elements
-                    if (categories.stream().anyMatch(s -> s.contains(category)) && prevEvents.stream()
-                            .noneMatch(s -> s.pubDateEquals(pubDate) && s.titleEquals(title))) {
+                    if (categories.stream().anyMatch(s -> s.contains(category)) &&
+                            prevEvents.stream().noneMatch(s -> s.pubDateEquals(pubDate) && s.titleEquals(title))) {
                         System.out.println(LocalDateTime.now() + " " + title);
 
                         GoogleMail.sendMessage(gmail, "me", GoogleMail.createEmail(recipient, sender, title, link));
@@ -153,7 +153,7 @@ public class RSSFeedReader {
                 }
 
                 System.out.println(LocalDateTime.now());
-            } catch (MessagingException | ParserConfigurationException | SAXException e) {
+            } catch (MessagingException | ParserConfigurationException | SAXException | IOException e) {
                 e.printStackTrace();
             }
 

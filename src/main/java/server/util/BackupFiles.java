@@ -97,7 +97,8 @@ public final class BackupFiles {
      *
      * @throws IOException from {@link #getFiles(Path)}
      */
-    public static LinkedHashMap<String, LinkedHashMap<Path, Boolean>> visitPaths(LinkedHashMap<String, ArrayList<Path>> pathsPerRoot) throws IOException {
+    public static LinkedHashMap<String, LinkedHashMap<Path, Boolean>> visitPaths(
+            LinkedHashMap<String, ArrayList<Path>> pathsPerRoot) throws IOException {
         LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot = new LinkedHashMap<>(pathsPerRoot.size());
         ArrayList<String> failed = new ArrayList<>();
 
@@ -123,7 +124,8 @@ public final class BackupFiles {
      *
      * @throws IOException from {@link Files#deleteIfExists(Path)} or {@link Files#createFile(Path, FileAttribute[])}
      */
-    public static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot, String zipLoc) throws IOException {
+    public static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot,
+            String zipLoc) throws IOException {
         Files.deleteIfExists(Paths.get(zipLoc));
 
         try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(zipLoc))))) {

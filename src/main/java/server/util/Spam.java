@@ -83,8 +83,9 @@ public final class Spam {
                 while (!toEmail.equals("stop") && !slowRunning) {
                     try {
                         // Generate a random subject so Gmail doesn't group emails in the inbox
-                        allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "ignore@gmail.com", Long
-                                .toHexString(Double.doubleToLongBits(ThreadLocalRandom.current().nextDouble())), String.valueOf(local))));
+                        allMessages.add(GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "ignore@gmail.com",
+                                Long.toHexString(Double.doubleToLongBits(ThreadLocalRandom.current().nextDouble())),
+                                String.valueOf(local))));
                         local = j.getAndIncrement();
 
                         if (allMessages.size() >= 10) {
@@ -94,14 +95,14 @@ public final class Spam {
                                 }
 
                                 numReqSent += batch.size();
+                                double elapsedTime = (System.currentTimeMillis() - start) / 1000.0; // Seconds
 
                                 try {
-                                    long ts = (long) Math
-                                            .max(0, (numReqSent / reqPerSec - (System.currentTimeMillis() - start) / 1000.0) * 1000.0);
-                                    System.out.println("currReqPerSec: " + numReqSent / ((System
-                                            .currentTimeMillis() - start) / 1000.0) + " " + "sleepFor: " + ts);
+                                    long ts = (long) Math.max(0, (numReqSent / reqPerSec - elapsedTime) * 1000.0);
+                                    System.out.println("currReqPerSec: " + numReqSent / elapsedTime + " " + "sleepFor: " + ts);
                                     Thread.sleep(ts);
-                                    System.out.println("currReqPerSec: " + numReqSent / ((System.currentTimeMillis() - start) / 1000.0));
+                                    elapsedTime = (System.currentTimeMillis() - start) / 1000.0;
+                                    System.out.println("currReqPerSec: " + numReqSent / elapsedTime);
                                 } catch (InterruptedException ignored) {
                                 }
 
@@ -180,8 +181,9 @@ public final class Spam {
 
                 while (!toEmail.equals("stop") && !batchRunning) {
                     try {
-                        Message m = GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "ignore@gmail.com", Long
-                                .toHexString(Double.doubleToLongBits(ThreadLocalRandom.current().nextDouble())), String.valueOf(local)));
+                        Message m = GoogleMail.createMessageWithEmail(GoogleMail.createEmail(toEmail, "ignore@gmail.com",
+                                Long.toHexString(Double.doubleToLongBits(ThreadLocalRandom.current().nextDouble())),
+                                String.valueOf(local)));
                         local = j.getAndIncrement();
 
                         gmail.users().messages().send("me", m).execute();

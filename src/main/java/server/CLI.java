@@ -26,9 +26,9 @@ public class CLI {
                 switch (cmd[0]) {
                     case "batchspam": {
                         if (cmd.length != 2) {
-                            System.out
-                                    .println("Invalid number of arguments! There should be only one, specifying the email address to " +
-                                            "spam.\n\t batchspam example@gmail.com\n\t batchspam stop");
+                            System.out.println(
+                                    "Invalid number of arguments! There should be only one, specifying the email address to spam.\n\t " +
+                                            "batchspam example@gmail.com\n\t batchspam stop");
                             break;
                         }
 
@@ -49,9 +49,9 @@ public class CLI {
                     }
                     case "slowspam": {
                         if (cmd.length != 2) {
-                            System.out
-                                    .println("Invalid number of arguments! There should be only one, specifying the email address to " +
-                                            "spam.\n\t slowspam example@gmail.com\n\t slowspam stop");
+                            System.out.println(
+                                    "Invalid number of arguments! There should be only one, specifying the email address to spam.\n\t " +
+                                            "slowspam example@gmail.com\n\t slowspam stop");
                             break;
                         }
 
@@ -72,9 +72,9 @@ public class CLI {
                     }
                     case "adduser": {
                         if (cmd.length != 2) {
-                            System.out
-                                    .println("Invalid number of arguments! There should be only one, specifying the username of the " +
-                                            "email address to add.\n\t adduser example");
+                            System.out.println(
+                                    "Invalid number of arguments! There should be only one, specifying the username of the email address " +
+                                            "to add.\n\t adduser example");
                             break;
                         }
 
@@ -86,6 +86,7 @@ public class CLI {
 
                         break;
                     }
+                    case "help":
                     default: {
                         System.out.println("batchspam example@gmail.com\n\t batchspam stop");
                         System.out.println("slowspam example@gmail.com\n\t slowspam stop");

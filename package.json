@@ -7,7 +7,9 @@
         "test": "test"
     },
     "scripts": {
-        "build": "html-minifier -c html-minifier.conf --input-dir static --output-dir public --file-ext html",
+        "min_html": "npx html-minifier -c html-minifier.conf --input-dir static --output-dir public --file-ext html",
+        "min_css": "npx cleancss -o public -O2 --batch-suffix '' -b static/*.css",
+        "build": "npm run min_html && npm run min_css",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -20,7 +22,8 @@
         "url": "https://github.com/AaronPinto/Server/issues"
     },
     "homepage": "https://github.com/AaronPinto/Server#readme",
-    "dependencies": {
+    "devDependencies": {
+        "clean-css-cli": "^5.4.2",
         "html-minifier": "^4.0.0"
     }
 }

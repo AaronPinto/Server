@@ -17,9 +17,9 @@ import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Spam {
+    private static final ArrayList<Thread> mailThreads = new ArrayList<>();
     private static volatile String toEmail = "";
     private static volatile boolean batchRunning = false, slowRunning = false; // You can either batch spam or slow spam someone
-    private static final ArrayList<Thread> mailThreads = new ArrayList<>();
 
     private Spam() {
         // Prevent class from being instantiated

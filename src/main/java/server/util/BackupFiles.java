@@ -199,7 +199,7 @@ public final class BackupFiles {
         return fvr;
     }
 
-    private static class FileVisitResults {
+    private static final class FileVisitResults {
         final LinkedHashMap<Path, Boolean> all = new LinkedHashMap<>();
         final ArrayList<String> failed = new ArrayList<>();
 

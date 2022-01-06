@@ -13,8 +13,8 @@ import static server.util.BackupFiles.*;
 
 public class BackupToGDrive {
     private static final String name = "aaron-" + LocalDate.now() + ".zip";
-    private static final String storeZipLocation = "D:/" + name;
-    private static final String[] roots = new String[]{System.getProperty("user.home"), "D:/"};
+    private static final String storeZipLocation = "C:/Users/aaron/Documents" + name;
+    private static final String[] roots = new String[]{System.getProperty("user.home")};
 
     private BackupToGDrive() {
         // Prevent class from being instantiated
@@ -53,19 +53,11 @@ public class BackupToGDrive {
         @Override
         public void progressChanged(MediaHttpUploader uploader) throws IOException {
             switch (uploader.getUploadState()) {
-                case INITIATION_STARTED:
-                    System.out.println("Initiation has started!");
-                    break;
-                case INITIATION_COMPLETE:
-                    System.out.println("Initiation is complete!");
-                    break;
-                case MEDIA_IN_PROGRESS:
-                    // https://stackoverflow.com/a/7939820/6713362
-                    System.out.printf("Progress: %.5f%%\r", uploader.getProgress() * 100.0);
-                    break;
-                case MEDIA_COMPLETE:
-                    System.out.println("Upload is complete!");
-                    break;
+                case INITIATION_STARTED -> System.out.println("Initiation has started!");
+                case INITIATION_COMPLETE -> System.out.println("Initiation is complete!");
+                // https://stackoverflow.com/a/7939820/6713362
+                case MEDIA_IN_PROGRESS -> System.out.printf("Progress: %.5f%%\r", uploader.getProgress() * 100.0);
+                case MEDIA_COMPLETE -> System.out.println("Upload is complete!");
             }
         }
     }

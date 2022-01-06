@@ -24,7 +24,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /**
@@ -134,8 +133,7 @@ public class RSSFeedReader {
                     String link = element.getElementsByTagName("link").item(0).getTextContent();
                     String pubDate = element.getElementsByTagName("pubDate").item(0).getTextContent();
                     NodeList temp = element.getElementsByTagName("category");
-                    var categories = IntStream.range(0, temp.getLength()).mapToObj(temp::item).map(Node::getTextContent)
-                            .collect(Collectors.toList());
+                    var categories = IntStream.range(0, temp.getLength()).mapToObj(temp::item).map(Node::getTextContent).toList();
 
                     // Filter elements
                     if (categories.stream().anyMatch(s -> s.contains(category)) &&
@@ -161,15 +159,7 @@ public class RSSFeedReader {
         }
     }
 
-    static class RSSEventFilter implements Serializable {
-        private final String title;
-        private final String pubDate;
-
-        RSSEventFilter(String title, String pubDate) {
-            this.title = title;
-            this.pubDate = pubDate;
-        }
-
+    record RSSEventFilter(String title, String pubDate) implements Serializable {
         boolean titleEquals(String t) {
             return title.equals(t);
         }

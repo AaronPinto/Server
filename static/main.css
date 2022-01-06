@@ -9,14 +9,6 @@
     }
 }
 
-h1 {
-    font: 400 27px/33px Segoe UI, system-ui, -apple-system, sans-serif
-}
-
-p {
-    font: 400 14px/1.5555555556 Segoe UI, system-ui, -apple-system, sans-serif
-}
-
 @media (min-width: 321px) {
     h1 {
         font-size: 36px;
@@ -35,7 +27,4 @@ p {
     }
 }
 
-img {
-    max-width: 100%;
-    height: auto;
-}
+

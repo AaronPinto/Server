@@ -17,3 +17,6 @@ target/
 *.war
 *.ear
 *.zip
+
+public/*.html
+public/*.css

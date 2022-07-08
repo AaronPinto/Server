@@ -3,6 +3,6 @@ body {
     color: #fff
 }
 
-a:visited {
-    color: #dc00ff
+a:link, a:visited {
+    color: #fff
 }

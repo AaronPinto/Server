@@ -3,6 +3,6 @@ h1 {
     line-height: 44px
 }
 
-p {
+p, a {
     font: 400 18px/1.7777777778 Segoe UI, system-ui, -apple-system, sans-serif
 }

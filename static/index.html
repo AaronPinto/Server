@@ -22,12 +22,25 @@
             font: 400 14px/1.5555555556 Segoe UI, system-ui, -apple-system, sans-serif
         }
 
+        #evga_images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(auto, 395px));
+            gap: 10px;
+        }
+
         img {
             max-width: 100%;
             height: auto;
         }
+
+        .contains_img {
+            display: inline-block;
+        }
     </style>
     <link rel="stylesheet" href="/main.css">
+    <link href="/dark.css" media="(prefers-color-scheme: dark)" rel="stylesheet">
+    <link href="/min_width_321.css" media="(min-width: 321px)" rel="stylesheet">
+    <link href="/min_width_865.css" media="(min-width: 865px)" rel="stylesheet">
     <title>Aaron's Lab</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <!--    <script>-->
@@ -43,22 +56,33 @@
     <!--    <script async src="https://www.googletagmanager.com/gtag/js?id=G-H6LJ1S89V0"></script>-->
 </head>
 <body>
+    <header>
+        <a class="title" href="/">
+            <h1>Aaron's Lab</h1>
+        </a>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/iuse.html">I Use</a>
+            <a href="/qna.html">Some SW ENG Q&A</a>
+        </nav>
+    </header>
     <main>
-        <h1>Aaron's Lab</h1>
-        <p>Hi, my name is Aaron and this is my domain.</p>
+        <p>Hi, my name is Aaron Pinto and this is my website.</p>
 
-        <a href="https://www.evga.com/associates/default.aspx?associatecode=O8Z0DDYSNDRFYR5">
-            <img width="395" height="86" src="/associates.webp" alt="My EVGA Associates General Code">
-        </a>
+        <div id="evga_images">
+            <a class="contains_img" href="https://www.evga.com/associates/default.aspx?associatecode=O8Z0DDYSNDRFYR5">
+                <img alt="My EVGA Associates General Code" height="86" src="/associates.webp" width="395">
+            </a>
 
-        <!--TODO: Change this href to the peripherals link if it works again-->
-        <a href="https://www.evga.com/associates/default.aspx?associatecode=O8Z0DDYSNDRFYR5">
-            <img width="395" height="86" src="/peripherals.webp" alt="My EVGA Associates Peripherals Code">
-        </a>
+            <!--TODO: Change this href to the peripherals link if it works again-->
+            <a class="contains_img" href="https://www.evga.com/associates/default.aspx?associatecode=O8Z0DDYSNDRFYR5">
+                <img alt="My EVGA Associates Peripherals Code" height="86" src="/peripherals.webp" width="395">
+            </a>
 
-        <a href="https://www.evga.com/register/default.asp?affiliatecode=K74NG8183J">
-            <img width="395" height="86" src="/rewards.webp" alt="My EVGA Rewards Code">
-        </a>
+            <a class="contains_img" href="https://www.evga.com/register/default.asp?affiliatecode=K74NG8183J">
+                <img alt="My EVGA Rewards Code" height="86" src="/rewards.webp" width="395">
+            </a>
+        </div>
     </main>
 </body>
 </html>

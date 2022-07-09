@@ -8,6 +8,11 @@ body {
     max-width: 1205px;
     padding: 10px;
     min-width: 340px;
+    scrollbar-width: none;
+}
+
+body::-webkit-scrollbar {
+    display: none;
 }
 
 header {

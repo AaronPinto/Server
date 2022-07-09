@@ -6,7 +6,7 @@ body {
 }
 
 header {
-    margin: 40px 0 60px 0;
+    margin: 25px 0 50px;
 }
 
 nav {
@@ -14,4 +14,5 @@ nav {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px 30px;
+    padding: 15px 0 0;
 }

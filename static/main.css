@@ -9,6 +9,10 @@ header {
     margin: 25px 0 50px;
 }
 
+.title {
+    display: inline-block;
+}
+
 nav {
     display: flex;
     flex-direction: row;

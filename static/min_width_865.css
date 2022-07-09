@@ -1,8 +1,10 @@
-h1 {
-    font-size: 44px;
-    line-height: 52px
-}
+@media (min-width: 865px) {
+    h1 {
+        font-size: 44px;
+        line-height: 52px
+    }
 
-h3 {
-    font: 600 30px/30px Segoe UI, system-ui, -apple-system, sans-serif
+    h3 {
+        font: 600 30px/30px Segoe UI, system-ui, -apple-system, sans-serif
+    }
 }

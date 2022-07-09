@@ -5,6 +5,10 @@ body {
     min-width: 340px;
 }
 
+a:visited, a:link {
+    color: #000;
+}
+
 header {
     margin: 25px 0 50px;
 }

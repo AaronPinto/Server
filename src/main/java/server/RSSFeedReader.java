@@ -1,9 +1,9 @@
 package server;
 
+import com.google.api.client.util.Charsets;
 import com.google.api.services.gmail.Gmail;
-import com.google.common.base.Charsets;
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;

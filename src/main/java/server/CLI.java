@@ -25,10 +25,10 @@ public class CLI {
 
                 switch (cmd[0]) {
                     case "batchspam" -> {
-                        if (cmd.length != 2) {
+                        if (cmd.length != 2 && cmd.length != 3) {
                             System.out.println("""
-                                               Invalid number of arguments! There should be only one, specifying the email address to spam.
-                                               \t batchspam example@gmail.com
+                                               Invalid number of arguments! There should be one specifying the email address to spam, and an optional one to suppress stack traces.
+                                               \t batchspam example@gmail.com [--quiet]
                                                \t batchspam stop""");
                             break;
                         }
@@ -41,16 +41,16 @@ public class CLI {
                         }
 
                         try {
-                            Spam.batchSpam(cmd[1]);
+                            Spam.batchSpam(cmd[1], cmd.length == 3);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }
                     case "slowspam" -> {
-                        if (cmd.length != 2) {
+                        if (cmd.length != 2 && cmd.length != 3) {
                             System.out.println("""
-                                               Invalid number of arguments! There should be only one, specifying the email address to spam.
-                                               \t slowspam example@gmail.com
+                                               Invalid number of arguments! There should be one specifying the email address to spam, and an optional one to suppress stack traces.
+                                               \t slowspam example@gmail.com [--quiet]
                                                \t slowspam stop""");
                             break;
                         }
@@ -63,7 +63,7 @@ public class CLI {
                         }
 
                         try {
-                            Spam.slowSpam(cmd[1]);
+                            Spam.slowSpam(cmd[1], cmd.length == 3);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

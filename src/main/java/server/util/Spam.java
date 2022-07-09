@@ -25,7 +25,7 @@ public final class Spam {
         // Prevent class from being instantiated
     }
 
-    public static void batchSpam(String email) throws IOException, SecurityException, NullPointerException {
+    public static void batchSpam(String email, boolean quiet) throws IOException, SecurityException, NullPointerException {
         toEmail = email;
 
         if (toEmail.equals("stop")) {
@@ -135,7 +135,7 @@ public final class Spam {
                         delay = 500.0;
                         // System.out.println(local);
                     } catch (MessagingException | IOException e) {
-                        delay = handleBackoff(e, delay);
+                        delay = handleBackoff(e, delay, quiet);
                     }
                 }
             });
@@ -145,7 +145,7 @@ public final class Spam {
         }
     }
 
-    public static void slowSpam(String email) throws IOException, SecurityException, NullPointerException {
+    public static void slowSpam(String email, boolean quiet) throws IOException, SecurityException, NullPointerException {
         toEmail = email;
 
         if (toEmail.equals("stop")) {
@@ -191,7 +191,7 @@ public final class Spam {
                         delay = 500.0;
                         // System.out.println(local);
                     } catch (MessagingException | IOException e) {
-                        delay = handleBackoff(e, delay);
+                        delay = handleBackoff(e, delay, quiet);
                     }
                 }
             });
@@ -230,7 +230,7 @@ public final class Spam {
         return gmail;
     }
 
-    private static double handleBackoff(Exception e, double delay) {
+    private static double handleBackoff(Exception e, double delay, boolean quiet) {
         if (e instanceof GoogleJsonResponseException) {
             int code = ((GoogleJsonResponseException) e).getDetails().getCode();
             System.out.println("Error: " + code + " " + ((GoogleJsonResponseException) e).getDetails().getMessage());
@@ -241,11 +241,15 @@ public final class Spam {
                     Thread.sleep((long) (Math.min(delay, 20000.0) + ThreadLocalRandom.current().nextDouble() * 500));
                     delay *= 2.0;
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    if (!quiet) {
+                        e1.printStackTrace();
+                    }
                 }
             }
         } else {
-            e.printStackTrace();
+            if (!quiet) {
+                e.printStackTrace();
+            }
         }
 
         return delay;

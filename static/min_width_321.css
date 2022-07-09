@@ -1,0 +1,16 @@
+h1 {
+    font-size: 36px;
+    line-height: 44px
+}
+
+h2 {
+    font: 600 24px/24px Segoe UI, system-ui, -apple-system, sans-serif
+}
+
+h3 {
+    font: 600 20px/20px Segoe UI, system-ui, -apple-system, sans-serif
+}
+
+p, a, li {
+    font: 400 16px/1.7777777778 Segoe UI, system-ui, -apple-system, sans-serif
+}

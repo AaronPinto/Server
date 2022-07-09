@@ -1,30 +1,81 @@
-@media (prefers-color-scheme: dark) {
-    body {
-        background: #000;
-        color: #fff
-    }
-
-    a:visited {
-        color: #dc00ff
-    }
+* {
+    margin: 0;
+    padding: 0
 }
 
-@media (min-width: 321px) {
-    h1 {
-        font-size: 36px;
-        line-height: 44px
-    }
-
-    p {
-        font: 400 18px/1.7777777778 Segoe UI, system-ui, -apple-system, sans-serif
-    }
+body {
+    margin: auto;
+    max-width: 1205px;
+    padding: 10px;
+    min-width: 340px;
+    scrollbar-width: none;
 }
 
-@media (min-width: 865px) {
-    h1 {
-        font-size: 44px;
-        line-height: 52px
-    }
+body::-webkit-scrollbar {
+    display: none;
 }
 
+header {
+    margin: 25px 0 50px;
+}
 
+p, a, li {
+    font: 400 14px/1.5555555556 Segoe UI, system-ui, -apple-system, sans-serif;
+}
+
+h1 {
+    font: bold 27px/33px Segoe UI, system-ui, -apple-system, sans-serif;
+}
+
+a:visited, a:link {
+    color: #000;
+}
+
+.title {
+    display: inline-block;
+}
+
+nav {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px 30px;
+    padding: 15px 0 0;
+}
+
+#evga_images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(auto, 395px));
+    gap: 10px;
+    padding: 60px 0 0;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.contains_img {
+    display: inline-block;
+}
+
+ul, li {
+    margin: revert;
+    padding: revert
+}
+
+h2 {
+    font: 600 18px/18px Segoe UI, system-ui, -apple-system, sans-serif
+}
+
+h3 {
+    font: 600 16px/16px Segoe UI, system-ui, -apple-system, sans-serif
+}
+
+.date_h2 {
+    padding: 25px 0 0
+}
+
+#use_list {
+    padding: 16px 0 0
+}

@@ -1,0 +1,980 @@
+<?xml version="1.0" encoding="UTF-8"?><rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	>
+
+<channel>
+	<title>Windows Insider Blog</title>
+	<atom:link href="https://blogs.windows.com/windows-insider/feed/" rel="self" type="application/rss+xml" />
+	<link>https://blogs.windows.com/windows-insider</link>
+	<description></description>
+	<lastBuildDate>Wed, 24 Aug 2022 20:00:33 +0000</lastBuildDate>
+	<language>en-US</language>
+	<sy:updatePeriod>
+	hourly	</sy:updatePeriod>
+	<sy:updateFrequency>
+	1	</sy:updateFrequency>
+	<generator>https://wordpress.org/?v=5.9.3</generator>
+
+<image>
+	<url>https://blogs.windows.com/wp-content/uploads/prod/sites/44/2021/06/cropped-browser-icon-logo-32x32.jpg</url>
+	<title>Windows Insider Blog</title>
+	<link>https://blogs.windows.com/windows-insider</link>
+	<width>32</width>
+	<height>32</height>
+</image> 
+	<item>
+		<title>Announcing Windows 11 Insider Preview Build 25188</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/24/announcing-windows-11-insider-preview-build-25188/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Wed, 24 Aug 2022 17:03:44 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175821</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 25188 </strong>to the Dev Channel.</p>
+<h2><strong>TL;DR</strong></h2>
+<ul>
+<li>We are trying out a new touch keyboard setting in this build and Windows Terminal is<br />
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/24/announcing-windows-11-insider-preview-build-25188/">Announcing Windows 11 Insider Preview Build 25188</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 25188 </strong>to the Dev Channel.
+<h2><strong>TL;DR</strong></h2>
+<ul>
+ 	<li>We are trying out a new touch keyboard setting in this build and Windows Terminal is now the default terminal.</li>
+ 	<li>This build includes a good set of fixes to improve the overall experience for Windows Insiders.</li>
+ 	<li>We’re also releasing another Microsoft Store update starting with Windows Insiders in the Dev Channel – details below.</li>
+ 	<li>We have added a new known issue for this build where apps that rely on the .NET Framework 3.5 may be broken. If you have apps installed that use the .NET Framework 3.5 and need them to work, you may want to pause flighting and hold off updating to this build.</li>
+</ul>
+<h2><strong>What’s new</strong></h2>
+<h3><strong>Updated Touch Keyboard Settings</strong></h3>
+We are trying out a new touch keyboard setting that replaces the “Show the touch keyboard when there’s no keyboard attached” checkbox under <strong>Settings &gt; Time &amp; language &gt; Typing &gt; Touch keyboard</strong> with a new dropdown menu with 3 options to control whether tapping an edit control should launch the touch keyboard:
+<ul>
+ 	<li>"Never" suppresses the touch keyboard even when no hardware keyboard is attached.</li>
+ 	<li>"When no keyboard attached" will show the touch keyboard only when the device is used as a tablet without the hardware keyboard.</li>
+ 	<li>"Always" will show the touch keyboard even when the hardware keyboard is attached.</li>
+</ul>
+[caption id="attachment_175823" align="alignnone" width="1024"]<a href="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/touch-keyboard-new-settings.png"><img class="size-large wp-image-175823" src="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/touch-keyboard-new-settings-1024x691.png" alt="New touch keyboard settings." width="1024" height="691" /></a> New touch keyboard settings.[/caption]
+
+<em>[We are beginning to roll this out, so the experience isn’t available to all Insiders just yet as we plan to monitor feedback and see how it lands before pushing it out to everyone.]</em>
+
+<strong>FEEDBACK: Please file feedback in Feedback Hub (WIN + F) under Input and Language &gt; Touch keyboard.</strong>
+<h2><strong>Changes and Improvements</strong></h2>
+<h3><strong>[Windows Terminal]</strong></h3>
+<ul>
+ 	<li>Windows Terminal is now the default terminal in Windows 11. This means, all command line applications will open in Windows Terminal automatically (Command Prompt and PowerShell, for example). The setting for this change can be found via <strong>Settings &gt; Privacy &amp; security &gt; For developers</strong>. Please note that Windows Terminal <a href="https://devblogs.microsoft.com/commandline/windows-terminal-preview-1-15-release/">version 1.15</a> or greater is required for this feature.</li>
+</ul>
+<h3><strong>[Settings]</strong></h3>
+<ul>
+ 	<li>Updated the Wi-Fi and VPN properties pages in Settings to now include a link to advanced properties for that network.</li>
+</ul>
+<h2><strong>Fixes</strong></h2>
+<h3><strong>[Taskbar] </strong></h3>
+<ul>
+ 	<li>Fixed an issue related to the taskbar overflow which was impacting explorer.exe reliability.</li>
+</ul>
+<h3><strong>[Start]</strong></h3>
+<ul>
+ 	<li>Fixed an issue that was causing Start's recommended to only show one column instead of two.</li>
+ 	<li>Made a fix for Narrator mistakenly reading out the search box in Start twice.</li>
+ 	<li>Fixed an issue where the access keys (underlined letters) in WIN + X had duplicate definitions when an update was pending reboot.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Fixed an issue causing a small percentage of Insiders to experience repeated explorer.exe crashes after attempting to access certain folders on their systems in the last couple Dev Channel builds.</li>
+ 	<li>Fixed a recent issue where if File Explorer was open when you switched between light and dark mode, you could end up with some unreadable text / UI showing the wrong color.</li>
+ 	<li>Fixed an issue that was causing explorer.exe to crash when opening folders with certain images.</li>
+ 	<li>The up arrow should no longer be misaligned in File Explorer.</li>
+ 	<li>Fixed an issue which could lead to not being able to unpin Desktop, Pictures, or Documents folders from Quick access.</li>
+ 	<li>Fixed an underlying explorer.exe crash which could happen when File Explorer launch was aborted, for example if you were attempting to access a network share from the Run dialog, were prompted for credentials, and then clicked cancel instead of entering them.</li>
+ 	<li>If the tab title is too long to display completely in the available space, hovering your mouse over it will now show a tooltip with the full name.</li>
+ 	<li>Fixed an issue which could lead to explorer.exe crashing when File Explorer was closed.</li>
+ 	<li>Fixed an issue causing the delete key to unexpectedly not work on files in File Explorer sometimes.</li>
+ 	<li>Removed the toolbar some people were unexpectedly seeing (with View / Edit / etc) after the introduction of tabs in File Explorer. As part of this, the “always show menus” option in Folder Options was also removed which didn’t do anything.</li>
+</ul>
+<h3><strong>[Search]</strong></h3>
+<ul>
+ 	<li>Fixed an underlying crash which could lead to search not launching.</li>
+ 	<li>Searching for “detect displays” will now return Display Settings.</li>
+</ul>
+<h3><strong>[Input] </strong></h3>
+<ul>
+ 	<li>Made a number of updates to emoji keywords based on feedback, including fixing that searching for apple didn’t return the red apple emoji in Korean or Polish (in the respective languages), searching for trash or garbage in English should now return the wastebasket emoji, searching for roger in English should now return the saluting face emoji, and searching for bug will now return the ladybug emoji. Please continue sharing feedback about emoji search results under Input &amp; Language &gt; Emoji Panel in the Feedback Hub!</li>
+</ul>
+<h3><strong>[Settings]</strong></h3>
+<ul>
+ 	<li>Fixed an issue where in certain cases removing a printer from Settings wouldn’t work.</li>
+ 	<li>Fixed an issue where the DNS suffix search list entry wasn’t displaying correctly in Settings.</li>
+ 	<li>Fixed an issue where the buttons for changing current view in Settings &gt; Apps &gt; Installed apps might unexpectedly show arrows overlaid on top.</li>
+</ul>
+<h3><strong>[Task Manager]</strong></h3>
+<ul>
+ 	<li>Updated the positioning of the View button tooltip position so it shouldn’t block the close button in the title bar anymore.</li>
+ 	<li>The arrow shown when sorting processes by CPU should no longer be black on black in certain cases when using dark mode.</li>
+ 	<li>Updated the selection highlight color when you select rows on the Details or Services page to be less bright and more aligned with the other colors used with the updated Task Manager design.</li>
+</ul>
+<h3><strong>[Other]</strong></h3>
+<ul>
+ 	<li>Fixed an issue leading to missing / broken characters on the Bitlocker screen when using the Japanese display language.</li>
+ 	<li>Fixed an issue where the Advanced Settings of an application pool on a remote IIS server would display a blank screen.</li>
+ 	<li>Fixed an issue where Steps Recorder wouldn’t close when you pressed ALT + F4.</li>
+</ul>
+<em>NOTE: Some fixes noted here in Insider Preview builds from the Dev Channel may make their way into the servicing updates for the released version of Windows 11.</em>
+<h2><strong>Known issues</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>Some games that use Easy Anti-Cheat may crash or cause your PC to bugcheck.</li>
+ 	<li>We’re looking into reports that audio stopped working for some Insiders after upgrading to the last flight.</li>
+ 	<li>We’re investigating reports of a few different apps having started crashing in recent builds.</li>
+ 	<li>[<strong>NEW</strong>] Enabling .NET Framework 3.5 from the Windows Features dialog will not work in this build. If you had it enabled prior to upgrading, it may become disabled. This will potentially lead to issues with apps that rely on these components. We’re working on a fix.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>We’re working on the fix for an issue where the search box background in File Explorer might be the opposite color of your current mode.</li>
+ 	<li>We’re working on the fix for an issue where the taskbar isn’t able to display if File Explorer is maximized and you have the taskbar set to auto-hide.</li>
+ 	<li>[<strong>NEW</strong>] A fix for File Explorer appearing to open and close before finally finishing drawing when launched from certain locations will be available in a future flight.</li>
+</ul>
+<h3><strong>[Widgets]</strong></h3>
+<ul>
+ 	<li>Notification badge number may appear misaligned on the taskbar.</li>
+ 	<li>In some cases, the notification banner for some badging will not appear in the widgets board.</li>
+</ul>
+<h3><strong>[Printing]</strong></h3>
+<ul>
+ 	<li>We’re working on the fix for an issue in recent Dev Channel flights causing lines to not be included when printing tables from certain apps.</li>
+</ul>
+<h2><strong>For developers</strong></h2>
+You can download the latest Windows Insider SDK at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a>.
+
+SDK NuGet packages are now also flighting at <a href="https://www.nuget.org/profiles/WindowsSDK">NuGet Gallery | WindowsSDK</a> which include:
+<ul>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref/">.NET TFM packages</a> for use in .NET apps as described at <a href="https://aka.ms/windowsinsidersdk">ms/windowsinsidersdk</a></li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.CPP/">C++ packages</a> for Win32 headers and libs per architecture</li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.BuildTools/">BuildTools package</a> when you just need tools like MakeAppx.exe, MakePri.exe, and SignTool.exe</li>
+</ul>
+These NuGet packages provide more granular access to the SDK and better integrate in CI/CD pipelines.
+<h2><strong>Microsoft Store Update</strong></h2>
+We are beginning to test <a href="https://blogs.windows.com/windowsdeveloper/2022/05/24/microsoft-store-grows-with-the-developer-community/">Microsoft Store Ads</a> in search results. Developers interested in participating can sign up on the waitlist <a href="https://nam06.safelinks.protection.outlook.com/?url=https%3A%2F%2Fforms.office.com%2FPages%2FResponsePage.aspx%3Fid%3Dv4j5cvGGr0GRqy180BHbR0qhf-gSatdCgmqCvPskx_NUQktMM1lQSU5UOUVQWDdIRUhDUjc4UDlOSS4u&amp;data=05%7C01%7Cnmallikarjun%40microsoft.com%7C30254a5dd0a747e534b708da8565eec1%7C72f988bf86f141af91ab2d7cd011db47%7C1%7C0%7C637968970123537245%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp;sdata=%2Blc9QKok0C55HCOWCKcTiuetHyNPlu0rkRxoW9mjj5o%3D&amp;reserved=0">here</a>.
+<h2><strong>About the Dev Channel</strong></h2>
+The Dev Channel receives builds that represent long lead work from our engineers <strong>with features and experiences that may never get released</strong> as we try out different concepts and get feedback. It is important to remember that the builds we release to the Dev Channel should not be seen as matched to any specific release of Windows and the features included may change over time, be removed, or replaced in Insider builds or may never be released beyond Windows Insiders to general customers. For more information, <a href="https://blogs.windows.com/windows-insider/2022/02/03/whats-coming-for-the-windows-insider-program-in-2022/">please read this blog post</a> about how we plan to use the Dev Channel to incubate new ideas, work on long lead items, and control the states of individual features.
+
+These aren’t always stable builds, and sometimes you will see issues that block key activities or require workarounds. <strong>It is important to make sure you read the known issues listed in our blog posts as we document many of these issues with each flight.</strong>
+
+Build numbers are higher in the Dev Channel than the Windows 11 preview builds in the Beta and Release Preview Channels. You will not be able to switch from the Dev Channel to the Beta or Release Preview Channels without doing a clean install back to the released version of Windows 11 currently.
+
+ALSO: Because the Dev and Beta Channels represent parallel development paths from our engineers, there may be cases where features and experiences show up in the Beta Channel first.
+
+<strong>The desktop watermark you see at the lower right corner of your desktop is normal for these pre-release builds.</strong>
+<h2><strong>Important Insider Links</strong></h2>
+<ul>
+ 	<li>Want to learn how we made Windows 11? Check out our <a href="https://insider.windows.com/insidewindows11"><strong>Inside Windows 11 website</strong></a> to hear and meet our makers from Engineering, Design and Research to share their insights and unique perspectives throughout this journey.</li>
+ 	<li>You can <a href="https://aka.ms/wip-docs"><strong>check out our Windows Insider Program documentation here</strong></a>.</li>
+ 	<li>Check out <a href="https://aka.ms/flighthub"><strong>Flight Hub</strong></a> for a complete look at what build is in which Insider channel.</li>
+</ul>
+Thanks,
+Amanda &amp; Brandon]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Announcing Windows 11 Insider Preview Build 22621.586 and 22622.586</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/24/announcing-windows-11-insider-preview-build-22621-586-and-22622-586/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Wed, 24 Aug 2022 17:03:37 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175819</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 22621.586 and Build 22622.586 (KB5016701) </strong>to the Beta Channel.</p>
+<ul>
+<li><strong>Build 2262<em>2</em>.586</strong> = New features rolling out.</li>
+<p> 	<l
+</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/24/announcing-windows-11-insider-preview-build-22621-586-and-22622-586/">Announcing Windows 11 Insider Preview Build 22621.586 and 22622.586</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 22621.586 and Build 22622.586 (KB5016701) </strong>to the Beta Channel.
+<ul>
+ 	<li><strong>Build 2262<em>2</em>.586</strong> = New features rolling out.</li>
+ 	<li><strong>Build 22621.586</strong> = New features off by default.</li>
+</ul>
+As a reminder, Insiders who landed in the group with new features turned off by default (Build 22621.xxxx) can check for updates and choose to install the update that will have features rolling out (Build 22622.xxx).
+<h2><strong>Fixes in Build 22622.586</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>We fixed an issue causing DWM crashes (leading to black flashes or content stuck on the screen) for Insiders on 22622.575.</li>
+ 	<li>We fixed an issue causing SQL Server Management Studio to fail to launch for some Insiders.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Fixed an issue causing the left-half of the File Explorer title bar to not be draggable via mouse or touch for some Insiders.</li>
+ 	<li>Selecting multiple folders and then using the context menu option to open them in a new tab will now actually do that, rather than opening the first folder in a new tab and all the others in a new window.</li>
+ 	<li>We fixed an issue causing Home, Documents, Pictures, and potentially other folders to become unexpectedly duplicated in File Explorer’s navigation pane or appear on the desktop.</li>
+ 	<li>We fixed an explorer.exe crash which could happen when closing a newly opened File Explorer window.</li>
+ 	<li>We fixed an issue where the search box background in File Explorer might be the opposite color of your current mode (for example dark in light mode).</li>
+ 	<li>Fixed an issue where File Explorer would appear to open, close, and re-open before it finished drawing after being launched from certain places (for example when opening the location of a downloaded file from Microsoft Edge).</li>
+ 	<li>Fixed an issue which could lead to explorer.exe crashing when File Explorer was closed.</li>
+ 	<li>The up arrow should no longer be misaligned in File Explorer.</li>
+ 	<li>Removed the toolbar some people were unexpectedly seeing (with View / Edit / etc.) after the introduction of tabs in File Explorer. As part of this, the “always show menus” option in Folder Options was also removed which didn’t do anything.</li>
+ 	<li>Fixed an underlying explorer.exe crash which could happen when File Explorer launch was aborted, for example if you were attempting to access a network share from the Run dialog, were prompted for credentials, and then clicked cancel instead of entering them.</li>
+ 	<li>Fixed an issue causing the delete key to unexpectedly not work on files in File Explorer sometimes.</li>
+ 	<li>Fixed an issue which could lead to not being able to unpin Desktop, Pictures, or Documents folders from Quick access.</li>
+ 	<li>Fixed an issue when dragging and dropping a folder to pin it to the navigation pane, that the line indicating where it would be inserted didn’t have enough contrast in dark mode.</li>
+ 	<li>Fixed an issue where the min / max / close button might not be visible in File Explorer when using a contrast theme.</li>
+</ul>
+<h3><strong>[Taskbar]</strong></h3>
+<ul>
+ 	<li>Fixed an issue which could lead to the taskbar overflow flyout unexpectedly appearing on the opposite side of the screen.</li>
+ 	<li>Fixed an issue where the taskbar overflow flyout might appear floating away from the taskbar if you opened it after a display scaling change.</li>
+ 	<li>Fixed an issue where if you right clicked an app in the taskbar and selected Close all windows, it wasn’t bringing the app into the foreground anymore if it needed attention before closing (for example, if you hadn’t saved the contents of a Notepad window).</li>
+ 	<li>Fixed an issue where explorer.exe might crash if you attempted to rearrange app icons on the taskbar while the taskbar overflow was open.</li>
+ 	<li>Fixed an issue for Insiders with at least two monitors, where if the monitors had different DPI, the taskbar overflow could appear before it was needed or end up overlapped with the date and time on the secondary monitor.</li>
+</ul>
+<h3><strong>[Settings]</strong></h3>
+<ul>
+ 	<li>Fixed a Settings crash that could happen when uninstalling certain apps.</li>
+ 	<li>We fixed an issue where the buttons for changing current view in Settings &gt; Apps &gt; Installed apps might unexpectedly show arrows overlaid on top.</li>
+</ul>
+<h3><strong>[Suggested Actions]</strong></h3>
+<ul>
+ 	<li>Fixed an issue where when Suggested Actions was enabled, if you copied multiple items in a row to your clipboard history, some of the items might not display after you pressed WIN + V.</li>
+ 	<li>Your preferred state for the Suggested Actions setting under System &gt; Clipboard should persist upgrade going forward from this build.</li>
+</ul>
+<h2><strong>Fixes for BOTH Build 22621.586 &amp; Build 22622.586</strong></h2>
+<ul>
+ 	<li>We fixed an issue where some Lenovo devices were not receiving updates as expected.</li>
+ 	<li>We fixed an issue causing domain credentials to not work for some Insiders on the previous Beta Channel flight.</li>
+ 	<li>We fixed an issue where the “Sync across your devices” option under Settings &gt; System &gt; Clipboard wouldn’t stay enabled.</li>
+ 	<li>We fixed an issue that affects Microsoft Defender Application Guard (MDAG). It delays or stops MDAG from opening.</li>
+ 	<li>We fixed an issue that affects URLs generated by JavaScript: URLs. These URLs do not work as expected when you add them to the Favorites menu in IE mode.</li>
+ 	<li>We fixed an issue that forces the IE mode tabs in a session to reload.</li>
+ 	<li>We fixed an issue that affects <strong>open</strong> in IE mode.</li>
+ 	<li>We fixed an issue that successfully opens a browser window in IE mode to display a PDF file. Later, browsing to another IE mode site within the same window fails. 40411607</li>
+ 	<li>We fixed an issue that might bypass MSHTML and ActiveX rules for Windows Defender Application Control (WDAC).</li>
+ 	<li>We fixed an issue that affects the SharedPC account manager. The issue stops it from deleting many accounts during cleanup.</li>
+ 	<li>We fixed an issue that affects a network’s static IP. The issue causes the configuration of the static IP to be inconsistent. Because of this, <strong>NetworkAdapterConfiguration() </strong>fails sporadically.</li>
+ 	<li>We fixed an issue that affects the <strong>FindNextFileNameW()</strong> It might leak memory.</li>
+</ul>
+<h2><strong>Known issues</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>We’re looking into reports that audio stopped working for some Insiders in recent Beta Channel builds.</li>
+ 	<li>[<strong>NEW</strong>] A small percent of Insiders may experience repeated explorer.exe crashes on this build after attempting to access certain folders on your system. Insiders who have <a href="https://docs.microsoft.com/gaming/gdk/_content/gc/getstarted/devkit-contents">the Xbox Dev Kit</a> installed will hit this. We’re working on a fix for this in a future flight.</li>
+ 	<li><strong>[ADDED]</strong> Control Panel will not launch from the Start menu, Search or if pinned to the taskbar. As a workaround, use WIN + X, choose "Run" and type Control Panel to launch Control Panel.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>We’re working on the fix for an issue where the taskbar isn’t able to display if File Explorer is maximized and you have the taskbar set to auto-hide.</li>
+</ul>
+<h2><strong>About the Beta Channel</strong></h2>
+The Beta Channel will be the place we preview experiences that are closer to what we will ship to our general customers. Because the Dev and Beta Channels represent parallel development paths from our engineers, there may be cases where features and experiences show up in the Beta Channel first. However, this does not mean every feature we try out in the Beta Channel will ship. We encourage Insiders to <a href="https://blogs.windows.com/windows-insider/2022/02/03/whats-coming-for-the-windows-insider-program-in-2022/">read this blog post</a> that outlines the ways we’ll try things out with Insiders in both the Dev and Beta Channels.
+<h2><strong>Important Insider Links</strong></h2>
+<ul>
+ 	<li>Want to learn how we made Windows 11? Check out our <a href="https://insider.windows.com/insidewindows11"><strong>Inside Windows 11 website</strong></a> to hear and meet our makers from Engineering, Design and Research to share their insights and unique perspectives throughout this journey.</li>
+ 	<li>You can <a href="https://aka.ms/wip-docs"><strong>check out our Windows Insider Program documentation here</strong></a>.</li>
+ 	<li>Check out <a href="https://aka.ms/flighthub"><strong>Flight Hub</strong></a> for a complete look at what build is in which Insider channel.</li>
+</ul>
+Thanks,
+Amanda &amp; Brandon]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Releasing Windows 11 Build 22621.457 to the Release Preview Channel</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/23/releasing-windows-11-build-22621-457-to-the-release-preview-channel/</link>
+		
+		<dc:creator><![CDATA[Shayeri Dhar]]></dc:creator>
+		<pubDate>Tue, 23 Aug 2022 18:02:54 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175802</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we’re releasing <strong>Windows 11 Build 22621.457 (K</strong><strong>B5016695</strong><strong>) </strong>to Insiders in the Release Preview Channel on <a href="https://blogs.windows.com/windows-insider/2022/06/07/rele
+</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/23/releasing-windows-11-build-22621-457-to-the-release-preview-channel/">Releasing Windows 11 Build 22621.457 to the Release Preview Channel</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we’re releasing <strong>Windows 11 Build 22621.457 (K</strong><strong>B5016695</strong><strong>) </strong>to Insiders in the Release Preview Channel on <a href="https://blogs.windows.com/windows-insider/2022/06/07/releasing-windows-11-version-22h2-to-the-release-preview-channel/">Windows 11, version 22H2</a>.
+
+This non-security update includes quality improvements. Key changes include:
+<ul>
+ 	<li><strong><em>New!</em></strong> We enhanced Microsoft Defender for Endpoint’s ability to identify and intercept ransomware and advanced attacks.</li>
+ 	<li><strong><em>New!</em></strong> We compressed a file regardless of its size if you have configured Server Message Block (SMB) Compression.</li>
+ 	<li><strong><em>New!</em></strong> We improved storage replication that occurs over low bandwidth or congested wide area networks (WAN).</li>
+ 	<li><b><i><span data-contrast="auto">New!</span></i></b><span data-contrast="auto"> You can now view the usage history for the following resources from the Settings page:</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:256}"> </span></li>
+ 	<li><span data-contrast="auto">Camera</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+ 	<li><span data-contrast="auto">Microphone</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+ 	<li><span data-contrast="auto">Phone Calls</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+ 	<li><span data-contrast="auto">Messaging</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+ 	<li><span data-contrast="auto">Contacts</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+ 	<li><span data-contrast="auto">Screenshots and apps</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+ 	<li><span data-contrast="auto">Music library</span><span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:259}"> </span></li>
+</ul>
+To use this feature, navigate to <span data-contrast="auto">Settings</span><span data-contrast="auto"> &gt;</span><span data-contrast="auto">Privacy &amp; Security</span>
+<ul>
+ 	<li>We fixed an issue that causes Windows to display tablet mode features for some devices that do not have touchscreens.</li>
+ 	<li>We fixed an issue that causes some application windows to have blank sections in the Task View preview.</li>
+ 	<li>We fixed an issue that occurs for some of you when you copy files from network drives. The error code is 0x80070026.</li>
+ 	<li>We fixed an issue that might cause the Local Security Authority Server Service (LSASS) to leak tokens. This issue affects devices that have installed Windows updates dated June 14, 2022 or later. This issue occurs when the device performs a specific form of service for user (S4U) in a non-Trusted Computing Base (TCB) Windows service that runs as Network Service.</li>
+ 	<li>We fixed an issue that, in certain cases, causes <strong>sihost</strong>.<strong>exe</strong> to use a high amount of the CPU.</li>
+ 	<li>We fixed an issue that causes Microsoft Edge to stop responding when you use IE mode. This issue also prevents you from interacting with a dialog. 40242609</li>
+ 	<li>We fixed an issue that causes the App-V client service to leak memory when you delete App-V registry nodes.</li>
+ 	<li>We fixed an issue that prevents you from opening a URL if the URL’s length is more than 2084 characters. This update supports a URL of up to 8192 characters.</li>
+ 	<li>We fixed an issue that prevents codecs from being updated from the Microsoft Store.</li>
+ 	<li>We fixed an issue that causes <strong>ServerAssignedConfigurations</strong> to be null in a few full configuration scenarios.</li>
+ 	<li>We fixed an issue that sometimes prematurely interrupts the resizing operations of a Snap Assist area.</li>
+ 	<li>We fixed an issue that might cause the deployment of the Windows Hello for Business certificate to fail in certain circumstances after you reset a device.</li>
+ 	<li><span class="NormalTextRun SCXW250186229 BCX8">We fixed </span><span class="NormalTextRun SCXW250186229 BCX8">an issue </span><span class="NormalTextRun SCXW250186229 BCX8">that prevents you from reinstalling</span><span class="NormalTextRun SCXW250186229 BCX8"> Universal Printers after</span><span class="NormalTextRun SCXW250186229 BCX8"> you</span><span class="NormalTextRun SCXW250186229 BCX8"> remov</span><span class="NormalTextRun SCXW250186229 BCX8">e them</span><span class="NormalTextRun SCXW250186229 BCX8">.</span></li>
+ 	<li>We fixed an issue that prevents non-Windows devices from authenticating when they connect to a Windows-based remote desktop and use a smart card as the authentication method.</li>
+ 	<li>We fixed an issue that causes the Settings app to stop working on server domain controllers (DCs) when accessing the <strong>Privacy</strong> &gt; <strong>Activity history </strong>page<strong>.</strong></li>
+ 	<li>We fixed an issue that affects a lookup for a nonexistent security ID (SID) from the local domain using read-only domain controller (RODC). The lookup unexpectedly returns the STATUS_TRUSTED_DOMAIN_FAILURE error instead of STATUS_NONE_MAPPED or STATUS_SOME_MAPPED.</li>
+ 	<li>We fixed an issue that prevents the Storage Migration Service (SMS) from completing the inventory on servers that have many shares. Error event 2509 appears in Microsoft-Windows-StorageMigrationService/Admin channel (ErrorId=-2146233088/ErrorMessage="Invalid table id").</li>
+ 	<li><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8">We fixed an issue that affects the Sync across your devices option under </span></span><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8">Settings</span></span><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8"> &gt; </span></span><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8">System</span></span><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8"> &gt; </span></span><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8">Clipboard</span></span><span class="TextRun Highlight SCXW170582203 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW170582203 BCX8">. The option will not remain enabled.</span></span><span class="EOP SCXW170582203 BCX8" data-ccp-props="{&quot;201341983&quot;:0,&quot;335559740&quot;:256}"> </span></li>
+</ul>
+Thanks,
+
+The Windows Insider Program Team]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Expanding Android™ Apps on Windows 11 to Windows Insiders in Japan</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/18/expanding-android-apps-on-windows-11-to-windows-insiders-in-japan/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Thu, 18 Aug 2022 21:33:49 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<category><![CDATA[Windows Subsystem for Android]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175808</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders,</p>
+<p>Today we are expanding the <a href="https://blogs.windows.com/windows-insider/2021/10/20/introducing-android-apps-on-windows-11-to-windows-insiders/">preview of Android™ Apps on Windows 11</a> to Windows Insiders in Japan. </p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/18/expanding-android-apps-on-windows-11-to-windows-insiders-in-japan/">Expanding Android™ Apps on Windows 11 to Windows Insiders in Japan</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders,
+
+Today we are expanding the <a href="https://blogs.windows.com/windows-insider/2021/10/20/introducing-android-apps-on-windows-11-to-windows-insiders/">preview of Android™ Apps on Windows 11</a> to Windows Insiders in Japan. We are excited to take this first step on our path to make this preview available in other countries and regions.
+
+[caption id="attachment_175818" align="alignnone" width="1024"]<a href="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/Amazon-Appstore-PDP-8-22-Version.png"><img class="size-large wp-image-175818" src="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/Amazon-Appstore-PDP-8-22-Version-1024x651.png" alt="Amazon Appstore in the Microsoft Store for Japanese Windows Insiders." width="1024" height="651" /></a> Amazon Appstore in the Microsoft Store for Japanese Windows Insiders.[/caption]
+
+For the best experience, Insiders should update to Microsoft Store version 22206.1401.6 (or higher) to install the <a href="https://apps.microsoft.com/store/detail/amazon-appstore/9NJHK44TTKSX?hl=ja-jp&amp;gl=JP">latest version of the Amazon Appstore</a>.  Insiders must also be on Windows 11 Version 22H2 (or higher) on devices that meet the <a href="https://www.microsoft.com/en-us/windows/windows-11-specifications#table2">requirements for Windows Subsystem for Android™</a>. As a reminder, <a href="https://blogs.windows.com/windows-insider/2022/08/02/update-to-windows-subsystem-for-android-on-windows-11-august-2022/">check out this blog post</a> on the latest update for Windows Subsystem for Android ™ and the latest improvements available to Windows Insiders in the U.S. and now Japan.
+
+Insiders who run into issues with Android™ Apps on Windows 11 can file feedback via Feedback Hub under <strong>Apps &gt; Windows Subsystem for Android™</strong>. For more information about troubleshooting and submitting feedback: <a href="https://support.microsoft.com/en-us/windows/troubleshooting-and-faq-for-mobile-apps-on-windows-d6062afd-98a1-4018-a7c8-6b3b680a2ea5">Troubleshooting and FAQ for mobile apps on Windows</a>.
+
+Thanks,
+Windows Insider Program Team
+
+<em>EDITOR'S NOTE 8/23: Updated the screenshot to show the most current visuals in the Microsoft Store for Windows Insiders in Japan. </em>]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Announcing Windows 11 Insider Preview Build 25182</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/17/announcing-windows-11-insider-preview-build-25182/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Wed, 17 Aug 2022 17:03:20 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175810</guid>
+
+					<description><![CDATA[<p class="x-hidden-focus"><strong>UPDATE 8/22:</strong> We are starting to roll out Cumulative Update Build 25182.1010 (KB5017600). This update does not include anything new and is designed to test our servicing pipeline for builds in the Dev Channel</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/17/announcing-windows-11-insider-preview-build-25182/">Announcing Windows 11 Insider Preview Build 25182</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<p class="x-hidden-focus"><strong>UPDATE 8/22:</strong> We are starting to roll out Cumulative Update Build 25182.1010 (KB5017600). This update does not include anything new and is designed to test our servicing pipeline for builds in the Dev Channel.</p>
+<p class="x-hidden-focus">—————————————————————–</p>
+Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 25182 </strong>to the Dev Channel.
+<h2><strong>TL;DR</strong></h2>
+<ul>
+ 	<li><strong>Starting with Build 25182, the expiration date is now September 15<sup>th</sup>, 2023.</strong> It is recommended Insiders update to this build to avoid build expiration notices.</li>
+ 	<li>We’re beginning to roll out an update to the Camera app to the Dev Channel that brings native Arm64 support and a new privacy feature. Details below.</li>
+ 	<li>We are also rolling out a small update for Microsoft Store to the Dev Channel with some improvements. Details below.</li>
+</ul>
+<h2><strong>Fixes</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>We fixed the issue that was causing devices with low disk space to receive download error 0x80070001 in Windows Update trying to install the latest Dev Channel build.</li>
+ 	<li>Fixed an issue leading to some Insiders experiencing a decrease in FPS when playing certain games in recent flights due to the wrong graphics card being used.</li>
+</ul>
+<h3><strong>[Taskbar] </strong></h3>
+<ul>
+ 	<li>Fixed an issue which could lead to the taskbar overflow flyout unexpectedly appearing on the opposite side of the screen. This was incorrectly noted as fixed in Build 25179.</li>
+ 	<li>We fixed an issue that was causing the animation on the taskbar that plays when a user switches from using a device in tablet posture to desktop while in overflow to incorrectly show when logging in.</li>
+ 	<li>Fixed an explorer.exe crash which could happen when determining if the taskbar overflow should display. This could happen when switching out of a full screen game.</li>
+</ul>
+<h3><strong>[Start]</strong></h3>
+<ul>
+ 	<li>Fixed a Start menu crash that could prevent apps from launching from Start.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Fixed an issue causing the left-half of the File Explorer title bar to not be draggable via mouse or touch for some Insiders.</li>
+ 	<li>We fixed an issue causing Home, Documents, Pictures, and potentially other folders to become unexpectedly duplicated in File Explorer’s navigation pane or appear on the desktop.</li>
+ 	<li>Selecting multiple folders and then using the context menu option to open them in a new tab will now actually do that, rather than opening the first folder in a new tab and all the others in a new window.</li>
+ 	<li>Updated the logic for Narrator so that if you navigate to a OneDrive folder using the navigation pane in File Explorer, Narrator will now explicitly say it’s a OneDrive folder, and not just something like “YourName – Personal”.</li>
+</ul>
+<h3><strong>[Other]</strong></h3>
+<ul>
+ 	<li>Fixed an issue which could cause the camera light on a laptop to get stuck on after logging into your PC.</li>
+ 	<li>Fixed an issue believed to be the root cause of some Insiders seeing bugchecks when opening and copying files from network locations.</li>
+</ul>
+<em>NOTE: Some fixes noted here in Insider Preview builds from the Dev Channel may make their way into the servicing updates for the released version of Windows 11.</em>
+<h2><strong>Known issues</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>Some games that use Easy Anti-Cheat may crash or cause your PC to bugcheck.</li>
+ 	<li>We’re looking into reports that audio stopped working for some Insiders after upgrading to the last flight.</li>
+ 	<li>We’re investigating reports of a few different apps having started crashing in recent builds.</li>
+ 	<li>[<strong>NEW</strong>] A small percentage of Insiders are experiencing repeated explorer.exe crashes after attempting to access certain folders on your system on Builds 25179+. Insiders who have the Xbox Dev Kit installed will hit this. We’re working on a fix for this in a future flight.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>The up arrow is misaligned in File Explorer tabs. This will be fixed in a future update.</li>
+ 	<li>We’re working on the fix for an issue where the search box background in File Explorer might be the opposite color of your current mode.</li>
+ 	<li>We’re working on the fix for an issue causing the delete key to unexpectedly not work on files in File Explorer. If you encounter this, you should still be able to use the context menu to delete.</li>
+ 	<li>We’re working on the fix for an issue where the taskbar isn’t able to display if File Explorer is maximized and you have the taskbar set to auto-hide.</li>
+</ul>
+<h3><strong>[Widgets]</strong></h3>
+<ul>
+ 	<li>Notification badge number may appear misaligned on the taskbar.</li>
+ 	<li>In some cases, the notification banner for some badging will not appear in the widgets board.</li>
+</ul>
+<h3><strong>[Printing]</strong></h3>
+<ul>
+ 	<li>We’re working on the fix for an issue in recent Dev Channel flights causing lines to not be included when printing tables from certain apps.</li>
+</ul>
+<h2><strong>Camera App: Privacy Shutter Support</strong></h2>
+With the latest release (Version 2022.2207.29.0) available to Windows Insiders in the Dev Channel, Camera can now understand the state of the privacy shutter on supported hardware, like the Microsoft Modern Webcam or the integrated camera on many new Windows 11 laptops. If the shutter is blocking the view or if the laptop lid is closed, Camera app will inform you and offer guidance.
+
+[caption id="attachment_175812" align="alignnone" width="723"]<a href="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/cameraapp2207.png"><img class=" wp-image-175812" src="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/cameraapp2207-1024x459.png" alt="Camera app displaying a warning notification that the camera is blocked." width="723" height="324" /></a> Camera app displaying a warning notification that the camera is blocked.[/caption]
+
+We’ve also improved the Camera app experience on Arm64 devices. You’ll see faster and better performance when you use the app.
+
+<strong>FEEDBACK: Please file feedback in Feedback Hub (WIN + F) </strong><a href="https://aka.ms/cameraappfeedback"><strong>under Apps > Camera</strong></a><strong>.</strong>
+<h2><strong>Microsoft Store Update</strong></h2>
+We are beginning to roll out a Microsoft Store update (version 22207.1401.x) with the following improvements:
+
+<strong>Screenshots in search results:</strong> You can now view screenshots in search results to help improve your browsing experience.
+
+<strong>Install games directly from the Microsoft Store app:</strong> When you find a game you like, we install it right from the Microsoft Store, without switching apps.
+
+<strong>FEEDBACK: Please file feedback in Feedback Hub (WIN + F) under Microsoft Store.</strong>
+<h2><strong>For developers</strong></h2>
+You can download the latest Windows Insider SDK at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a>.
+
+SDK NuGet packages are now also flighting at <a href="https://www.nuget.org/profiles/WindowsSDK">NuGet Gallery | WindowsSDK</a> which include:
+<ul>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref/">.NET TFM packages</a> for use in .NET apps as described at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a></li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.CPP/">C++ packages</a> for Win32 headers and libs per architecture</li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.BuildTools/">BuildTools package</a> when you just need tools like MakeAppx.exe, MakePri.exe, and SignTool.exe</li>
+</ul>
+These NuGet packages provide more granular access to the SDK and better integrate in CI/CD pipelines.
+<h2><strong>About the Dev Channel</strong></h2>
+The Dev Channel receives builds that represent long lead work from our engineers <strong>with features and experiences that may never get released</strong> as we try out different concepts and get feedback. It is important to remember that the builds we release to the Dev Channel should not be seen as matched to any specific release of Windows and the features included may change over time, be removed, or replaced in Insider builds or may never be released beyond Windows Insiders to general customers. For more information, <a href="https://blogs.windows.com/windows-insider/2022/02/03/whats-coming-for-the-windows-insider-program-in-2022/">please read this blog post</a> about how we plan to use the Dev Channel to incubate new ideas, work on long lead items, and control the states of individual features.
+
+These aren’t always stable builds, and sometimes you will see issues that block key activities or require workarounds. <strong>It is important to make sure you read the known issues listed in our blog posts as we document many of these issues with each flight.</strong>
+
+Build numbers are higher in the Dev Channel than the Windows 11 preview builds in the Beta and Release Preview Channels. You will not be able to switch from the Dev Channel to the Beta or Release Preview Channels without doing a clean install back to the released version of Windows 11 currently.
+
+ALSO: Because the Dev and Beta Channels represent parallel development paths from our engineers, there may be cases where features and experiences show up in the Beta Channel first.
+
+<strong>The desktop watermark you see at the lower right corner of your desktop is normal for these pre-release builds.</strong>
+<h2><strong>Important Insider Links</strong></h2>
+<ul>
+ 	<li>Want to learn how we made Windows 11? Check out our <a href="https://insider.windows.com/insidewindows11"><strong>Inside Windows 11 website</strong></a> to hear and meet our makers from Engineering, Design and Research to share their insights and unique perspectives throughout this journey.</li>
+ 	<li>You can <a href="https://aka.ms/wip-docs"><strong>check out our Windows Insider Program documentation here</strong></a>.</li>
+ 	<li>Check out <a href="https://aka.ms/flighthub"><strong>Flight Hub</strong></a> for a complete look at what build is in which Insider channel.</li>
+</ul>
+Thanks,
+Amanda & Brandon]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Releasing Windows 11 Build 22000.917 to the Release Preview Channel</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/16/releasing-windows-11-build-22000-917-to-the-release-preview-channel/</link>
+		
+		<dc:creator><![CDATA[Shayeri Dhar]]></dc:creator>
+		<pubDate>Tue, 16 Aug 2022 21:49:44 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175793</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we’re releasing <strong>Windows 11 Build 22000.917 </strong>(KB5016691) to Insiders in the Release Preview Channel on Windows 11 (original release).</p>
+<p>This non-security update includes quality improvements. Key changes</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/16/releasing-windows-11-build-22000-917-to-the-release-preview-channel/">Releasing Windows 11 Build 22000.917 to the Release Preview Channel</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we’re releasing <strong>Windows 11 Build 22000.917 </strong>(KB5016691) to Insiders in the Release Preview Channel on Windows 11 (original release).
+
+This non-security update includes quality improvements. Key changes include:<span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span>
+<ul>
+ 	<li><span data-contrast="auto"> <strong><em>New!</em></strong></span><span data-contrast="auto"> We gave IT admins the ability to remotely add languages and language-related features. Additionally, they can now manage language scenarios across several endpoint managers.</span></li>
+ 	<li><span data-contrast="auto"> <strong><em>New!</em></strong></span><span data-contrast="auto"> We compressed a file regardless of its size if you have configured Server Message Block (SMB) Compression.</span></li>
+ 	<li><span data-contrast="auto"> <strong><em>New!</em></strong></span><span data-contrast="auto"> We enhanced Microsoft Defender for Endpoint’s ability to identify and intercept ransomware and advanced attacks.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that causes<strong> ServerAssignedConfigurations</strong> to be null in a few full configuration scenarios.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that affects the automatic high dynamic range (Auto HDR) feature for cross-adapter resource scan-out (CASO)-capable GPU drivers.</span></li>
+ 	<li><span data-contrast="auto"> We fixed a known issue that causes Microsoft Edge to stop responding when you use IE mode. This issue also prevents you from interacting with a dialog. </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that prevents virtualized App-V Microsoft Office applications from opening or causes them to stop working.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that might cause the deployment of the Windows Hello for Business certificate to fail in certain circumstances after you reset a device.</span></li>
+ 	<li><span data-contrast="auto"> We fixed multiple issues related to USB printing, such as:</span></li>
+ 	<li><span data-contrast="auto"> A printer malfunctions after you restart or reinstall it</span></li>
+ 	<li><span data-contrast="auto"> Being in the wrong mode after you switch from an Internet Printing Protocol (IPP) Class Driver to an independent hardware vendor (IHV) driver</span></li>
+ 	<li><span data-contrast="auto"> Experiencing bidirectional communication issues that prevent you from accessing device features</span></li>
+ 	<li><span class="TextRun Highlight SCXW224992932 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="auto"><span class="NormalTextRun SCXW224992932 BCX8">We fixed </span></span><span class="TextRun Highlight SCXW224992932 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW224992932 BCX8">an issue that affects the </span></span><strong><span class="TextRun Highlight SCXW224992932 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SpellingErrorV2Themed SCXW224992932 BCX8">ProjectionManager.StartProjectingAsync</span></span></strong><span class="TextRun Highlight SCXW224992932 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW224992932 BCX8"> API. This issue stops some locales from connecting to Miracast Sinks.</span></span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that degrades BitLocker performance.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that prevents Windows 11 SE from trusting some Microsoft Store applications.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that prevents HyperVisor Code Integrity from being enabled automatically on systems that have Arm64 processors.</span></li>
+ 	<li><span class="TextRun Highlight SCXW103986634 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="auto"><span class="NormalTextRun SCXW103986634 BCX8">We fixed an </span></span><span class="TextRun Highlight SCXW103986634 BCX8" lang="EN-US" xml:lang="EN-US" data-contrast="none"><span class="NormalTextRun SCXW103986634 BCX8">issue that stops non-Windows devices from authenticating. This issue occurs when they connect to a Windows-based remote desktop and use a smart card to authenticate.</span></span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that causes the Resultant Set of Policy tool (<strong>Rsop.msc</strong>) to stop working when it processes 1,000 or more “File System” security settings.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that causes the Take a Test app to remove all policies related to lockdown enforcement when you close the app.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that causes the Settings app to stop working on server domain controllers (DCs) when accessing the <strong>Privacy &gt; Activity history</strong> page</span><span data-contrast="auto">.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that might cause certain Bluetooth audio headsets to stop playing after a progress bar adjustment. This issue affects modern systems that support Advanced Audio Distribution Profile (A2DP) offload.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that prevents devices from receiving an offer from Windows Update for the same extension driver when that extension driver is already installed without the base driver.</span></li>
+ 	<li><span data-contrast="auto"> We fixed a race condition that causes the Local Security Authority Subsystem Service (LSASS) to stop working on Active Directory domain controllers. This issue occurs when LSASS processes simultaneous Lightweight Directory Access Protocol (LDAP) over Transport Layer Security (TLS) requests that fail to decrypt. The exception code is 0xc0000409 (STATUS_STACK_BUFFER_OVERRUN).</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that affects a lookup for a nonexistent security ID (SID) from the local domain using read-only domain controller (RODC). The lookup unexpectedly returns the STATUS_TRUSTED_DOMAIN_FAILURE error instead of STATUS_NONE_MAPPED or STATUS_SOME_MAPPED.</span></li>
+ 	<li><span data-contrast="none">We fixed</span> an issue that might cause the Local Security Authority Server Service (LSASS) to leak tokens. This issue affects devices that have installed Windows updates dated June 14, 2022 or later. This issue occurs when the device performs a specific form of service for user (S4U) in a non-Trusted Computing Base (TCB) Windows service that runs as Network Service.</li>
+</ul>
+Thanks,
+
+The Windows Insider Program Team]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Releasing Windows 10 Build 19044.1947 to Release Preview Channel</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/15/releasing-windows-10-build-19044-1947-to-release-preview-channel/</link>
+		
+		<dc:creator><![CDATA[Shayeri Dhar]]></dc:creator>
+		<pubDate>Mon, 15 Aug 2022 21:24:26 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175792</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we are releasing <strong>Windows 10 21H2</strong> <strong>Build 19044.1947 (KB5016688)</strong> to the Release Preview Channel for those Insiders who are on Windows 10, version 21H2.</p>
+<p>This non-security update includes</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/15/releasing-windows-10-build-19044-1947-to-release-preview-channel/">Releasing Windows 10 Build 19044.1947 to Release Preview Channel</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we are releasing <strong>Windows 10 21H2</strong> <strong>Build 19044.1947 (KB5016688)</strong> to the Release Preview Channel for those Insiders who are on Windows 10, version 21H2.
+
+This non-security update includes quality improvements. Key changes include:<span data-ccp-props="{&quot;201341983&quot;:0,&quot;335559739&quot;:160,&quot;335559740&quot;:259}"> </span>
+<ul>
+ 	<li><span data-contrast="auto"> <strong><em>New!</em></strong></span><span data-contrast="auto"> We gave IT admins the ability to remotely add languages and language-related features. Additionally, they can now manage language scenarios across several endpoint managers.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="none"> <strong><em>New!</em></strong></span><span data-contrast="none"> We enhanced Microsoft Defender for Endpoint’s ability to identify and intercept ransomware and advanced attacks.</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that causes <strong>ServerAssignedConfigurations</strong> to be null in a few full configuration scenarios.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed a known issue that causes Microsoft Edge to stop responding when you use IE mode. This issue also prevents you from interacting with a dialog.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that affects transparency in layered windows when you are in High Definition remote applications integrated locally (RAIL) mode.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that might generate error 0x1E when you shut down or restart a device.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that causes a subscription activation to fail under certain conditions.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that might cause some game installations to fail because of a licensing issue. </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that prevents virtualized App-V Microsoft Office applications from opening or causes them to stop working.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that might cause the deployment of the Windows Hello for Business certificate to fail in certain circumstances after you reset a device.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="none"> We fixed an issue that degrades BitLocker performance. </span></li>
+ 	<li><span data-contrast="none"> We fixed an issue that causes the Resultant Set of Policy tool (<strong>Rsop.msc</strong>) to stop working when it processes 1,000 or more “File System” security settings. </span></li>
+ 	<li><span data-contrast="none"> We fixed an issue that continues to trust a revoked Attestation Identity Key (AIK) certificate and fails to generate a new certificate. </span></li>
+ 	<li><span data-contrast="none"> We fixed an issue that causes the Take a Test app to remove all policies related to lockdown enforcement when you close the app.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that affects the jump list icon colors in the Search app.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that affects Focus Assist functionality for applications that run in full screen. </span></li>
+ 	<li><span data-contrast="none"> We fixed an issue that prevents devices from receiving an offer from Windows Update for the same extension driver when that extension driver is already installed without the base driver</span><span data-contrast="auto">.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed a race condition that causes the Local Security Authority Subsystem Service (LSASS) to stop working on Active Directory domain controllers. This issue occurs when LSASS processes simultaneous Lightweight Directory Access Protocol (LDAP) over Transport Layer Security (TLS) requests that fail to decrypt. The exception code is 0xc0000409 (STATUS_STACK_BUFFER_OVERRUN).</span><span data-ccp-props="{&quot;134233117&quot;:false,&quot;134233118&quot;:false,&quot;201341983&quot;:0,&quot;335559738&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="none"> We fixed an issue that affects a lookup for a nonexistent security ID (SID) from the local domain using read-only domain controller (RODC). The lookup unexpectedly returns the STATUS_TRUSTED_DOMAIN_FAILURE error instead of STATUS_NONE_MAPPED or STATUS_SOME_MAPPED.</span><span data-ccp-props="{&quot;134233279&quot;:false,&quot;201341983&quot;:0,&quot;335559739&quot;:120,&quot;335559740&quot;:240}"> </span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that might cause <strong>cldflt.sys</strong> to reference invalid memory in race conditions.</span></li>
+ 	<li><span data-contrast="auto"> We fixed an issue that affects input and output in the Storport driver and might cause your system to stop responding.</span></li>
+</ul>
+Thanks,
+
+The Windows Insider Program Team]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Announcing Windows 11 Insider Preview Build 22621.575 and 22622.575</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/10/announcing-windows-11-insider-preview-build-22621-575-and-22622-575/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Wed, 10 Aug 2022 17:05:38 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175799</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 22621.575 and Build 22622.575 (KB5016694) </strong>to the Beta Channel.</p>
+<ul>
+<li><strong>Build 2262<em>2</em>.575</strong> = New features rolling out.</li>
+<p> 	<l
+</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/10/announcing-windows-11-insider-preview-build-22621-575-and-22622-575/">Announcing Windows 11 Insider Preview Build 22621.575 and 22622.575</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 22621.575 and Build 22622.575 (KB5016694) </strong>to the Beta Channel.
+<ul>
+ 	<li><strong>Build 2262<em>2</em>.575</strong> = New features rolling out.</li>
+ 	<li><strong>Build 22621.575</strong> = New features off by default.</li>
+</ul>
+As a reminder, Insiders who landed in the group with new features turned off by default (Build 22621.xxxx) can check for updates and choose to install the update that will have features rolling out (Build 22622.xxx).
+<h2><strong>Changes and Improvements in Build 22622.575</strong></h2>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Middle clicking a folder in the navigation pane of File Explorer will now open it in a new tab, like clicking a folder in the body of File Explorer already does.</li>
+</ul>
+<h2><strong>Fixes in Build 22622.575</strong></h2>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Fixed an issue where launching File Explorer in certain ways when using dark mode (for example, from the command line) was showing the body of File Explorer unexpectedly in light mode.</li>
+ 	<li>Fixed an issue where the left/right arrows in File Explorer were in light mode when you were using dark mode, causing them to not have enough contrast to show when they were enabled.</li>
+ 	<li>Fixed an issue causing UI issues in File Explorer when using F11 to put File Explorer in full screen mode.</li>
+ 	<li>Fixed an issue where if you drag and drop a folder into the navigation pane was sometimes unexpectedly putting the folder at the bottom of the list rather than where you’d dropped it.</li>
+ 	<li>Fixed an issue where the dividers in the navigation pane were overlapping / drawing too close to text sometimes.</li>
+ 	<li>Fixed an issue where the context menu when right clicking on a tab wasn’t being translated.</li>
+</ul>
+<h3><strong>[Taskbar]</strong></h3>
+<ul>
+ 	<li>Fixed an issue where the taskbar overflow flyout wasn’t showing up on the correct monitor.</li>
+</ul>
+<h3><strong>[Open With]</strong></h3>
+<ul>
+ 	<li>Fixed an issue where Narrator wasn’t reading out the “New” text next to the app name in the Open With dialog.</li>
+</ul>
+<h3><strong>[Suggested Actions]</strong></h3>
+<ul>
+ 	<li>Improved date / time recognition for existing supported markets (U.S., Canada, and Mexico).</li>
+</ul>
+<h2><strong>Fixes for BOTH Build 22621.575 &amp; Build 22622.575</strong></h2>
+<ul>
+ 	<li>An app update for the issue causing Photos to crash on launch for Insiders in the Beta Channel is currently rolling out via a Microsoft Store app update.</li>
+ 	<li>We fixed an issue that causes the App-V client service to leak memory when you delete App-V registry nodes.</li>
+ 	<li>We fixed an issue that prevents you from opening a URL if the URL’s length is more than 2084 characters. This update supports a URL of up to 8192 characters.</li>
+</ul>
+<h2><strong>Known issues</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li><strong>[ADDED]</strong> We're working on the fix for an issue causing some Insiders with domain-joined PCs to unexpectedly see an error saying "Insufficient system resources exist to complete the requested service" after installing this update when attempting to use their credentials. If you are impacted by this, enabling Credential Guard on your PC should resolve the issue. If your PC does not support Credential Guard, you may want to pause updates for the time being.</li>
+ 	<li>We’re working on a fix for an issue causing SQL Server Management Studio to fail to launch for some Insiders, and it will be available in an upcoming flight.</li>
+ 	<li>We’re looking into reports that audio stopped working for some Insiders running the latest Beta Channel builds.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>The left-half of the File Explorer title bar may not be draggable via mouse or touch.</li>
+ 	<li>The up arrow is misaligned in File Explorer tabs. This will be fixed in a future update.</li>
+ 	<li>[<strong>NEW</strong>] We’re working on a fix for an issue causing Home, Documents, Pictures and potentially other folders to become unexpectedly duplicated in File Explorer’s navigation pane or appear on the desktop.</li>
+ 	<li>[<strong>NEW</strong>] We’re working on a fix for an issue where the search box background in File Explorer might be the opposite color of your current mode.</li>
+ 	<li>[<strong>NEW</strong>] We’re working on a fix for an issue causing the delete key to unexpectedly not work on files in File Explorer. If you encounter this, you should still be able to use the context menu to delete.</li>
+ 	<li>[<strong>NEW</strong>] We’re working on the fix for an issue where the taskbar isn’t able to display if File Explorer is maximized and you have the taskbar set to auto-hide.</li>
+</ul>
+<h3><strong>[Taskbar]</strong></h3>
+<ul>
+ 	<li>[<strong>NEW</strong>] We’re working on the fix for an issue where the taskbar overflow is unexpectedly displayed on the opposite side of the screen.</li>
+</ul>
+<h2><strong>About the Beta Channel</strong></h2>
+The Beta Channel will be the place we preview experiences that are closer to what we will ship to our general customers. Because the Dev and Beta Channels represent parallel development paths from our engineers, there may be cases where features and experiences show up in the Beta Channel first. However, this does not mean every feature we try out in the Beta Channel will ship. We encourage Insiders to <a href="https://blogs.windows.com/windows-insider/2022/02/03/whats-coming-for-the-windows-insider-program-in-2022/">read this blog post</a> that outlines the ways we’ll try things out with Insiders in both the Dev and Beta Channels.
+<h2><strong>Important Insider Links</strong></h2>
+<ul>
+ 	<li>Want to learn how we made Windows 11? Check out our <a href="https://insider.windows.com/insidewindows11"><strong>Inside Windows 11 website</strong></a> to hear and meet our makers from Engineering, Design and Research to share their insights and unique perspectives throughout this journey.</li>
+ 	<li>You can <a href="https://aka.ms/wip-docs"><strong>check out our Windows Insider Program documentation here</strong></a>.</li>
+ 	<li>Check out <a href="https://aka.ms/flighthub"><strong>Flight Hub</strong></a> for a complete look at what build is in which Insider channel.</li>
+</ul>
+Thanks,
+Amanda &amp; Brandon]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Announcing Windows 11 Insider Preview Build 25179</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/10/announcing-windows-11-insider-preview-build-25179/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Wed, 10 Aug 2022 17:03:38 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175795</guid>
+
+					<description><![CDATA[<p>Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 25179 </strong>to the Dev Channel.</p>
+<h2><strong>TL;DR</strong></h2>
+<ul>
+<li>We are releasing ISOs for this build – they can be <a href="https://aka.ms/wipISO 
+<br />
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/10/announcing-windows-11-insider-preview-build-25179/">Announcing Windows 11 Insider Preview Build 25179</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 25179 </strong>to the Dev Channel.
+<h2><strong>TL;DR</strong></h2>
+<ul>
+ 	<li>We are releasing ISOs for this build – they can be <a href="https://aka.ms/wipISO">downloaded here</a>.</li>
+ 	<li>This build includes a set of changes and improvements as well as fixes.</li>
+</ul>
+<h2><strong>What’s new</strong></h2>
+<h2><strong>Changes and Improvements</strong></h2>
+<h3><strong>[General] </strong></h3>
+<ul>
+ 	<li>The spelling dictionary will now use a language-neutral word list and we are trying out syncing this across all devices that use the same Windows account. Users can toggle this feature via <strong>Settings &gt; Accounts &gt; Windows backup &gt; Remember my preferences &gt; Language preferences</strong>. This currently only works with Microsoft accounts today with AAD support coming later.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>File Explorer tabs and navigation updates (which began rolling out to the Dev Channel with <a href="https://blogs.windows.com/windows-insider/2022/06/09/announcing-windows-11-insider-preview-build-25136/">Build 25136</a>) are now rolling out to everyone in the Dev Channel. If you don’t see these features right away, please try rebooting. If that doesn’t work, please file feedback in Feedback Hub.</li>
+ 	<li>We’re trying out different experiences in File Explorer to show search results.</li>
+</ul>
+<h3><strong>[Input]</strong></h3>
+<ul>
+ 	<li>We’re adding the Tamil Anjal keyboard for the Tamil language. It’s a popular keyboard for inputting Tamil characters, so if you speak this language, please try it out! This keyboard is currently rolling out to a subset of Insiders while we evaluate the quality. To add it (once it’s available to you), make sure Tamil (India) is listed under <strong>Settings &gt; Time &amp; Language &gt; Language &amp; Region</strong>, and then click the “…” next to the language, select Language Options, and add it to the list of keyboards.</li>
+ 	<li>We are rolling out a small tweak to improve the key repeat rate for the traditional touch keyboard layout, as well as the default touch keyboard layout, so it feels more responsive. Now it has the rate of 20 keys per second (for example, when holding down the delete key).</li>
+</ul>
+<h3><strong>[Other]</strong></h3>
+<ul>
+ 	<li>Updated the default duration captured by powercfg -sleepstudy from 3 to 7 days.</li>
+</ul>
+<h2><strong>Fixes</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>Fixed an issue causing hangs and crashes in apps (like Excel) when attempting to print in the last couple flights.</li>
+ 	<li>Fixed a few issues impacting explorer.exe reliability.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>The Mount option when right clicking things like ISO files should now show an icon in the context menu.</li>
+ 	<li>Fixed an issue where the min / max / close button might not be visible in File Explorer when using a contrast theme.</li>
+</ul>
+<h3><strong>[Widgets]</strong></h3>
+<ul>
+ 	<li>We have fixed the issue causing Widgets preferences (temperature units and pinned widgets) to unexpectedly get reset to default.</li>
+</ul>
+<h3><strong>[Taskbar] </strong></h3>
+<ul>
+ 	<li><del>Fixed an issue which could lead to the taskbar overflow flyout unexpectedly appearing on the opposite side of the screen.</del> Not fixed.</li>
+</ul>
+<h3><strong>[Input] </strong></h3>
+<ul>
+ 	<li>Fixed a sporadic crash impacting reliability of the input switcher.</li>
+ 	<li>Fixed an issue where when Suggested Actions was enabled, if you copied multiple items in a row to your clipboard history, some of the items might not display after you pressed WIN + V.</li>
+</ul>
+<h3><strong>[Settings]</strong></h3>
+<ul>
+ 	<li>Fixed an issue which was causing Settings to crash on launch sometimes.</li>
+ 	<li>Improved alignment of the “Scan for phone” button displayed on Accounts &gt; Sign-In Options under Dynamic Lock when your phone failed to connect.</li>
+ 	<li>Your preferred state for the Suggested Actions setting under System &gt; Clipboard should persist upgrade going forward from this build.</li>
+</ul>
+<h3><strong>[Windowing]</strong></h3>
+<ul>
+ 	<li>Fixed an issue where when resizing certain app windows near the edge of the screen when using mixed DPI monitors might unexpectedly cause the window to jump and shrink.</li>
+</ul>
+<h3><strong>[Other]</strong></h3>
+<ul>
+ 	<li>We made a change so that the media controls in Quick Settings will more reliably not load old media you’re no longer using.</li>
+ 	<li>Fixed an issue causing one of the characters in the bugcheck text to not display correctly (as a box) when the display language was set to Chinese.</li>
+ 	<li>Fixed an issue causing app install failures with error 0x80080204 in the last few flights.</li>
+ 	<li>Improved date / time recognition for existing supported locales when using Suggested Actions.</li>
+</ul>
+<em>NOTE: Some fixes noted here in Insider Preview builds from the Dev Channel may make their way into the servicing updates for the released version of Windows 11.</em>
+<h2><strong>Known issues</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li><strong>[NEW]</strong> Devices with low disk space may be unable to update to this build and see download error 0x80070001 in Windows Update. A fix should go out with the next flight. Freeing up disk space 24GB or higher could allow the build to download and install.</li>
+ 	<li>Some games that use Easy Anti-Cheat may crash or cause your PC to bugcheck.</li>
+ 	<li>We’re looking into reports that audio stopped working for some Insiders after upgrading to the last flight.</li>
+ 	<li>We’re working on a fix for an issue leading to some Insiders experiencing a decrease in FPS when playing certain games in recent flights due to the wrong graphics card being used.</li>
+ 	<li>We’re investigating reports of a few different apps having started crashing in recent builds.</li>
+</ul>
+<h3>[Taskbar]</h3>
+<ul>
+ 	<li>There is an issue which could lead to the taskbar overflow flyout unexpectedly appearing on the opposite side of the screen.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>The left-half of the File Explorer title bar may not be draggable via mouse or touch.</li>
+ 	<li>The up arrow is misaligned in File Explorer tabs. This will be fixed in a future update.</li>
+ 	<li>We’re working on the fix for an issue causing Home, Documents, Pictures and potentially other folders to become unexpectedly duplicated in File Explorer’s navigation pane or appear on the desktop.</li>
+ 	<li>We’re working on the fix for an issue where the search box background in File Explorer might be the opposite color of your current mode.</li>
+ 	<li>We’re working on the fix for an issue causing the delete key to unexpectedly not work on files in File Explorer. If you encounter this, you should still be able to use the context menu to delete.</li>
+ 	<li>[<strong>NEW</strong>] We’re working on the fix for an issue where the taskbar isn’t able to display if File Explorer is maximized and you have the taskbar set to auto-hide.</li>
+</ul>
+<h3><strong>[Widgets]</strong></h3>
+<ul>
+ 	<li>Notification badge number may appear misaligned on the taskbar.</li>
+ 	<li>In some cases, the notification banner for some badging will not appear in the widgets board.</li>
+</ul>
+<h3><strong>[Printing]</strong></h3>
+<ul>
+ 	<li>We’re working on the fix for an issue in recent Dev Channel flights causing lines to not be included when printing tables from certain apps.</li>
+</ul>
+<h2><strong>For developers</strong></h2>
+You can download the latest Windows Insider SDK at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a>.
+
+SDK NuGet packages are now also flighting at <a href="https://www.nuget.org/profiles/WindowsSDK">NuGet Gallery | WindowsSDK</a> which include:
+<ul>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref/">.NET TFM packages</a> for use in .NET apps as described at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a></li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.CPP/">C++ packages</a> for Win32 headers and libs per architecture</li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.BuildTools/">BuildTools package</a> when you just need tools like MakeAppx.exe, MakePri.exe, and SignTool.exe</li>
+</ul>
+These NuGet packages provide more granular access to the SDK and better integrate in CI/CD pipelines.
+<h2><strong>About the Dev Channel</strong></h2>
+The Dev Channel receives builds that represent long lead work from our engineers <strong>with features and experiences that may never get released</strong> as we try out different concepts and get feedback. It is important to remember that the builds we release to the Dev Channel should not be seen as matched to any specific release of Windows and the features included may change over time, be removed, or replaced in Insider builds or may never be released beyond Windows Insiders to general customers. For more information, <a href="https://blogs.windows.com/windows-insider/2022/02/03/whats-coming-for-the-windows-insider-program-in-2022/">please read this blog post</a> about how we plan to use the Dev Channel to incubate new ideas, work on long lead items, and control the states of individual features.
+
+These aren’t always stable builds, and sometimes you will see issues that block key activities or require workarounds. <strong>It is important to make sure you read the known issues listed in our blog posts as we document many of these issues with each flight.</strong>
+
+Build numbers are higher in the Dev Channel than the Windows 11 preview builds in the Beta and Release Preview Channels. You will not be able to switch from the Dev Channel to the Beta or Release Preview Channels without doing a clean install back to the released version of Windows 11 currently.
+
+ALSO: Because the Dev and Beta Channels represent parallel development paths from our engineers, there may be cases where features and experiences show up in the Beta Channel first.
+
+<strong>The desktop watermark you see at the lower right corner of your desktop is normal for these pre-release builds.</strong>
+<h2><strong>Important Insider Links</strong></h2>
+<ul>
+ 	<li>Want to learn how we made Windows 11? Check out our <a href="https://insider.windows.com/insidewindows11"><strong>Inside Windows 11 website</strong></a> to hear and meet our makers from Engineering, Design and Research to share their insights and unique perspectives throughout this journey.</li>
+ 	<li>You can <a href="https://aka.ms/wip-docs"><strong>check out our Windows Insider Program documentation here</strong></a>.</li>
+ 	<li>Check out <a href="https://aka.ms/flighthub"><strong>Flight Hub</strong></a> for a complete look at what build is in which Insider channel.</li>
+</ul>
+Thanks,
+Amanda &amp; Brandon]]></content:encoded>
+					
+		
+		
+			</item>
+		<item>
+		<title>Announcing Windows 11 Insider Preview Build 25174</title>
+		<link>https://blogs.windows.com/windows-insider/2022/08/03/announcing-windows-11-insider-preview-build-25174/</link>
+		
+		<dc:creator><![CDATA[Brandon LeBlanc]]></dc:creator>
+		<pubDate>Wed, 03 Aug 2022 17:33:39 +0000</pubDate>
+				<category><![CDATA[PC]]></category>
+		<category><![CDATA[Windows Insider Program]]></category>
+		<guid isPermaLink="false">https://blogs.windows.com/windows-insider/?p=175785</guid>
+
+					<description><![CDATA[<p><strong>UPDATE 8/5:</strong> We are starting to roll out Cumulative Update Build 25174.1010 (KB5017214). This update does not include anything new and is designed to test our servicing pipeline for builds in the Dev Channel.</p>
+<p>------------------------</p>
+<p>The post <a rel="nofollow" href="https://blogs.windows.com/windows-insider/2022/08/03/announcing-windows-11-insider-preview-build-25174/">Announcing Windows 11 Insider Preview Build 25174</a> appeared first on <a rel="nofollow" href="https://blogs.windows.com/windows-insider">Windows Insider Blog</a>.</p>
+]]></description>
+										<content:encoded><![CDATA[<strong>UPDATE 8/5:</strong> We are starting to roll out Cumulative Update Build 25174.1010 (KB5017214). This update does not include anything new and is designed to test our servicing pipeline for builds in the Dev Channel.
+
+-----------------------------------------------------------------
+
+Hello Windows Insiders, today we are releasing <strong>Windows 11 Insider Preview Build 25174 </strong>to the Dev Channel.
+<h2><strong>TL;DR</strong></h2>
+<ul>
+ 	<li>We’re previewing the new Game Pass widget with Windows Insiders in the Dev Channel.</li>
+ 	<li>As always, this build also includes a good set of fixes.</li>
+ 	<li>We’ve added a few new known issues based on Windows Insider feedback.</li>
+</ul>
+<h2><strong>What’s new</strong></h2>
+<h3><strong>Introducing the new Game Pass Widget</strong></h3>
+<a href="https://www.xbox.com/pcgamepass">PC Game Pass</a> and Windows are a fantastic combination for gaming; with PC Game Pass, you have access to hundreds of high-quality games for your PC. For the past couple of months, we’ve been working with our friends on the Xbox team to make Windows and PC Game Pass an even better combination; today we’re announcing something new for gaming and our widgets experience: the<strong> Game Pass widget </strong>preview.
+
+[caption id="attachment_175787" align="alignnone" width="422"]<a href="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/XGP-Widget-M.png"><img class=" wp-image-175787" src="https://blogs.windows.com/wp-content/uploads/prod/sites/44/2022/08/XGP-Widget-M.png" alt="The Game Pass widget." width="422" height="427" /></a> The Game Pass widget.[/caption]
+
+This widget is a window to the extensive PC Game Pass library  – it will show the latest additions, games leaving soon, and others from highlighted categories and then take you to the Xbox app where you can install them, see reviews, and go all in.
+
+We’re still hard at work on some exciting functionality coming soon that will let you sign-into your Xbox profile and easily jump back into recently played games as well as see personalized recommendations of games we believe you’ll love.
+
+The Game Pass widget preview is available in the widgets board alongside other widgets that bring weather, sports, and other great content closer to you. The widgets board is shown by clicking the left corner of your taskbar or by pressing Win + W. To pin the Game Pass widget, select the ‘+’ button in the top right corner of the widgets board.
+
+Here is how to get started:
+<ul>
+ 	<li>Open the widgets board.</li>
+ 	<li>Click on the <strong>+</strong> icon next to your user profile.</li>
+ 	<li>Click on the <strong>+ </strong>icon besides the Game Pass</li>
+ 	<li>Close the Widget settings window.</li>
+ 	<li>The Game Pass widget should now appear in your widgets board.</li>
+</ul>
+We are looking forward to getting feedback on the Game Pass widget from Windows Insiders who are PC gamers. Tell us what you’d love to see in the widget, or if you see anything that is strange or unexpected on the widget itself or on the widgets experience.
+
+<em class="x-hidden-focus">[We are beginning to roll this out, so the experience isn’t available to all Insiders just yet as we plan to monitor feedback and see how it lands before pushing it out to everyone.]</em>
+
+<strong>FEEDBACK: Please file feedback in Feedback Hub (WIN + F) under Desktop Environment &gt; Widgets.</strong>
+<h2><strong>Changes and Improvements</strong></h2>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Middle clicking a folder in the navigation pane of File Explorer will now open it in a new tab, like clicking a folder in the body of File Explorer already does. Please note that this requires tabbed File Explorer, which hasn’t rolled out to everyone in the Dev Channel yet.</li>
+</ul>
+<h2><strong>Fixes</strong></h2>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>Fixed an issue which could cause explorer.exe to crash when opening new File Explorer windows.</li>
+ 	<li>Fixed an issue where launching File Explorer in certain ways when using dark mode (for example, from the command line) was showing the body of File Explorer unexpectedly in light mode.</li>
+ 	<li>Fixed an issue where the left/right arrows in File Explorer were in light mode when you were using dark mode, causing them to not have enough contrast to show when they were enabled.</li>
+ 	<li>Fixed an issue where the dividers in the navigation pane were overlapping / drawing too close to text sometimes.</li>
+ 	<li>Fixed an issue where if you drag and drop a folder into the navigation pane was sometimes unexpectedly putting the folder at the bottom of the list rather than where you’d dropped it.</li>
+ 	<li>Fixed an issue causing UI issues in File Explorer when using F11 to put File Explorer in full screen mode.</li>
+</ul>
+<h3><strong>[Taskbar] </strong></h3>
+<ul>
+ 	<li>Fixed an issue leading to various system tray elements being unexpectedly missing for some Insiders on the previous build.</li>
+</ul>
+<h3><strong>[Settings] </strong></h3>
+<ul>
+ 	<li>Fixed a crash on some PCs were experiencing when going to System &gt; Storage &gt; Disks &amp; Volumes.</li>
+</ul>
+<h3><strong>[Other]</strong></h3>
+<ul>
+ 	<li>Fixed an issue which was leading to mouse and keyboard input not working correctly in certain games in the last 2 flights.</li>
+ 	<li>Fixed an issue believed to be leading to SQL Server Management Studio failing to launch for some Insiders.</li>
+ 	<li>Fixed an issue where Memory Integrity in Windows Security might show a warning saying it couldn’t be enabled due to incompatible drivers, but the incompatible drivers list would be blank.</li>
+ 	<li>Fixed an issue which was causing some apps to unexpectedly not launch in the last few flights when core isolation was enabled in Windows Security.</li>
+</ul>
+<em>NOTE: Some fixes noted here in Insider Preview builds from the Dev Channel may make their way into the servicing updates for the released version of Windows 11.</em>
+<h2><strong>Known issues</strong></h2>
+<h3><strong>[General]</strong></h3>
+<ul>
+ 	<li>Some games that use Easy Anti-Cheat may crash or cause your PC to bugcheck.</li>
+ 	<li><strong>[NEW]</strong> We’re looking into reports that audio stopped working for some Insiders after upgrading to the last flight.</li>
+ 	<li><strong>[NEW] </strong>We’re working on a fix for an issue leading to some Insiders experiencing a decrease in FPS when playing certain games in recent flights due to the wrong graphics card being used.</li>
+ 	<li><strong>[NEW] </strong>We’re investigating reports of a few different apps having started crashing in recent builds.</li>
+</ul>
+<h3><strong>[File Explorer]</strong></h3>
+<ul>
+ 	<li>The left-half of the File Explorer title bar may not be draggable via mouse or touch.</li>
+ 	<li>The up arrow is misaligned in File Explorer tabs. This will be fixed in a future update.</li>
+ 	<li><strong>[NEW] </strong>We’re working on a fix for an issue causing Home, Documents, Pictures and potentially other folders to become unexpectedly duplicated in File Explorer’s navigation pane or appear on the desktop.</li>
+ 	<li><strong>[NEW] </strong>We’re working on a fix for an issue where the search box background in File Explorer might be the opposite color of your current mode.</li>
+ 	<li><strong>[NEW] </strong>We’re working on a fix for an issue causing the delete key to unexpectedly not work on files in File Explorer. If you encounter this, you should still be able to use the context menu to delete.</li>
+</ul>
+<h3><strong>[Widgets]</strong></h3>
+<ul>
+ 	<li>Notification badge number may appear misaligned on the taskbar.</li>
+ 	<li>In some cases, the notification banner for some badging will not appear in the widgets board.</li>
+ 	<li>We’re working on the fix for an issue causing Widgets preferences (temperature units and pinned widgets) to unexpectedly get reset to default.</li>
+</ul>
+<h3><strong>[Printing]</strong></h3>
+<ul>
+ 	<li><strong>[NEW] </strong>We’re working on a fix for an issue causing hangs and crashes when trying to print from certain apps (like Excel) in the last flight.</li>
+ 	<li><strong>[NEW] </strong>We’re investigating reports in recent Dev Channel flights lines aren’t included when printing tables from certain apps.</li>
+</ul>
+<h2><strong>For developers</strong></h2>
+You can download the latest Windows Insider SDK at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a>.
+
+SDK NuGet packages are now also flighting at <a href="https://www.nuget.org/profiles/WindowsSDK">NuGet Gallery | WindowsSDK</a> which include:
+<ul>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.NET.Ref/">.NET TFM packages</a> for use in .NET apps as described at <a href="https://aka.ms/windowsinsidersdk">aka.ms/windowsinsidersdk</a></li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.CPP/">C++ packages</a> for Win32 headers and libs per architecture</li>
+ 	<li><a href="https://www.nuget.org/packages/Microsoft.Windows.SDK.BuildTools/">BuildTools package</a> when you just need tools like MakeAppx.exe, MakePri.exe, and SignTool.exe</li>
+</ul>
+These NuGet packages provide more granular access to the SDK and better integrate in CI/CD pipelines.
+<h2><strong>About the Dev Channel</strong></h2>
+The Dev Channel receives builds that represent long lead work from our engineers <strong>with features and experiences that may never get released</strong> as we try out different concepts and get feedback. It is important to remember that the builds we release to the Dev Channel should not be seen as matched to any specific release of Windows and the features included may change over time, be removed, or replaced in Insider builds or may never be released beyond Windows Insiders to general customers. For more information, <a href="https://blogs.windows.com/windows-insider/2022/02/03/whats-coming-for-the-windows-insider-program-in-2022/">please read this blog post</a> about how we plan to use the Dev Channel to incubate new ideas, work on long lead items, and control the states of individual features.
+
+These aren’t always stable builds, and sometimes you will see issues that block key activities or require workarounds. <strong>It is important to make sure you read the known issues listed in our blog posts as we document many of these issues with each flight.</strong>
+
+Build numbers are higher in the Dev Channel than the Windows 11 preview builds in the Beta and Release Preview Channels. You will not be able to switch from the Dev Channel to the Beta or Release Preview Channels without doing a clean install back to the released version of Windows 11 currently.
+
+ALSO: Because the Dev and Beta Channels represent parallel development paths from our engineers, there may be cases where features and experiences show up in the Beta Channel first.
+
+<strong>The desktop watermark you see at the lower right corner of your desktop is normal for these pre-release builds.</strong>
+<h2><strong>Important Insider Links</strong></h2>
+<ul>
+ 	<li>Want to learn how we made Windows 11? Check out our <a href="https://insider.windows.com/insidewindows11"><strong>Inside Windows 11 website</strong></a> to hear and meet our makers from Engineering, Design and Research to share their insights and unique perspectives throughout this journey.</li>
+ 	<li>You can <a href="https://aka.ms/wip-docs"><strong>check out our Windows Insider Program documentation here</strong></a>.</li>
+ 	<li>Check out <a href="https://aka.ms/flighthub"><strong>Flight Hub</strong></a> for a complete look at what build is in which Insider channel.</li>
+</ul>
+Thanks,
+Amanda &amp; Brandon]]></content:encoded>
+					
+		
+		
+			</item>
+	</channel>
+</rss>

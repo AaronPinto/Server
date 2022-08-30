@@ -1,9 +1,10 @@
 package server;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import com.google.api.client.util.Charsets;
 import com.google.api.services.gmail.Gmail;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -15,7 +16,6 @@ import javax.mail.MessagingException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
-import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -23,18 +23,16 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.IntStream;
 
 /**
  * This class contains an RSS feed reader I created which emails me when there's a new Windows Insider build published
  */
 public class RSSFeedReader {
+    private static final TypeReference<ArrayList<RSSEventFilter>> listOfRSSEvents = new TypeReference<>() {};
     private static Gmail gmail;
     private static String recipient;
     private static String sender;
-
-    private static final Type listOfRSSEvents = new TypeToken<ArrayList<RSSEventFilter>>() {}.getType();
 
     private RSSFeedReader() {
         // Prevent class from being instantiated
@@ -82,47 +80,19 @@ public class RSSFeedReader {
     }
 
     static void parseRSS(final URL[] urls, final String eventsPath, final String category) throws InterruptedException, IOException {
-        final Gson gson = new Gson();
+        final ObjectMapper mapper = new ObjectMapper();
         List<RSSEventFilter> prevEvents;
         try (Reader reader = new FileReader(eventsPath)) {
-            prevEvents = Objects.requireNonNullElse(gson.fromJson(reader, listOfRSSEvents), new ArrayList<>());
+            prevEvents = mapper.readValue(reader, listOfRSSEvents);
+        } catch (MismatchedInputException ignored) {
+            prevEvents = new ArrayList<>();
         }
 
         while (true) {
             try {
-                StringBuilder sb = new StringBuilder();
-                String line;
+                StringBuilder sb = readAndCombineRSSFeeds(urls);
 
-                // Read RSS feeds between channel tags and combine
-                for (int i = 0; i < urls.length; i++) {
-                    var in = new BufferedReader(new InputStreamReader(urls[i].openStream(), Charsets.UTF_8));
-
-                    outer:
-                    while ((line = in.readLine()) != null) {
-                        if (line.contains("<channel>")) {
-                            if (i == 0) {
-                                sb.append(line);
-                            }
-
-                            while ((line = in.readLine()) != null) {
-                                if (line.contains("</channel>")) {
-                                    break outer;
-                                }
-
-                                sb.append(line);
-                            }
-                        }
-                    }
-
-                    // Add </channel> tag on last URL only
-                    if (i == urls.length - 1) {
-                        sb.append(line);
-                    }
-
-                    in.close();
-                }
-
-                // Parse combined RSS feed
+                // Parse combined RSS feed, so we only do parsing once
                 var docBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
                 var nList = docBuilder.parse(new InputSource(new StringReader(sb.toString()))).getElementsByTagName("item");
 
@@ -147,7 +117,7 @@ public class RSSFeedReader {
                 }
 
                 try (Writer writer = new FileWriter(eventsPath)) {
-                    gson.toJson(prevEvents, writer);
+                    mapper.writeValue(writer, prevEvents);
                 }
 
                 System.out.println(LocalDateTime.now());
@@ -157,6 +127,40 @@ public class RSSFeedReader {
 
             Thread.sleep(5 * 60 * 1000);
         }
+    }
+
+    public static StringBuilder readAndCombineRSSFeeds(final URL[] streams) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        String line;
+
+        // Read RSS feeds between channel tags and combine
+        for (int i = 0; i < streams.length; i++) {
+            try (var in = new BufferedReader(new InputStreamReader(streams[i].openStream(), Charsets.UTF_8))) {
+                outer:
+                while ((line = in.readLine()) != null) {
+                    if (line.contains("<channel>")) {
+                        if (i == 0) {
+                            sb.append(line);
+                        }
+
+                        while ((line = in.readLine()) != null) {
+                            if (line.contains("</channel>")) {
+                                break outer;
+                            }
+
+                            sb.append(line);
+                        }
+                    }
+                }
+
+                // Add </channel> tag on last URL only
+                if (i == streams.length - 1) {
+                    sb.append(line);
+                }
+            }
+        }
+
+        return sb;
     }
 
     record RSSEventFilter(String title, String pubDate) implements Serializable {

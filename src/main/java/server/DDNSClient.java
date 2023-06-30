@@ -1,12 +1,20 @@
 package server;
 
-import java.io.IOException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.*;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.file.FileAlreadyExistsException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Base64;
+import java.util.List;
 
 /**
  * @formatter:off
@@ -15,6 +23,8 @@ import java.util.Base64;
  * @formatter:on
  */
 public class DDNSClient {
+    private static final TypeReference<ArrayList<String>> listOfIPAddrs = new TypeReference<>() {};
+
     private DDNSClient() {
         // Prevent class from being instantiated
     }
@@ -27,13 +37,29 @@ public class DDNSClient {
                         .header("Authorization", "Basic " + Base64.getEncoder().encodeToString((user + ":" + pass).getBytes()))
                         .POST(HttpRequest.BodyPublishers.noBody()).build();
                 final var getReq = HttpRequest.newBuilder(URI.create("https://domains.google.com/checkip")).build();
-                String prevIP = "";
+
+                final String eventsPath = "prevIPAddresses.json";
+
+                try {
+                    Files.createFile(Paths.get(eventsPath));
+                } catch (FileAlreadyExistsException ignored) {
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                final ObjectMapper mapper = new ObjectMapper();
+                List<String> prevIPs;
+                try (Reader reader = new FileReader(eventsPath)) {
+                    prevIPs = mapper.readValue(reader, listOfIPAddrs);
+                } catch (IOException ignored) {
+                    prevIPs = new ArrayList<>();
+                }
 
                 while (true) {
                     try {
                         var getResp = client.send(getReq, HttpResponse.BodyHandlers.ofString());
 
-                        if (getResp.statusCode() == 200 && !prevIP.equals(getResp.body())) {
+                        if (getResp.statusCode() == 200 && prevIPs.stream().noneMatch(s -> s.equals(getResp.body()))) {
                             var postResp = client.send(postReq, HttpResponse.BodyHandlers.ofString());
 
                             if (postResp.statusCode() == 200) {
@@ -43,7 +69,11 @@ public class DDNSClient {
                                 System.out.println(LocalDateTime.now() + " " + postResp.statusCode() + " " + postResp.body());
 
                                 if (type.equals("good") || type.equals("nochg")) {
-                                    prevIP = splitResp[1];
+                                    prevIPs.add(splitResp[1]);
+
+                                    try (Writer writer = new FileWriter(eventsPath)) {
+                                        mapper.writeValue(writer, prevIPs);
+                                    }
                                 } else {
                                     Thread.sleep(4 * 60 * 1000);
                                 }

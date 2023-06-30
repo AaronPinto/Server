@@ -1,8 +1,8 @@
 package server;
 
+import jakarta.mail.internet.AddressException;
 import server.util.Spam;
 
-import javax.mail.internet.AddressException;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;

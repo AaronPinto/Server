@@ -3,8 +3,8 @@ package server;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.exc.MismatchedInputException;
-import com.google.api.client.util.Charsets;
 import com.google.api.services.gmail.Gmail;
+import jakarta.mail.MessagingException;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -12,11 +12,11 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import server.util.GoogleMail;
 
-import javax.mail.MessagingException;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -58,6 +58,8 @@ public class RSSFeedReader {
                 parseRSS(urls, eventsPath, "Windows Insider Program");
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                System.out.println("Exiting Windows Insider RSS!");
             }
         }).start();
 
@@ -75,6 +77,8 @@ public class RSSFeedReader {
                 parseRSS(urls, eventsPath, "nvidia");
             } catch (Exception e) {
                 e.printStackTrace();
+            } finally {
+                System.out.println("Exiting Nvidia RSS!");
             }
         }).start();
     }
@@ -121,7 +125,7 @@ public class RSSFeedReader {
                 }
 
                 System.out.println(LocalDateTime.now());
-            } catch (MessagingException | ParserConfigurationException | SAXException | IOException e) {
+            } catch (ParserConfigurationException | SAXException | IOException | MessagingException e) {
                 e.printStackTrace();
             }
 
@@ -135,7 +139,7 @@ public class RSSFeedReader {
 
         // Read RSS feeds between channel tags and combine
         for (int i = 0; i < streams.length; i++) {
-            try (var in = new BufferedReader(new InputStreamReader(streams[i].openStream(), Charsets.UTF_8))) {
+            try (var in = new BufferedReader(new InputStreamReader(streams[i].openStream(), StandardCharsets.UTF_8))) {
                 outer:
                 while ((line = in.readLine()) != null) {
                     if (line.contains("<channel>")) {

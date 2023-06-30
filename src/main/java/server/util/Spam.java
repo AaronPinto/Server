@@ -7,9 +7,9 @@ import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import jakarta.mail.MessagingException;
 import server.Server;
 
-import javax.mail.MessagingException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;

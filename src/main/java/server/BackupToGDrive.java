@@ -13,7 +13,7 @@ import static server.util.BackupFiles.*;
 
 public class BackupToGDrive {
     private static final String name = "aaron-" + LocalDate.now() + ".zip";
-    private static final String storeZipLocation = "C:/Users/aaron/Documents" + name;
+    private static final String storeZipLocation = "D:/" + name;
     private static final String[] roots = new String[]{System.getProperty("user.home")};
 
     private BackupToGDrive() {

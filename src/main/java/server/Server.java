@@ -8,17 +8,17 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Charsets;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.gmail.GmailScopes;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
 
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
 
 public class Server {
     public static final String APPLICATION_NAME = "My Server Utilities";
-    public static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    public static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     public static final String CREDENTIALS_FOLDER = "credentials"; // Directory to store user credentials
     public static NetHttpTransport HTTP_TRANSPORT;
 
@@ -106,7 +106,7 @@ public class Server {
     public static ArrayList<String> getUsernames() throws IOException, SecurityException, NullPointerException {
         ArrayList<String> fileNames = Arrays.stream(Objects.requireNonNull(new File(CREDENTIALS_FOLDER).listFiles())).map(File::getName)
                 .collect(Collectors.toCollection(ArrayList::new));
-        fileNames.removeAll(Files.readAllLines(Paths.get("ignore_emails.txt"), Charsets.UTF_8));
+        fileNames.removeAll(Files.readAllLines(Paths.get("ignore_emails.txt"), StandardCharsets.UTF_8));
         return fileNames;
     }
 }

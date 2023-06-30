@@ -2,7 +2,7 @@ plugins {
     id 'java'
 }
 
-version '1.0'
+version '1.1'
 
 wrapper {
     gradleVersion = '7.4'
@@ -39,17 +39,17 @@ repositories {
 }
 
 dependencies {
-    implementation group: 'com.google.apis', name: 'google-api-services-gmail', version: 'v1-rev20200817-1.30.10'
-    implementation group: 'com.google.apis', name: 'google-api-services-drive', version: 'v3-rev20200811-1.30.10'
-    implementation group: 'com.google.api-client', name: 'google-api-client', version: '1.30.10'
-    implementation group: 'com.google.api-client', name: 'google-api-client-java6', version: '1.30.10'
-    implementation group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.31.0'
-    implementation group: 'com.sun.activation', name: 'jakarta.activation', version: '1.2.2'
-    implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '1.6.5'
-    implementation group: 'org.json', name: 'json', version: '20200518'
-    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.13.3'
-    implementation group: 'com.azure', name: 'azure-identity', version: '1.3.6'
-    implementation group: 'com.microsoft.graph', name: 'microsoft-graph', version: '5.2.0'
+    implementation group: 'com.google.apis', name: 'google-api-services-gmail', version: 'v1-rev20221219-2.0.0'
+    implementation group: 'com.google.apis', name: 'google-api-services-drive', version: 'v3-rev20221219-2.0.0'
+    implementation group: 'com.google.api-client', name: 'google-api-client', version: '2.1.1'
+    implementation group: 'com.google.api-client', name: 'google-api-client-java6', version: '2.1.1'
+    implementation group: 'com.google.oauth-client', name: 'google-oauth-client-jetty', version: '1.34.1'
+    implementation group: 'com.sun.activation', name: 'jakarta.activation', version: '2.0.1'
+    implementation group: 'com.sun.mail', name: 'jakarta.mail', version: '2.0.1'
+    implementation group: 'org.json', name: 'json', version: '20230227'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.14.1'
+    implementation group: 'com.azure', name: 'azure-identity', version: '1.7.2'
+    implementation group: 'com.microsoft.graph', name: 'microsoft-graph', version: '5.42.0'
 
     testImplementation(platform('org.junit:junit-bom:5.9.0'))
     testImplementation('org.junit.jupiter:junit-jupiter:5.9.0')

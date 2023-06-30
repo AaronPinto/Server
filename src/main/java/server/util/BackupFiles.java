@@ -126,9 +126,10 @@ public final class BackupFiles {
      */
     public static void compressAndArchive(LinkedHashMap<String, LinkedHashMap<Path, Boolean>> filesPerRoot,
             String zipLoc) throws IOException {
-        Files.deleteIfExists(Paths.get(zipLoc));
+        Path zipLocation = Paths.get(zipLoc);
+        Files.deleteIfExists(zipLocation);
 
-        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(Files.createFile(Paths.get(zipLoc))))) {
+        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(Files.createFile(zipLocation)))) {
             zos.setLevel(Deflater.BEST_COMPRESSION);
             String prevDir = "";
 

@@ -1,14 +1,14 @@
 package server.util;
 
-import com.google.api.client.util.Base64;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import com.google.common.io.BaseEncoding;
+import jakarta.mail.Message.RecipientType;
+import jakarta.mail.MessagingException;
+import jakarta.mail.Session;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 
-import javax.mail.Message.RecipientType;
-import javax.mail.MessagingException;
-import javax.mail.Session;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Properties;
@@ -40,7 +40,7 @@ public final class GoogleMail {
     public static Message createMessageWithEmail(MimeMessage emailContent) throws MessagingException, IOException {
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         emailContent.writeTo(buffer);
-        String encodedEmail = Base64.encodeBase64URLSafeString(buffer.toByteArray());
+        String encodedEmail = BaseEncoding.base64Url().omitPadding().encode(buffer.toByteArray());
         return new Message().setRaw(encodedEmail);
     }
 

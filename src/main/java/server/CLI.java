@@ -82,7 +82,7 @@ public class CLI {
                             e.printStackTrace();
                         }
                     }
-                    case "help", default -> {
+                    default -> {
                         System.out.println("batchspam example@gmail.com\n\t batchspam stop");
                         System.out.println("slowspam example@gmail.com\n\t slowspam stop");
                         System.out.println("adduser example");

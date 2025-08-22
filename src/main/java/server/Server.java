@@ -10,7 +10,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
-import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.gmail.GmailScopes;
 import jakarta.mail.internet.AddressException;
 import jakarta.mail.internet.InternetAddress;
@@ -36,7 +35,7 @@ public class Server {
     /**
      * Global instance of the scopes required by this file. If modifying these scopes, delete your previously saved credentials folder.
      */
-    private static final List<String> SCOPES = List.of(GmailScopes.GMAIL_SEND, DriveScopes.DRIVE_FILE);
+    private static final List<String> SCOPES = List.of(GmailScopes.GMAIL_SEND);
     private static final String CLIENT_SECRET_DIR = "/client_secret.json";
     private static FileDataStoreFactory DATA_STORE_FACTORY;
 
@@ -55,10 +54,6 @@ public class Server {
             isValidEmailAddress(args[0]);
             RSSFeedReader.start(args[0], args[1]);
             CLI.start();
-            if (args.length == 5) {
-                System.out.println("Running DDNS Client...");
-                DDNSClient.start(args[2], args[3], args[4]);
-            }
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);

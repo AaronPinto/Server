@@ -11,6 +11,8 @@ node_modules/
 out/
 A&W/
 target/
+.idea/
+.DS_Store
 
 # Package Files
 *.jar

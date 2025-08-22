@@ -15,6 +15,7 @@ import server.util.GoogleMail;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
+import java.net.URI;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.FileAlreadyExistsException;
@@ -47,7 +48,8 @@ public class RSSFeedReader {
         // Create Windows Insider Build RSS Feed Reader
         new Thread(() -> {
             try {
-                final URL[] urls = {new URL("https://blogs.windows.com/windows-insider/feed/"), new URL("https://blogs.windows.com/feed/")};
+                final URL[] urls = {URI.create("https://blogs.windows.com/windows-insider/feed/").toURL(),
+                        URI.create("https://blogs.windows.com/feed/").toURL()};
                 final String eventsPath = "prevWindowsEvents.json";
 
                 try {
@@ -60,25 +62,6 @@ public class RSSFeedReader {
                 e.printStackTrace();
             } finally {
                 System.out.println("Exiting Windows Insider RSS!");
-            }
-        }).start();
-
-        // Create BestBuy Nvidia RSS Feed Reader
-        new Thread(() -> {
-            try {
-                final URL[] urls = {new URL("https://blog.bestbuy.ca/category/best-buy/feed")};
-                final String eventsPath = "prevNvidiaEvents.json";
-
-                try {
-                    Files.createFile(Paths.get(eventsPath));
-                } catch (FileAlreadyExistsException ignored) {
-                }
-
-                parseRSS(urls, eventsPath, "nvidia");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                System.out.println("Exiting Nvidia RSS!");
             }
         }).start();
     }
